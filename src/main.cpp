@@ -1,5 +1,10 @@
 #include "Server.hpp"
 
+void init_serv()
+{
+
+}
+
 void parsing(int port, std::string password)
 {
 	if (port < 1024 && port > 49151)
@@ -17,6 +22,8 @@ int main (int argc, char **argv)
 		int port = atoi(argv[1]);
 		std::string password = argv[2];
 		parsing(port, password);
+		Server server(port, password);
+		
 	}
 	catch(const std::exception& e)
 	{

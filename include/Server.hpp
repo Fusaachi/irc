@@ -12,8 +12,10 @@
 class Server
 {
 private:
-	int			_port;
-	std::string _password;
+	int					_port;
+	std::string 		_password;
+	struct sockaddr_in 	_addr;
+	int					_fd;
 	
 public:
 	Server(int port, std::string password);
