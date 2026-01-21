@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
+/*   Updated: 2026/01/20 16:44:43 by pgiroux          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
+#include <cstdlib>
 #include <vector> //-> for vector
 #include <sys/socket.h> //-> for socket()
 #include <sys/types.h> //-> for socket()
@@ -20,6 +33,7 @@ private:
 public:
 	Server(int port, std::string password);
 	Server(const Server& c);
+	void init_server();
 	Server&operator=(const Server &rhs);
 	~Server();
 };
