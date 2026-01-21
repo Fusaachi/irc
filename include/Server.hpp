@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/20 16:44:43 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/01/21 17:33:39 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,15 @@ private:
 	std::string 		_password;
 	struct sockaddr_in 	_addr;
 	int					_fd;
+	static bool 		_Signal;
 	
 public:
 	Server(int port, std::string password);
 	Server(const Server& c);
 	void init_server();
+	static void Signal_handler(int signum);
+	void closeFds();
+	void run();
 	Server&operator=(const Server &rhs);
 	~Server();
 };

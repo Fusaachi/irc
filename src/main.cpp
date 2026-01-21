@@ -6,12 +6,12 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:51 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/20 16:50:36 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/01/21 17:40:26 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
-
+#include "../include/Colors.hpp"
 
 void parsing(int port, std::string password)
 {
@@ -30,8 +30,12 @@ int main (int argc, char **argv)
 		int port = atoi(argv[1]);
 		std::string password = argv[2];
 		parsing(port, password);
+		std::cout << BOLDGREEN << "Welcome to Irc ! Port is: " << port << " and password is: " << password << RESET << std::endl;
 		Server server(port, password);
+		std::cout << ORANGE << "Initializing server..." << RESET << std::endl;
 		server.init_server();
+		server.run();
+
 	// STEP 4 Accept a connection - accept(), connect()
 
 	// STEP 5 Send and receive data - recv(), send(), recvfrom(), sendto()
