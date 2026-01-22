@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:51 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/21 17:40:26 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/01/22 12:44:05 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void parsing(int port, std::string password)
 
 int main (int argc, char **argv)
 {
+	Server server;
 	try 
 	{
 		if (argc != 3)
@@ -31,9 +32,8 @@ int main (int argc, char **argv)
 		std::string password = argv[2];
 		parsing(port, password);
 		std::cout << BOLDGREEN << "Welcome to Irc ! Port is: " << port << " and password is: " << password << RESET << std::endl;
-		Server server(port, password);
 		std::cout << ORANGE << "Initializing server..." << RESET << std::endl;
-		server.init_server();
+		server.init_server(port, password);
 		server.run();
 
 	// STEP 4 Accept a connection - accept(), connect()
@@ -44,6 +44,7 @@ int main (int argc, char **argv)
 	}
 	catch(const std::exception& e)
 	{
+		server.closeFds();
 		std::cerr << e.what() << '\n';
 	}
 	return (0);
