@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/22 17:45:40 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/01/23 14:20:59 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void Server::init_server(int port, std::string password)
 		throw std::runtime_error ("Error, failed to set option (O_NONBLOCK) on socket");
 
 	// STEP 2 Bind the socket - bind()
-	memset(&this->_addr,0, sizeof this->_addr);
+	memset(&this->_addr, 0, sizeof this->_addr);
 	this->_addr = sockaddr_in();
 	this->_addr.sin_family = AF_INET;
 	this->_addr.sin_port = htons(_port);
@@ -65,7 +65,7 @@ void Server::init_server(int port, std::string password)
 
 
 	// STEP 3 Listen on the socket - listen()
-	if (listen(this->_fd, 10) == - 1)
+	if (listen(this->_fd, MAX_EVENTS) == - 1)
 		throw std::runtime_error("Error, listening on socket");
 
 	std::cout << GREEN << "Server <" <<  this->_fd << "> Connected" << RESET << std::endl;
@@ -74,51 +74,36 @@ void Server::init_server(int port, std::string password)
 
 void Server::run()
 {
-	int status = 0;
 	signal(SIGINT, Server::Signal_handler);
 	signal(SIGQUIT, Server::Signal_handler);
-	struct timeval time;
-	fd_set all_sockets; // Ensemble de toutes les sockets du serveur
-	fd_set read_fds; // Ensemble temporaire pour select()
-	int fd_max = 0; // Descripteur de la plus grande socket
-	FD_ZERO(&all_sockets);
-	FD_ZERO(&read_fds);
-	FD_SET(this->_fd, &all_sockets);
-	fd_max = this->_fd;
 
+	int nb_events = 0;
+	this->_epoll.fd = epoll_create1(0);
+	if (this->_epoll.fd == -1)
+		throw std::runtime_error("Error: epoll_create1 failed");
+	this->_epoll.event.events = EPOLLIN;
+	this->_epoll.event.data.fd = this->_fd;
+	if (epoll_ctl(this->_epoll.fd, EPOLL_CTL_ADD, this->_fd, &this->_epoll.event) < 0)
+		throw std::runtime_error("Error : epoll_stl ADD server failed");
 	while(Server::_Signal == false)
 	{
-		read_fds = all_sockets;
-		time.tv_sec = 2;
-		time.tv_usec = 0;
-		status  = select(fd_max + 1, &read_fds, NULL, NULL, &time);
-		if (status == -1)
-			throw std::runtime_error("[Server] Select error");
-		else if (status == 0)
-		{
-			std::cout <<"[Server] Waiting... " << std::endl;
-			continue;
-		}
-		 for (int i = 0; i <= fd_max; i++) {
-        	if (FD_ISSET(i, &read_fds) != 1) {
-                // Le fd i n'est pas une socket à surveiller
-                // on s'arrête là et on continue la boucle
-                continue ;
-            }
-		std::cout <<"[" << i << "] Ready for I/O operation\n"<< std::endl;
-            // La socket est prête à être lue !
-        if (i == this->_fd) {
-                // La socket est notre socket serveur qui écoute le port
-				std::cout << "o";
-               // accept_new_connection(server_socket, &all_sockets, &fd_max);
-            }
-            else {
-                // La socket est une socket client, on va la lire
-				std::cout<< "no";
-                //read_data_from_socket(i, &all_sockets, fd_max, server_socket);
-            }
+		nb_events = epoll_wait(this->_epoll.fd, this->_epoll.events, MAX_EVENTS, -1);
+		if (nb_events == -1 )
+			throw std::runtime_error ("Error : epoll wait failed");
+		
+			for (int i = 0 ; i < nb_events; i++)
+			{
+				if (this->_epoll.events[i].data.fd ==  this->_fd)
+					accept_new_client();
+				else
+					receive_data(this->_epoll.events[i].data.fd);
+			}
 	}
 }
+
+void Server::accept_new_client()
+{
+	
 }
 
 void Server::closeFds()
