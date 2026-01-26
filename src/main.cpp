@@ -6,12 +6,13 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:51 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/22 12:44:05 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/01/26 16:42:42 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 #include "../include/Colors.hpp"
+
 
 void parsing(int port, std::string password)
 {
@@ -33,7 +34,7 @@ int main (int argc, char **argv)
 		parsing(port, password);
 		std::cout << BOLDGREEN << "Welcome to Irc ! Port is: " << port << " and password is: " << password << RESET << std::endl;
 		std::cout << ORANGE << "Initializing server..." << RESET << std::endl;
-		server.init_server(port, password);
+		server.initServer(port, password);
 		server.run();
 
 	// STEP 4 Accept a connection - accept(), connect()

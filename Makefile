@@ -4,7 +4,7 @@ CC = c++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-FILE = main Server
+FILE = main Server Client
 
 GREEN = \033[1;32m
 BLUE= \033[1;34m

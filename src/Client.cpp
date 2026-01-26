@@ -6,20 +6,20 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/23 14:23:45 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/01/26 16:48:20 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Client.hpp"
+#include "../include/Client.hpp"
 
 
-Client::Client()
+Client::Client(int fd) : _fd(fd)
 {
 }
 
 Client::Client(const Client &c)
 {
-
+ 	this->_fd  = c._fd;
 }
 
 Client& Client::operator=(const Client& rhs)

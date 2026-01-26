@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/23 14:20:59 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/01/26 17:19:04 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 bool Server::_Signal = false;
 
-void Server::Signal_handler(int signum)
+void Server::signalHandler(int signum)
 {
 	(void) signum;
 	Server::_Signal = true;
@@ -38,7 +38,7 @@ Server &Server::operator=(const Server & rhs)
 	return (*this);
 }
 
-void Server::init_server(int port, std::string password)
+void Server::initServer(int port, std::string password)
 {
 	this->_port = port;
 	this->_password = password;
@@ -60,7 +60,7 @@ void Server::init_server(int port, std::string password)
 	this->_addr.sin_port = htons(_port);
 	this->_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	if (bind(this->_fd, (struct sockaddr *)&this->_addr, sizeof(this->_addr)) == -1)
+	if (bind(this->_fd, (struct sockaddr *)&this->_addr, sizeof(this->_addr)) == -1) // assign a specific address and port to a socket
 		throw std::runtime_error("Error, failed to bind socket");
 
 
@@ -74,8 +74,8 @@ void Server::init_server(int port, std::string password)
 
 void Server::run()
 {
-	signal(SIGINT, Server::Signal_handler);
-	signal(SIGQUIT, Server::Signal_handler);
+	signal(SIGINT, Server::signalHandler);
+	signal(SIGQUIT, Server::signalHandler);
 
 	int nb_events = 0;
 	this->_epoll.fd = epoll_create1(0);
@@ -91,18 +91,36 @@ void Server::run()
 		if (nb_events == -1 )
 			throw std::runtime_error ("Error : epoll wait failed");
 		
-			for (int i = 0 ; i < nb_events; i++)
-			{
-				if (this->_epoll.events[i].data.fd ==  this->_fd)
-					accept_new_client();
-				else
-					receive_data(this->_epoll.events[i].data.fd);
-			}
+		for (int i = 0 ; i < nb_events; i++)
+		{
+			if (this->_epoll.events[i].data.fd ==  this->_fd)
+				acceptNewClient();
+			else
+				std::cout<<"plop";
+				//receiveData(this->_epoll.events[i].data.fd);
+		}
 	}
 }
 
-void Server::accept_new_client()
+void Server::acceptNewClient()
 {
+	struct sockaddr_in client_addr;
+	socklen_t len  = sizeof(client_addr);
+	struct epoll_event newPoll = epoll_event();
+	std::cout<<"[server] coucou" << std::endl;
+	int client_fd = accept(this->_fd, (struct sockaddr*)&client_addr, &len);
+	if (client_fd == -1)
+	{
+		std::cout << "[Server] accept() failed" << std::endl;
+		return;
+	}
+	newPoll.events = EPOLLIN | EPOLLRDHUP;
+	newPoll.data.fd  = client_fd;
+
+	Client client(client_fd);
+	this->_clients.push_back(client);
+
+
 	
 }
 

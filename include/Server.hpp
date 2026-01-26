@@ -6,10 +6,13 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/23 16:49:51 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/01/26 17:20:57 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+
+#include "Client.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
@@ -34,6 +37,7 @@ typedef struct s_epoll
 	
 }t_epoll;
 
+
 class Client;
 
 class Server
@@ -45,17 +49,19 @@ private:
 	int					_fd;
 	static bool 		_Signal;
 	t_epoll				_epoll;
-	std::vector<Client> clients;
+	std::vector<Client> _clients;
+	std::vector<int>		_fds;
 	
 public:
 	Server();
 	Server(const Server& c);
-	void init_server(int port, std::string password);
-	static void Signal_handler(int signum);
-	void accept_new_client();
-	void receive_data(int fd);
-	void closeFds();
-	void run();
+	void		initServer(int port, std::string password);
+	static void	signalHandler(int signum);
+	void		acceptNewClient();
+	void		receiveData(int fd);
+	void		clearClients();
+	void		closeFds();
+	void 		run();
 	Server&operator=(const Server &rhs);
 	~Server();
 };
