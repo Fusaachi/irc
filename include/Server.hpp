@@ -6,13 +6,14 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/26 17:20:57 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/04 14:25:43 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "Client.hpp"
+#include "Colors.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
@@ -26,6 +27,7 @@
 #include <poll.h> 
 #include <sys/epoll.h>
 #include <csignal>
+#include <map>
 # define MAX_EVENTS  10
 
 typedef struct s_epoll
@@ -50,7 +52,7 @@ private:
 	static bool 		_Signal;
 	t_epoll				_epoll;
 	std::vector<Client> _clients;
-	std::vector<int>		_fds;
+	std::vector<int>	_fds;
 	
 public:
 	Server();
@@ -59,7 +61,7 @@ public:
 	static void	signalHandler(int signum);
 	void		acceptNewClient();
 	void		receiveData(int fd);
-	void		clearClients();
+	void		clientDisconnect(int fd);
 	void		closeFds();
 	void 		run();
 	Server&operator=(const Server &rhs);
