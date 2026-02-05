@@ -12,7 +12,7 @@
 #define ERR_USERNOTINCHANNEL(nick, channel) "441 " + std::string(nick) + " " + std::string(channel) + " :They aren't on that channel\r\n"
 #define ERR_NOTONCHANNEL(nick, channel) "442 " + std::string(nick) + " " + std::string(channel) + " :You're not on that channel\r\n"
 #define ERR_NOTREGISTERED(nick) "451 " + std::string(nick) + " :You have not registered\r\n"
-#define ERR_NEEDMOREPARAMS(nick, command) "461 " + std::string(nick) + " " + std::string(command) + " :Not enough parameters\r\n"
+#define ERR_NEEDMOREPARAMS(command) "461 " + command + " :Not enough parameters\r\n"
 //#define ERR_KEYISMISSING(nick, channel) "461 " + std::string(nick) + " " + std::string(channel) + " +k :Key is missing\r\n"
 #define ERR_ALREADYREGISTERED() "462 :You may not reregister\r\n"
 #define ERR_PASSWDMISMATCH(nick) "464 " + std::string(nick) + " :Password incorrect\r\n"
