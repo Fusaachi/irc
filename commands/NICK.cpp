@@ -8,8 +8,8 @@ bool is_good_nick(std::string nick)
         return (false);
     for (int i = 1; i < nick.size(); i++)
     {
-        if (!(isalnum(nick[i]) || '-' || '[' || ']' || '\' || '`' || '^' || '{' || '}'))
-
+        if (!(isalnum(nick[i]) || nick[i]== '-' || nick[i]== '[' || nick[i]== ']' || nick[i]== '\\' || nick[i]== '`' || nick[i]== '^' || nick[i]== '{' || nick[i]== '}'))
+            return (false);
     }
     return (true);
     
@@ -27,6 +27,15 @@ bool NICK(Server *server, Client *client, std::string nick)
         send_error(client, ERR_ERRONEUSNICKNAME(nick));
         return (false);
     }
-    else if 
+    std::vector<Client> clients = server->getClients();
+    for (int i = 0; i < clients.size())
+    {
+        if (clients[i]._nickname == nick)
+        {
+            send_error(client, ERR_NICKNAMEINUSE(nick));
+            return (false);
+        }
+
+    }
     return (true);
 }
