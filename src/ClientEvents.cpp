@@ -5,19 +5,19 @@ void Server::acceptNewClient()
 	struct sockaddr_in client_addr;
 	socklen_t len  = sizeof(client_addr);
 	struct epoll_event newPoll = epoll_event();
-	int client_fd = accept(this->_fd, (struct sockaddr*)&client_addr, &len);
-	if (client_fd == -1)
+	this->_clientFd= accept(this->_fd, (struct sockaddr*)&client_addr, &len);
+	if (this->_clientFd == -1)
 	{
 		std::cout << "[Server] accept() failed" << std::endl;
 		return;
 	}
 	newPoll.events = EPOLLIN | EPOLLRDHUP;
-	newPoll.data.fd  = client_fd;
+	newPoll.data.fd  = this->_clientFd;
 
-	Client client(client_fd);
-	this->_clients.push_back(client);
-	this->_fds.push_back(client_fd);
-	std::cout << "[Server] Accepted new connection on client socket <" << client_fd <<  ">" << std::endl;
+	Client *client = new Client(this->_clientFd);
+	this->_clients.insert(std::pair<int, Client*>(this->_clientFd, client));
+	this->_fds.push_back(this->_clientFd);
+	std::cout << "[Server] Accepted new connection on client socket <" << this->_clientFd <<  ">" << std::endl;
 }
 
 void Server::clientDisconnect(int fd)
@@ -29,11 +29,6 @@ void Server::clientDisconnect(int fd)
 	{
 		if (*it == fd)
 			close(*it);
-	}
-	for (size_t i = 0; i < sizeof(_clients); i++)
-	{
-		if (this->_clients[i].getFd() == fd)
-			this->_clients.erase(this->_clients.begin() + i);
 	}
 }
 

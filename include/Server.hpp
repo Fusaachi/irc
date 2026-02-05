@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/04 14:25:43 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/04 17:35:19 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,15 @@ private:
 	std::string 		_password;
 	struct sockaddr_in 	_addr;
 	int					_fd;
+	int					_clientFd;
 	static bool 		_Signal;
+	
+	
+	
 	t_epoll				_epoll;
-	std::vector<Client> _clients;
+
+	
+	std::map<int, Client*> _clients;
 	std::vector<int>	_fds;
 	
 public:
