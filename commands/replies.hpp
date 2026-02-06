@@ -28,5 +28,5 @@
 
 
 
-
+#define MSG_QUIT(reason) "Quit: " + reason 
 #define MSG_NICK(oldnickname, username, cmd, nickname) ":" + oldnickname + "!" + username + "@server " + cmd + " " + nickname + "\r\n"
