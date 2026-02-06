@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/30 14:04:19 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/05 15:26:07 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,51 @@ class Server;
 class Client
 {
 	private:
-		//std::string _nickname;
-		//std::string _username;
-		//std::string	_hostname;
-		//std::string _client_addr;
+		std::string _nickname;
+		std::string _username;
+		std::string _realname;
+		std::string _message;
+		std::string	_hostname;
+		std::string _clientAddr;
+		
 		int			_fd;
+
+		bool	_hasPwd;
+		bool	_hasNickname;
+		bool	_hasUsername;
+		bool	_register;
 
 	public:
 		Client(int fd);
 		Client(const Client &c);
 		Client &operator=(const Client &rhs);
-		int	getFd(){return _fd;};
-		//void	setClientAddr(std::string client_addr);
+		
+		
+		std::string	getNickname(){return _nickname;};
+		std::string	getUsername(){return _username;};
+		std::string	getRealname(){return _realname;};
+		std::string	getMessage(){return _message;};
+		std::string	getHostname(){return _hostname;};
+		std::string	getClientAddr(){return _clientAddr;};
+		
+		int		getFd(){return _fd;};
+		
+		bool	getHasPassword(){return _hasPwd;};
+		bool	getHasNickname(){return _hasNickname;};
+		bool	getHasUsername(){return _hasUsername;};
+		bool	isRegister(){return _register;};
+
+		
+		void	setNickname(std::string const &nickname);
+		void	setUsername(std::string const &username);
+		void	setRealname(std::string const &realname);
+		void	setMessage(std::string const &message);
+		void	setHostname(std::string const &hostname);
+		void	setClientAddr(std::string const &clientAddr);
+		void	setFd(int fd);
+		void	setHasPassword(bool boolean);
+		void	setHasNickname(bool boolean);
+		void	setIsRegister(bool boolean);
 		~Client();
 };
 
