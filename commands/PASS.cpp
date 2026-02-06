@@ -14,5 +14,15 @@ bool PASS(Server *server, Client *client, std::string password)
         send_message(client, ERR_NEEDMOREPARAMS("PASS"));
         return (false);
     }
+    else if (password == server.getPassword())
+    {
+        client->setHasPassword(true);
+        return(true);
+    }
+    else
+    {
+        send_message(client, ERR_PASSWDMISMATCH(client->getHasNickname()));
+        return(false);
+    }
     return (true);
 }
