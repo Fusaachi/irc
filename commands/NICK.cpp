@@ -49,8 +49,9 @@ bool NICK(Server *server, Client *client, std::string nick)
     {
         client->setNickname(nick);
         client->setHasNickname(true);
-        if (client->getHasUsername())
+        if (client->getHasUsername() && client->getHasPassword())
         {
+            client->setIsRegister() = true;
             send_message(client, RPL_WELCOME(nick, client->getUsername));
             send_message(client, RPL_YOURHOST(nick));
             send_message(client, RPL_CREATED(nick));
