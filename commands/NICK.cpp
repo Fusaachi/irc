@@ -17,24 +17,24 @@ bool is_good_nick(std::string nick)
     
 }
 
-bool Commands::NICK(Server *server, int fd, std::string nick)
+void Commands::NICK(Server *server, int fd, std::string nick)
 {
     if (nick.size() == 0)
     {
         send_message(server->getClient(fd), ERR_NONICKNAMEGIVEN());
-        return (false);
+        return;
     }
     else if(!is_good_nick(nick))
     {
         send_message(server->getClient(fd), ERR_ERRONEUSNICKNAME(nick));
-        return (false);
+        return;
     }
     for (std::map<int, Client *>::iterator it = server->getClients().begin(); it != server->getClients().end(); it++)
     {
         if (it->second->getNickname() == nick)
         {
             send_message(server->getClient(it->first), ERR_NICKNAMEINUSE(nick));
-            return (false);
+            return;
         }
     }
     if (server->getClient(fd)->getHasNickname())
@@ -42,7 +42,7 @@ bool Commands::NICK(Server *server, int fd, std::string nick)
         std::string oldnickname = server->getClient(fd)->getNickname();
         server->getClient(fd)->setNickname(nick);
         send_message(server->getClient(fd), MSG_NICK(oldnickname, server->getClient(fd)->getUsername(), "NICK", nick));
-        return (true);
+        return;
     }
     else
     {
@@ -56,5 +56,5 @@ bool Commands::NICK(Server *server, int fd, std::string nick)
             send_message(server->getClient(fd), RPL_CREATED(nick));
         }
     }
-    return (true);
+    return;
 }

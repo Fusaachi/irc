@@ -1,6 +1,6 @@
 #include "../include/Commands.hpp"
 
-bool Commands::PING(Server *server, int fd, std::string user)
+void Commands::PING(Server *server, int fd, std::string user)
 {
 
 }

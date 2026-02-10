@@ -8,18 +8,18 @@ class Commands
 {
 	private :
 
-		bool INVITE(Server *server, int fd, std::string user);
-		bool JOIN(Server *server, int fd, std::string user);
-		bool KICK(Server *server, int fd, std::string user);
-		bool MODE(Server *server, int fd, std::string user);
-		bool NICK(Server *server, int fd, std::string nick);
-		bool PART(Server *server, int fd, std::string arg);
-		bool PASS(Server *server, int fd, std::string password);
-		bool PING(Server *server, int fd, std::string user);
-		bool PRIVMG(Server *server, int fd, std::string user);
-		bool QUIT(Server *server, int fd, std::string reason);
-		bool TOPIC(Server *server, int fd, std::string user);
-		bool USER(Server *server, int fd, std::string user);
+		void INVITE(Server *server, int fd, std::string user);
+		void JOIN(Server *server, int fd, std::string user);
+		void KICK(Server *server, int fd, std::string user);
+		void MODE(Server *server, int fd, std::string user);
+		void NICK(Server *server, int fd, std::string nick);
+		void PART(Server *server, int fd, std::string arg);
+		void PASS(Server *server, int fd, std::string password);
+		void PING(Server *server, int fd, std::string user);
+		void PRIVMSG(Server *server, int fd, std::string user);
+		void QUIT(Server *server, int fd, std::string reason);
+		void TOPIC(Server *server, int fd, std::string user);
+		void USER(Server *server, int fd, std::string user);
 
 	public :
 		Commands();

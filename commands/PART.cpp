@@ -50,12 +50,12 @@ std::string get_reason(std::string const &arg)
 
 
 
-bool Commands::PART(Server *server, int fd, std::string arg)
+void Commands::PART(Server *server, int fd, std::string arg)
 {
     if (args.size() == 0)
     {
         send_message(client, ERR_NEEDMOREPARAMS("PART"));
-        return (false);
+        return;
     }
     std::vector<std::string> channel_names = get_names_channels(args);
     if (channel_names[0].empty())
@@ -69,13 +69,13 @@ bool Commands::PART(Server *server, int fd, std::string arg)
 	    if (it == server->channels.end())
         {
            send_message(client, ERR_NOSUCHCHANNEL( client->getNickname(), name));
-           return (false);
+           return;
         }
         Channel *myChannel = it->second;
 		if (!myChannel->is_client(client->getFd))
 		{
 			send_message(server, ERR_NOTONCHANNEL(client->getNickname, name));
-			return (false);
+			return;
 		}
 
 

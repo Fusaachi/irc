@@ -4,7 +4,7 @@
 #include "replies.hpp"
 #include "../include/Commands.hpp"
 
-bool Commands::JOIN(Server *server, int fd, std::string user)
+void Commands::JOIN(Server *server, int fd, std::string user)
 {
     
 }
