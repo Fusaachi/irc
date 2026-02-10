@@ -6,11 +6,12 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/04 17:35:19 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/09 15:13:15 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef __SERVER_HPP
+# define	__SERVER_HPP
 
 #include "Client.hpp"
 #include "Colors.hpp"
@@ -75,3 +76,4 @@ public:
 };
 
 
+#endif

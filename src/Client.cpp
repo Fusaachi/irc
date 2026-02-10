@@ -6,14 +6,14 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/05 15:25:36 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/09 14:57:00 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Client.hpp"
 
 
-Client::Client(int fd) : _fd(fd), _nickname(""), _username(""), _hostname(""), _clientAddr(""), _hasPwd(false), _hasNickname(false), _hasUsername(false), _register(false)
+Client::Client(int fd) : _nickname(""), _username(""), _realname(""), _message(""), _hostname(""), _clientAddr(""), _fd(fd), _hasPwd(false), _hasNickname(false), _hasUsername(false), _register(false)
 {
 }
 

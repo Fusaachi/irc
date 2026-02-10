@@ -6,9 +6,12 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:36 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/01/21 14:46:45 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/09 15:12:50 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef __COLORS_HPP
+# define	__COLORS_HPP
 
 # define RESET  		"\033[0m"		
 # define RED    		"\033[31m"			
@@ -29,3 +32,5 @@
 # define BOLDBLUE   	"\033[1m\033[34m"	
 # define BOLDMAGENTA	"\033[1m\033[35m"	
 # define BOLDCYAN   	"\033[1m\033[36m"	
+
+#endif

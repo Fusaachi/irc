@@ -25,10 +25,14 @@ void Server::clientDisconnect(int fd)
 	epoll_ctl(this->_epoll.fd, EPOLL_CTL_DEL, fd, &this->_epoll.event);
 	if (fd > -1)
 		close (fd);
-	for (std::vector<int>::iterator it = this->_fds.begin(); it != this->_fds.end(); it++)
+	for (std::map<int, Client *>::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
 	{
-		if (*it == fd)
-			close(*it);
+		if (it->first == fd)
+		{
+			close(it->first);
+			this->_clients.erase(it);
+		}
+
 	}
 }
 

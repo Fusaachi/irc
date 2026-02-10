@@ -6,13 +6,15 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/05 15:26:07 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/09 15:12:26 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef __CLIENT_HPP
+# define	__CLIENT_HPP
 
 #include "Server.hpp"
+#include <iostream>
 
 class Server;
 //class Channel;
@@ -68,4 +70,5 @@ class Client
 		~Client();
 };
 
+#endif
 
