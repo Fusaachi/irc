@@ -4,11 +4,11 @@
 #include "replies.hpp"
 #include "../include/Commands.hpp"
 
-bool COmmands::QUIT(Server *server, Client *client, std::string reason)
+bool Commands::QUIT(Server *server, int fd, std::string reason)
 {
     if (reason.size() == 0)
         reason = "Leaving";
-    send_message(client, MSG_QUIT(reason));
+    send_message(server->getClient(fd), MSG_QUIT(reason));
     // ajouter client deconnecte au servuer
 
     return (true);

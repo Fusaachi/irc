@@ -4,7 +4,7 @@
 #include "errors.hpp"
 #include "replies.hpp"
 
-bool USER(Server *server, Client *client, std::string user)
+bool Commands::USER(Server *server, int fd, std::string user)
 {
     if (client->getHasPassword() == false)
     {

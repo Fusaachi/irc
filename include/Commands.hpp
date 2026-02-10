@@ -13,12 +13,12 @@ class Commands
 		bool KICK(Server *server, int fd, std::string user);
 		bool MODE(Server *server, int fd, std::string user);
 		bool NICK(Server *server, int fd, std::string nick);
-		bool PART(Server *server, int fd, std::string const &arg);
+		bool PART(Server *server, int fd, std::string arg);
 		bool PASS(Server *server, int fd, std::string password);
-		bool PING();
-		bool PRIVMG();
+		bool PING(Server *server, int fd, std::string user);
+		bool PRIVMG(Server *server, int fd, std::string user);
 		bool QUIT(Server *server, int fd, std::string reason);
-		bool TOPIC();
+		bool TOPIC(Server *server, int fd, std::string user);
 		bool USER(Server *server, int fd, std::string user);
 
 	public :

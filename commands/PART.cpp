@@ -50,7 +50,7 @@ std::string get_reason(std::string const &arg)
 
 
 
-bool Commands::PART(Server *server, int fd, std::string const &arg)
+bool Commands::PART(Server *server, int fd, std::string arg)
 {
     if (args.size() == 0)
     {
