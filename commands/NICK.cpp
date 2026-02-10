@@ -19,14 +19,15 @@ bool is_good_nick(std::string nick)
 
 void Commands::NICK(Server *server, int fd, std::string nick)
 {
+    Client *client = server->getClient(fd);
     if (nick.size() == 0)
     {
-        send_message(server->getClient(fd), ERR_NONICKNAMEGIVEN());
+        send_message(client, ERR_NONICKNAMEGIVEN());
         return;
     }
     else if(!is_good_nick(nick))
     {
-        send_message(server->getClient(fd), ERR_ERRONEUSNICKNAME(nick));
+        send_message(client, ERR_ERRONEUSNICKNAME(nick));
         return;
     }
     for (std::map<int, Client *>::iterator it = server->getClients().begin(); it != server->getClients().end(); it++)
@@ -37,23 +38,23 @@ void Commands::NICK(Server *server, int fd, std::string nick)
             return;
         }
     }
-    if (server->getClient(fd)->getHasNickname())
+    if (client->getHasNickname())
     {
-        std::string oldnickname = server->getClient(fd)->getNickname();
-        server->getClient(fd)->setNickname(nick);
-        send_message(server->getClient(fd), MSG_NICK(oldnickname, server->getClient(fd)->getUsername(), "NICK", nick));
+        std::string oldnickname = client->getNickname();
+        client->setNickname(nick);
+        send_message(client, MSG_NICK(oldnickname, client->getUsername(), "NICK", nick));
         return;
     }
     else
     {
-        server->getClient(fd)->setNickname(nick);
-        server->getClient(fd)->setHasNickname(true);
-        if (server->getClient(fd)->getHasUsername() && server->getClient(fd)->getHasPassword())
+        client->setNickname(nick);
+        client->setHasNickname(true);
+        if (client->getHasUsername() && client->getHasPassword())
         {
-            server->getClient(fd)->setIsRegister(true);
-            send_message(server->getClient(fd), RPL_WELCOME(nick, server->getClient(fd)->getUsername));
-            send_message(server->getClient(fd), RPL_YOURHOST(nick));
-            send_message(server->getClient(fd), RPL_CREATED(nick));
+            client->setIsRegister(true);
+            send_message(client, RPL_WELCOME(nick, client->getUsername));
+            send_message(client, RPL_YOURHOST(nick));
+            send_message(client, RPL_CREATED(nick));
         }
     }
     return;

@@ -6,6 +6,7 @@
 
 void Commands::USER(Server *server, int fd, std::string user)
 {
+    Client *client = server->getClient(fd);
     if (client->getHasPassword() == false)
     {
         return;

@@ -52,12 +52,13 @@ std::string get_reason(std::string const &arg)
 
 void Commands::PART(Server *server, int fd, std::string arg)
 {
-    if (args.size() == 0)
+    Client *client = server->getClient(fd);   
+    if (arg.size() == 0)
     {
         send_message(client, ERR_NEEDMOREPARAMS("PART"));
         return;
     }
-    std::vector<std::string> channel_names = get_names_channels(args);
+    std::vector<std::string> channel_names = get_names_channels(arg);
     if (channel_names[0].empty())
     {
         send_message(client, ERR_BADCHANMASK(arg, client->getNickname()));
@@ -72,7 +73,7 @@ void Commands::PART(Server *server, int fd, std::string arg)
            return;
         }
         Channel *myChannel = it->second;
-		if (!myChannel->is_client(client->getFd))
+		if (!myChannel->is_client(client->getFd()))
 		{
 			send_message(server, ERR_NOTONCHANNEL(client->getNickname, name));
 			return;

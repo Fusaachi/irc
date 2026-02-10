@@ -5,24 +5,25 @@
 
 void Commands::PASS(Server *server, int fd, std::string password)
 {
-    if (server->getClient(fd)->getHasPassword())
+    Client *client = server->getClient(fd);
+    if (client->getHasPassword())
     {
-        send_message(server->getClient(fd), ERR_ALREADYREGISTERED());
+        send_message(client, ERR_ALREADYREGISTERED());
         return;
     }
     else if (password.size() == 0)
     {
-        send_message(server->getClient(fd), ERR_NEEDMOREPARAMS("PASS"));
+        send_message(client, ERR_NEEDMOREPARAMS("PASS"));
         return;
     }
     else if (password == server->getPassword())
     {
-        server->getClient(fd)->setHasPassword(true);
+        client->setHasPassword(true);
         return;
     }
     else
     {
-        send_message(server->getClient(fd), ERR_PASSWDMISMATCH(server->getClient(fd)->getNickname()));
+        send_message(client, ERR_PASSWDMISMATCH(client->getNickname()));
         return;
     }
     return;
