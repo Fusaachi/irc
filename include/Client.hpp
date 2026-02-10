@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/09 15:12:26 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/10 14:25:05 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ class Client
 		std::string _username;
 		std::string _realname;
 		std::string _message;
+		std::string _data;
 		std::string	_hostname;
 		std::string _clientAddr;
 		
@@ -65,8 +66,12 @@ class Client
 		void	setClientAddr(std::string const &clientAddr);
 		void	setFd(int fd);
 		void	setHasPassword(bool boolean);
+		void	setHasUsername(bool boolean);
 		void	setHasNickname(bool boolean);
 		void	setIsRegister(bool boolean);
+
+		void appendData(std::string new_data);
+
 		~Client();
 };
 

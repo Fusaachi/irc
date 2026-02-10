@@ -22,6 +22,7 @@ void Server::acceptNewClient()
 
 void Server::clientDisconnect(int fd)
 {
+	std::cout << RED << "[Server] Client <" << fd << "> Disconnected" << RESET << std::endl;
 	epoll_ctl(this->_epoll.fd, EPOLL_CTL_DEL, fd, &this->_epoll.event);
 	if (fd > -1)
 		close (fd);
@@ -34,23 +35,33 @@ void Server::clientDisconnect(int fd)
 		}
 
 	}
+
+	for(std::vector<int>::iterator it = this->_fds.begin(); it != this->_fds.end(); it++)
+	{
+		if (*it == fd)
+		{
+			this->_fds.erase(it);
+			break;
+		}
+	}
 }
 
 void	Server::receiveData(int fd)
 {
 	char buff[1024];
 	memset(buff, 0, sizeof(buff));
-	
 	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1, 0);
+	
 	if (bytes <= 0)
-	{
-		std::cout << RED << "[Server] Client <" << fd << "> Disconnected" << RESET << std::endl;
 		clientDisconnect(fd);
-	}
 	else 
 	{
-		buff[bytes] = '\0';
-		std::cout << YELLOW << "Client < " << fd << "> Data: " << RESET << buff; 
+		std::string new_data(buff, bytes);
+		this->_clients[fd]->appendData(new_data);
+		size_t i = 0;
+		
+
+	
 	}
 }
 

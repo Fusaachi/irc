@@ -2,6 +2,7 @@
 #include "Client.hpp"
 #include "errors.hpp"
 #include "replies.hpp"
+#include "../include/Commands.hpp"
 
 bool is_good_nick(std::string nick)
 {
@@ -16,20 +17,20 @@ bool is_good_nick(std::string nick)
     
 }
 
-bool NICK(Server *server, Client *client, std::string nick)
+bool Commands::NICK(Server *server, int fd, std::string nick)
 {
     if (nick.size() == 0)
     {
-        send_message(client, ERR_NONICKNAMEGIVEN());
+        send_message(server->getClient(fd), ERR_NONICKNAMEGIVEN());
         return (false);
     }
     else if(!is_good_nick(nick))
     {
-        send_message(client, ERR_ERRONEUSNICKNAME(nick));
+        send_message(server->getClient(fd), ERR_ERRONEUSNICKNAME(nick));
         return (false);
     }
     std::vector<Client> clients = server->getClients();
-    for (int i = 0; i < clients.size(); i++)
+    for (std::map<int, Client *>::iterator it = server->_clients.begin(); it != server->_clients.end(); it++)
     {
         if (clients[i].getNickname() == nick)
         {
@@ -38,7 +39,7 @@ bool NICK(Server *server, Client *client, std::string nick)
         }
 
     }
-    if (client->hasNickName())
+    if (client->getHasNickname())
     {
         std::string oldnickname = client->getNickname();
         client->setNickname(nick);
@@ -51,7 +52,7 @@ bool NICK(Server *server, Client *client, std::string nick)
         client->setHasNickname(true);
         if (client->getHasUsername() && client->getHasPassword())
         {
-            client->setIsRegister() = true;
+            client->setIsRegister(true);
             send_message(client, RPL_WELCOME(nick, client->getUsername));
             send_message(client, RPL_YOURHOST(nick));
             send_message(client, RPL_CREATED(nick));

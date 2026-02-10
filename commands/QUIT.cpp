@@ -2,8 +2,9 @@
 #include "Client.hpp"
 #include "errors.hpp"
 #include "replies.hpp"
+#include "../include/Commands.hpp"
 
-bool QUIT(Server *server, Client *client, std::string reason)
+bool COmmands::QUIT(Server *server, Client *client, std::string reason)
 {
     if (reason.size() == 0)
         reason = "Leaving";

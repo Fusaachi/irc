@@ -2,6 +2,7 @@
 #include "Client.hpp"
 #include "errors.hpp"
 #include "replies.hpp"
+#include "../include/Commands.hpp"
 
 #include <vector>
 #include <string>
@@ -49,7 +50,7 @@ std::string get_reason(std::string const &arg)
 
 
 
-bool PART(Server *server, Client *client, std::string const &arg)
+bool Commands::PART(Server *server, int fd, std::string const &arg)
 {
     if (args.size() == 0)
     {

@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/09 15:13:15 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/10 16:28:30 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_epoll
 	
 }t_epoll;
 
+bool send_message(Client *client, std::string const &message);
 
 class Client;
 
@@ -53,11 +54,8 @@ private:
 	int					_clientFd;
 	static bool 		_Signal;
 	
-	
-	
 	t_epoll				_epoll;
 
-	
 	std::map<int, Client*> _clients;
 	std::vector<int>	_fds;
 	
@@ -71,6 +69,11 @@ public:
 	void		clientDisconnect(int fd);
 	void		closeFds();
 	void 		run();
+
+	Client *Server::getClient(int fd){ return this->_clients[fd];};
+	
+	
+	std::string getPassword() {return _password;};
 	Server&operator=(const Server &rhs);
 	~Server();
 };

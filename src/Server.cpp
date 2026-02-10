@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/09 14:57:54 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/10 16:29:22 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,10 @@ void Server::run()
 	}
 }
 
-
-
-
+bool send_messages(Client * client, std::string const &messages)
+{
+	
+}
 
 void Server::closeFds()
 {

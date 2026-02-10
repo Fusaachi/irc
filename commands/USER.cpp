@@ -1,5 +1,6 @@
-#include "Server.hpp"
-#include "Client.hpp"
+#include "../include/Server.hpp"
+#include "../include/Client.hpp"
+#include "../include/Commands.hpp"
 #include "errors.hpp"
 #include "replies.hpp"
 
@@ -21,11 +22,11 @@ bool USER(Server *server, Client *client, std::string user)
     }
     else 
     {
-        client->setUsername = user;
-        client->setHasUsername() = true;
+        client->setUsername(user);
+        client->setHasUsername(true);
         if (client->getHasUsername())
         {
-            client->setIsRegister = true;
+            client->setIsRegister(true);
             send_message(client, RPL_WELCOME(client->getNickname(), user));
             send_message(client, RPL_YOURHOST(client->getNickname()));
             send_message(client, RPL_CREATED(client->getNickname()));

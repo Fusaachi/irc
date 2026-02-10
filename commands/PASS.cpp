@@ -1,27 +1,28 @@
 #include "Server.hpp"
 #include "Client.hpp"
+#include "Commands.hpp"
 #include "errors.hpp"
 
-bool PASS(Server *server, Client *client, std::string password)
+bool Commands::PASS(Server *server, int fd, std::string password)
 {
-    if (client.hasPassword())
+    if (server->getClient(fd)->getHasPassword())
     {
-        send_message(client, ERR_ALREADYREGISTERED());
+        send_message(server->getClient(fd), ERR_ALREADYREGISTERED());
         return (false);
     }
     else if (password.size() == 0)
     {
-        send_message(client, ERR_NEEDMOREPARAMS("PASS"));
+        send_message(server->getClient(fd), ERR_NEEDMOREPARAMS("PASS"));
         return (false);
     }
-    else if (password == server.getPassword())
+    else if (password == server->getPassword())
     {
-        client->setHasPassword(true);
+        server->getClient(fd)->setHasPassword(true);
         return(true);
     }
     else
     {
-        send_message(client, ERR_PASSWDMISMATCH(client->getHasNickname()));
+        send_message(server->getClient(fd), ERR_PASSWDMISMATCH(server->getClient(fd)->getHasNickname()));
         return(false);
     }
     return (true);
