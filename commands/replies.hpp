@@ -1,8 +1,8 @@
 #pragma once
 
-#define user_id(nickname, username, ip_address) std::string(nickname) + "!~" + std::string(username) + "@" + std::string(ip_address)
+#define user_id(nickname, username) std::string(nickname) + "!~" + std::string(username) + "@server"
 
-#define RPL_WELCOME(nickname, username, ip_address) "001 " + std::string(nickname) + " :Welcome to the IRC Network, " + user_id(nickname, username, ip_address) + "\r\n"
+#define RPL_WELCOME(nickname, username) "001 " + std::string(nickname) + " :Welcome to the IRC Network, " + user_id(nickname, username) + "\r\n"
 #define RPL_YOURHOST(nickname) "002 " + std::string(nickname) + " :Your host is ircserv, running version 1.0.0\r\n"
 #define RPL_CREATED(nickname) "003 " + std::string(nickname) + " :This server was created " + getTimeOfCreation()
 #define RPL_MYINFO(servername, version, chanmodes) "004 " + std::string(servername) + " " + std::string(version) + " " + std::string(chanmodes) + "\r\n"
@@ -25,3 +25,8 @@
 #define RPL_KICK(nick, username, channel, target, reason) ":" + nick + "!~" + username + "@server KICK " + channel + " " + target + " " + reason + "\r\n"
 #define RPL_MODE(nick, username, channel, chain) ":" + nick + "!~" + username + "@server MODE " + channel + " " + chain + "\r\n"
 #define RPL_PRIVMSG(nick, username, target, message)  ":" + nick + "!~" + username + "@server PRIVMSG " + target + " " + message + "\r\n"
+
+
+
+#define MSG_QUIT(reason) "Quit: " + reason 
+#define MSG_NICK(oldnickname, username, cmd, nickname) ":" + oldnickname + "!" + username + "@server " + cmd + " " + nickname + "\r\n"
