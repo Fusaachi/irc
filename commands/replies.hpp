@@ -2,9 +2,11 @@
 
 #define user_id(nickname, username) std::string(nickname) + "!~" + std::string(username) + "@server"
 
-#define RPL_WELCOME(nickname, username) "001 " + std::string(nickname) + " :Welcome to the IRC Network, " + user_id(nickname, username) + "\r\n"
+//#define RPL_WELCOME(nickname, username) "001 " + std::string(nickname) + " :Welcome to the IRC Network, " + user_id(nickname, username) + "\r\n"
+#define RPL_WELCOME(nickname, username) "001 " + std::string(nickname) + " :Welcome to the IRC Network, " + "\r\n"
 #define RPL_YOURHOST(nickname) "002 " + std::string(nickname) + " :Your host is ircserv, running version 1.0.0\r\n"
-#define RPL_CREATED(nickname) "003 " + std::string(nickname) + " :This server was created " + getTimeOfCreation()
+//#define RPL_CREATED(nickname) "003 " + std::string(nickname) + " :This server was created " + getTimeOfCreation()
+#define RPL_CREATED(nickname) "003 " + std::string(nickname) + " :This server was created " + + "\r\n"
 #define RPL_MYINFO(servername, version, chanmodes) "004 " + std::string(servername) + " " + std::string(version) + " " + std::string(chanmodes) + "\r\n"
 #define RPL_SUPPORT(client, modes) "005 " + std::string(client) + " " + std::string(modes) + " " + ":are supported by this server\r\n"
 
