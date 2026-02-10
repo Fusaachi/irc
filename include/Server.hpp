@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/10 16:28:30 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/10 17:36:50 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ public:
 	void		closeFds();
 	void 		run();
 
-	Client *Server::getClient(int fd){ return this->_clients[fd];};
+	Client *getClient(int fd){ return this->_clients[fd];};
+	std::map<int, Client*> &getClients(){return this->_clients;};
 	
 	
 	std::string getPassword() {return _password;};
