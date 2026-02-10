@@ -22,7 +22,7 @@ bool Commands::PASS(Server *server, int fd, std::string password)
     }
     else
     {
-        send_message(server->getClient(fd), ERR_PASSWDMISMATCH(server->getClient(fd)->getHasNickname()));
+        send_message(server->getClient(fd), ERR_PASSWDMISMATCH(server->getClient(fd)->getNickname()));
         return(false);
     }
     return (true);
