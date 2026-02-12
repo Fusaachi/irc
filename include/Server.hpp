@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/12 13:16:33 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/12 13:53:39 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ private:
 
 	std::map<int, Client*> 	_clients;
 	std::vector<int>		_fds;
-	std::vector <Channel *>	_channels;
+	std::map<std::string, Channel *>	_channels;
 	
 public:
 	Server();
@@ -72,9 +72,10 @@ public:
 	void		closeFds();
 	void 		run();
 
-	Client *getClient(int fd){ return this->_clients[fd];};
+	Client *getClient(int fd){return this->_clients[fd];};
 	std::map<int, Client*> &getClients(){return this->_clients;};
-	std::vector<Channel*> &getChannels(){return this->_channels;};
+	Channel *getChannel(std::string name){return this->_channels[name];};
+	std::map<std::string, Channel*> &getChannels(){return this->_channels;};
 	
 	std::string getPassword() {return _password;};
 	Server&operator=(const Server &rhs);
