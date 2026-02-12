@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/10 17:36:50 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/12 13:16:33 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define	__SERVER_HPP
 
 #include "Client.hpp"
+#include "Channel.hpp"
 #include "Colors.hpp"
 #include <iostream>
 #include <cstdlib>
@@ -47,17 +48,18 @@ class Client;
 class Server
 {
 private:
-	int					_port;
-	std::string 		_password;
-	struct sockaddr_in 	_addr;
-	int					_fd;
-	int					_clientFd;
-	static bool 		_Signal;
+	int						_port;
+	std::string 			_password;
+	struct sockaddr_in 		_addr;
+	int						_fd;
+	int						_clientFd;
+	static bool 			_Signal;
 	
-	t_epoll				_epoll;
+	t_epoll					_epoll;
 
-	std::map<int, Client*> _clients;
-	std::vector<int>	_fds;
+	std::map<int, Client*> 	_clients;
+	std::vector<int>		_fds;
+	std::vector <Channel *>	_channels;
 	
 public:
 	Server();
@@ -72,7 +74,7 @@ public:
 
 	Client *getClient(int fd){ return this->_clients[fd];};
 	std::map<int, Client*> &getClients(){return this->_clients;};
-	
+	std::vector<Channel*> &getChannels(){return this->_channels;};
 	
 	std::string getPassword() {return _password;};
 	Server&operator=(const Server &rhs);

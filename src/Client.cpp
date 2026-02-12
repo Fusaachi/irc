@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/10 16:21:14 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/12 12:54:30 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,3 +95,35 @@ void Client::appendData(std::string new_data)
 	this->_data += new_data;
 }
 
+std::vector<std::pair<std::string , std::string>> Client::splitBuffer(std::string const &buffer)
+{
+	std::vector<std::pair<std::string, std::string>> result;
+	size_t start = 0;
+	size_t end = buffer.find("\r\n");
+	while (end != std::string::npos)
+	{
+		std::string line = buffer.substr(start, end - start);
+		size_t		pos = line.find(" ");
+		if (pos != std::string::npos)
+		{
+			std::string command = line.substr(0, pos);
+			std::string args =  line.substr(pos + 1);
+			result.push_back(pair(command, args));
+		}
+		else
+			result.push_back(pair(line, ""));
+		start = end +2;
+		end = buffer.find("\r\n, start");
+	}
+	return (result);
+	
+	
+}
+
+std::pair<std::string, std::string> Client::pair(std::string command, std:: string args)
+{
+	std::pair <std::string, std::string> result;
+	result.first = command;
+	result.second = args;
+	return (result);
+}

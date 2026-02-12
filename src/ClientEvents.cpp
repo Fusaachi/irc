@@ -60,8 +60,11 @@ void	Server::receiveData(int fd)
 		this->_clients[fd]->appendData(new_data);
 		size_t i = 0;
 		
-
-	
+		while((i = this->_clients[fd]->getData().find("\r\n")) != std::string::npos)
+		{
+			std::string command = this->_clients[fd]->getData().substr(0, i + 2);
+			std::vector<std::pair<std::string,std::string>> commands =  this->_clients[fd]->splitBuffer(command);
+		}
 	}
 }
 

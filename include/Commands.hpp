@@ -23,5 +23,5 @@ class Commands
 
 	public :
 		Commands();
-		void execute_commands(Server *server, int fd);
+		void execute_commands(Server *server, int fd, std::pair<std::string, std::string> command);
 };
