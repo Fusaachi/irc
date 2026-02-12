@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/12 13:53:39 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/12 16:15:50 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_epoll
 	
 }t_epoll;
 
-bool send_message(Client *client, std::string const &message);
+void send_message(Client *client, std::string const &message);
 
 class Client;
 

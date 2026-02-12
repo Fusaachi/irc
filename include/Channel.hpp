@@ -17,10 +17,16 @@ class Channel
 		std::vector<int>		_fdOperators;
 		std::vector<int>		_fdInvited;
 
-		bool					_inviteOnly;
-		bool					_topicRestricted;
+
+		size_t					_nbUser;
+		size_t					_maxUser;
+
 		bool					_hasUserLimit;
-		size_t					_userLimits;
+		bool					_hasPwd;
+		bool					_inviteOnly;
+		bool					_isTopicSet;
+		bool					_topicRestricted;
+
 
 	public :
 		Channel(std::string name, int fd);
@@ -28,8 +34,30 @@ class Channel
 		std::string getChannelName(){return (this->_name);};
 		std::string getTopic(){return (this->_topic);};
 		std::string getPwd(){return (this->_pwd);};
+		size_t getNbUser(){return (this->_nbUser);};
+		size_t getMaxUser(){return (this->_maxUser);};
+		bool hasUserLimit(){return (this->_hasUserLimit);};
+		bool getHasPwd();
+		bool isClient(int fd);
+		bool isInviteOnly(){return (this->_inviteOnly);};
+		bool isTopicSet(){(this->_isTopicSet);};
+		bool isTopicRestricted(){return (this->_topicRestricted);};
+	
+	
 
-		bool is_client(int fd);
+
+		void setChannelName(std::string name);
+		void setTopic(std::string topic);
+		void setPwd(std::string pwd);
+		void setMaxUser(size_t nb);	
+		void setHasUserLimit(bool boolean);
+		void setInviteOnly(bool boolean);
+		void setTopicRestricted(bool boolean);
+
+
+		
+
+
 };
 
 #endif

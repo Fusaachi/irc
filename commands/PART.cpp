@@ -73,7 +73,7 @@ void Commands::PART(Server *server, int fd, std::string arg)
            return;
         }
         Channel *myChannel = it->second;
-		if (!myChannel->is_client(client->getFd()))
+		if (!myChannel->isClient(client->getFd()))
 		{
 			send_message(client, ERR_NOTONCHANNEL(client->getNickname(), name));
 			return;
