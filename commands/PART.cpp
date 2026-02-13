@@ -72,12 +72,27 @@ void Commands::PART(Server *server, int fd, std::string arg)
            send_message(client, ERR_NOSUCHCHANNEL(client->getNickname(), name));
            return;
         }
-        Channel *myChannel = it->second;
-		if (!myChannel->isClient(client->getFd()))
+        Channel *channel = it->second;
+		if (!channel->isClient(client->getFd()))
 		{
 			send_message(client, ERR_NOTONCHANNEL(client->getNickname(), name));
 			return;
 		}
+        else 
+        {
+            channel->part(fd);
+            if (!reason.empty())
+            {
+                reason = " : " + reason;
+            }
+            channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason));
+            if (channel->isEmpty())
+            {
+                delete(channel);
+                server->eraseChannel(channel->getChannelName());
+            }
+
+        }
     }
 }
 
