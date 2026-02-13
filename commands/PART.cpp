@@ -89,7 +89,7 @@ void Commands::PART(Server *server, int fd, std::string arg)
             if (channel->isEmpty())
             {
                 delete(channel);
-                server->eraseChannel(channel->getChannelName());
+                server->removeChannel(channel->getChannelName());
             }
 
         }
