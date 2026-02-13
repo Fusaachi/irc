@@ -119,4 +119,5 @@ void Commands::KICK(Server *server, int fd, std::string arg)
     if (!reason.empty())
         reason = " : " + reason;
     channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, user_name, reason));
+    server->getChannel(channel_name)->kickClient(user_name);
 }
