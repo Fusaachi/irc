@@ -22,7 +22,7 @@
 #define ERR_INVITEONLYCHAN(nick, channel) "473 " + nick + " " + channel + " :Cannot join channel (+i)\r\n"
 #define	ERR_BADCHANNELKEY(nick, channel) "475 " + std::string(nick) + " " + std::string(channel) + " :Cannot join channel (+k)\r\n"
 #define ERR_BADCHANMASK(channel, nick) "476" + std::string(nick) + std::string(channel) + " :Invalid channel name\r\n"
-#define ERR_CHANOPRIVISNEEDED(nick, channel) "482 : " + std::string(nick) + " " + std::string(channel) + " :You must be a channel operator\r\n"
+#define ERR_CHANOPRIVSNEEDED(nick, channel) "482 : " + std::string(nick) + " " + std::string(channel) + " :You're not channel operator\r\n"
 #define ERR_NOOPERHOST(nick) "491 " + std::string(nick) + " :No O-lines for your host\r\n"
 #define ERR_BADTOKENCHAN(client, channel) std::string (client) + " " + std::string(channel) + " :Wrong or missing token before channel name\r\n"
 #define ERR_UNKNOWNMODEFLAG(nick) "501 " + std::string(nick) + " :Unknown MODE flag\r\n"
