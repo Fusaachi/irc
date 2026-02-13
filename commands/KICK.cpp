@@ -2,6 +2,57 @@
 #include "../include/Commands.hpp"
 #include "replies.hpp"
 
+std::string get_channel_name(std::string arg)
+{
+    int i = 0;
+    std::string name;
+    while (arg[i] && arg[i] != ' ')
+    {
+        name += arg[i];
+        i++;
+    }
+    return (name);
+}
+
+std::string get_user_name(std::string arg)
+{
+    int i = 0;
+    std::string name;
+    while (arg[i] && arg[i] != ' ')
+        i++;
+    if (!arg[i])
+        return (NULL);
+    i++;
+    while (arg[i] && arg[i] != ' ')
+    {
+        name += arg[i];
+        i++;
+    }
+    return (name);
+}
+
+std::string get_reason(std::string arg)
+{
+    int i = 0;
+    int nbr_space = 0;
+    std::string name;
+    while (arg[i] && nbr_space != 2)
+    {
+        if (arg[i] == ' ')
+            nbr_space++;
+        i++;
+    }
+        i++;
+    if (!arg[i] && arg[i] != ':')
+        return (NULL);
+    i++;
+    while (arg[i] && arg[i] != ' ')
+    {
+        name += arg[i];
+        i++;
+    }
+    return (name);
+}
 
 bool is_good_channel_mask(std::string channel)
 {
