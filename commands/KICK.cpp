@@ -78,13 +78,15 @@ std::string get_reason(std::string arg)
 
 bool is_good_channel_mask(std::string channel)
 {
+    if (channel.empty())
+        return (false);
     if (!(channel[0] == '#' || channel[0] == '&'))
     {
         return (false);
     }
     for (int i = 1; channel[i]; i++)
     {
-        if (channel[i] == ',')
+        if (channel[i] == ',' || channel[i] == ' '|| channel[i] == '\r'|| channel[i] == '\n')
             return (false);
     }
     return (true);
