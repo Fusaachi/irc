@@ -108,6 +108,8 @@ void Commands::KICK(Server *server, int fd, std::string arg)
         send_message(client, ERR_NEEDMOREPARAMS("KICK"));
         return ;
     }
+    if (!reason.empty())
+            reason = " : " + reason;
     for (size_t i = 0; i < nicknames.size(); i++)
     {
         if (channel_names.size() == 1)
@@ -128,8 +130,6 @@ void Commands::KICK(Server *server, int fd, std::string arg)
             send_message(client, ERR_NOSUCHNICK(client->getNickname(), nicknames[i]));
         else if(!channel->isClient(nicknames[i]))
             send_message(client, ERR_USERNOTINCHANNEL(nicknames, channel_name));
-        else if (!reason.empty())
-            reason = " : " + reason;
         channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], reason));
         server->getChannel(channel_name)->kick(nicknames[i]);
     }
