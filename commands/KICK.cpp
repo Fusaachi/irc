@@ -2,7 +2,7 @@
 #include "../include/Commands.hpp"
 #include "replies.hpp"
 
-std::vector<std::string> get_names_channels(std::string const &arg)
+std::vector<std::string> get_channel_names(std::string const &arg)
 {
     int i = 0;
     std::string channel_name;
@@ -25,32 +25,32 @@ std::vector<std::string> get_names_channels(std::string const &arg)
 }
 
 
-std::vector<std::string> get_users_names(std::string arg)
+std::vector<std::string> get_nicknames(std::string arg)
 {
     int i = 0;
-    std::string user_name;
-    std::vector<std::string> users_names;
+    std::string nickname;
+    std::vector<std::string> nicknames;
     while (arg[i] && arg[i] != ' ')
         i++;
     if (!arg[i])
-        return (users_names);
+        return (nicknames);
     i++;
     while (arg[i])
     {
         while (arg[i] && arg[i] != ' ' && arg[i]!=',')
         {
-            user_name += arg[i];
+            nickname += arg[i];
             i++;
         }
-        users_names.push_back(user_name);
-        user_name = "";
+        nicknames.push_back(nickname);
+        nickname = "";
         if (!arg[i] || isspace(arg[i]))
             break;        
         i++;
 
     }
 
-    return (users_names);
+    return (nicknames);
 }
 
 std::string get_reason(std::string arg)
@@ -92,26 +92,26 @@ bool is_good_channel_mask(std::string channel)
 
 void Commands::KICK(Server *server, int fd, std::string arg)
 {
-    std::vector<std::string> names_channels;
-    std::vector<std::string> users_names;
+    std::vector<std::string> channel_names;
+    std::vector<std::string> nicknames;
     std::string reason;
     std::string channel_name;
     Client *client = server->getClient(fd);
 
-    names_channels = get_names_channels(arg);
-    users_names = get_users_names(arg);
+    channel_names = get_channel_names(arg);
+    nicknames = get_nicknames(arg);
     reason = get_reason(arg);
-    if (names_channels.size() == 0 || users_names.size() == 0 || (names_channels.size() > 1  && names_channels.size() != users_names.size()))
+    if (channel_names.size() == 0 || nicknames.size() == 0 || (channel_names.size() > 1  && channel_names.size() != nicknames.size()))
     {
         send_message(client, ERR_NEEDMOREPARAMS("KICK"));
         return ;
     }
-    for (size_t i = 0; i < users_names.size(); i++)
+    for (size_t i = 0; i < nicknames.size(); i++)
     {
-        if (names_channels.size() == 1)
-            channel_name = names_channels[1];
+        if (channel_names.size() == 1)
+            channel_name = channel_names[0];
         else
-            channel_name = names_channels[i];
+            channel_name = channel_names[i];
         std::map<std::string, Channel*>::iterator it = server->getChannels().find(channel_name);
         Channel *channel = it->second;
         if (!is_good_channel_mask(channel_name))
@@ -122,13 +122,13 @@ void Commands::KICK(Server *server, int fd, std::string arg)
             send_message(client, ERR_NOTONCHANNEL(client->getNickname(), channel_name));
         else if(!channel->isOperator(fd))
             send_message(client, ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name));
-        else if(!server->isClientIsInServer(users_names[i]))
-            send_message(client, ERR_NOSUCHNICK(client->getNickname(), users_names[i]));
-        else if(!channel->isClient(users_names[i]))
-            send_message(client, ERR_USERNOTINCHANNEL(user_name, channel_name));
+        else if(!server->isClientIsInServer(nicknames[i]))
+            send_message(client, ERR_NOSUCHNICK(client->getNickname(), nicknames[i]));
+        else if(!channel->isClient(nicknames[i]))
+            send_message(client, ERR_USERNOTINCHANNEL(nicknames, channel_name));
         else if (!reason.empty())
             reason = " : " + reason;
-        channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, users_names[i], reason));
-        server->getChannel(channel_name)->kick(users_names[i]);
+        channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], reason));
+        server->getChannel(channel_name)->kick(nicknames[i]);
     }
 }
