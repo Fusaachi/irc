@@ -84,6 +84,10 @@ void Commands::PRIVMSG(Server *server, int fd, std::string args)
             {
                 send_message(ERR_NOSUCHNICK(client->getNickname(), receivers[i]), fd);
             }
+            else
+            {
+                channel->broadcast(RPL_PRIVMSG(client->getNickname(), client->getUsername(),receivers[i], msg));
+            }
         }
         else
         {
