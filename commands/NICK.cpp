@@ -22,19 +22,19 @@ void Commands::NICK(Server *server, int fd, std::string nick)
     Client *client = server->getClient(fd);
     if (nick.size() == 0)
     {
-        send_message(client, ERR_NONICKNAMEGIVEN());
+        send_message(ERR_NONICKNAMEGIVEN(), fd);
         return;
     }
     else if(!is_good_nick(nick))
     {
-        send_message(client, ERR_ERRONEUSNICKNAME(nick));
+        send_message(ERR_ERRONEUSNICKNAME(nick), fd);
         return;
     }
     for (std::map<int, Client *>::iterator it = server->getClients().begin(); it != server->getClients().end(); it++)
     {
         if (it->second->getNickname() == nick)
         {
-            send_message(server->getClient(it->first), ERR_NICKNAMEINUSE(nick));
+            send_message(ERR_NICKNAMEINUSE(nick), fd);
             return;
         }
     }
@@ -42,7 +42,7 @@ void Commands::NICK(Server *server, int fd, std::string nick)
     {
         std::string oldnickname = client->getNickname();
         client->setNickname(nick);
-        send_message(client, MSG_NICK(oldnickname, client->getUsername(), "NICK", nick));
+        send_message(MSG_NICK(oldnickname, client->getUsername(), "NICK", nick), fd);
         return;
     }
     else
@@ -52,9 +52,9 @@ void Commands::NICK(Server *server, int fd, std::string nick)
         if (client->getHasUsername() && client->getHasPassword())
         {
             client->setIsRegister(true);
-            send_message(client, RPL_WELCOME(nick, client->getUsername));
-            send_message(client, RPL_YOURHOST(nick));
-            send_message(client, RPL_CREATED(nick));
+            send_message(RPL_WELCOME(nick, client->getUsername), fd);
+            send_message(RPL_YOURHOST(nick), fd);
+            send_message(RPL_CREATED(nick), fd);
         }
     }
     return;

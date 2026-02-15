@@ -103,7 +103,7 @@ void Commands::KICK(Server *server, int fd, std::string arg)
     reason = get_reason(arg);
     if (channel_names.size() == 0 || nicknames.size() == 0 || (channel_names.size() > 1  && channel_names.size() != nicknames.size()))
     {
-        send_message(client, ERR_NEEDMOREPARAMS("KICK"));
+        send_message(ERR_NEEDMOREPARAMS("KICK"), fd);
         return ;
     }
     if (!reason.empty())
@@ -117,17 +117,17 @@ void Commands::KICK(Server *server, int fd, std::string arg)
         std::map<std::string, Channel*>::iterator it = server->getChannels().find(channel_name);
         Channel *channel = it->second;
         if (!is_good_channel_mask(channel_name))
-            send_message(client, ERR_BADCHANMASK(channel_name, client->getNickname()));
+            send_message(ERR_BADCHANMASK(channel_name, client->getNickname()), fd);
         else if (it == server->getChannels().end())
-            send_message(client, ERR_NOSUCHCHANNEL(client->getNickname(), channel_name));
+            send_message(ERR_NOSUCHCHANNEL(client->getNickname(), channel_name), fd);
         else if (!channel->isClient(fd))
-            send_message(client, ERR_NOTONCHANNEL(client->getNickname(), channel_name));
+            send_message(ERR_NOTONCHANNEL(client->getNickname(), channel_name), fd);
         else if(!channel->isOperator(fd))
-            send_message(client, ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name));
+            send_message(ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name), fd);
         // else if(!server->isClientIsInServer(nicknames[i]))
         //     send_message(client, ERR_NOSUCHNICK(client->getNickname(), nicknames[i]));
         else if(!channel->isClient(nicknames[i]))
-            send_message(client, ERR_USERNOTINCHANNEL(nicknames, channel_name));
+            send_message(ERR_USERNOTINCHANNEL(nicknames[i], channel_name), fd);
         channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], reason));
         server->getChannel(channel_name)->kick(nicknames[i]);
     }

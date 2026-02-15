@@ -55,13 +55,13 @@ void Commands::PART(Server *server, int fd, std::string arg)
     Client *client = server->getClient(fd);   
     if (arg.size() == 0)
     {
-        send_message(client, ERR_NEEDMOREPARAMS("PART"));
+        send_message(ERR_NEEDMOREPARAMS("PART"), fd);
         return;
     }
     std::vector<std::string> channel_names = get_names_channels(arg);
     if (channel_names[0].empty())
     {
-        send_message(client, ERR_BADCHANMASK(arg, client->getNickname()));
+        send_message(ERR_BADCHANMASK(arg, client->getNickname()), fd);
     }
     std::string reason = get_reason(arg);
     for (std::string name : channel_names)
@@ -69,13 +69,13 @@ void Commands::PART(Server *server, int fd, std::string arg)
         std::map<std::string, Channel*>::iterator it = server->getChannels().find(name);
 	    if (it == server->getChannels().end())
         {
-           send_message(client, ERR_NOSUCHCHANNEL(client->getNickname(), name));
+           send_message(ERR_NOSUCHCHANNEL(client->getNickname(), name), fd);
            return;
         }
         Channel *channel = it->second;
 		if (!channel->isClient(client->getFd()))
 		{
-			send_message(client, ERR_NOTONCHANNEL(client->getNickname(), name));
+			send_message(ERR_NOTONCHANNEL(client->getNickname(), name), fd);
 			return;
 		}
         else 

@@ -1,5 +1,6 @@
 #include "../include/Commands.hpp"
 #include "errors.hpp"
+#include "replies.hpp"
 #include <set>
 
 
@@ -62,34 +63,38 @@ void Commands::PRIVMSG(Server *server, int fd, std::string args)
     Client *client = server->getClient(fd);
     if (receivers.size() == 0)
     {
-        send_message(client, ERR_NORECIPIENT("PRIVMSG"));
+        send_message(ERR_NORECIPIENT("PRIVMSG"), fd);
         return ;
     }
     else if (msg.empty())
     {
-        send_message(client, ERR_NOTEXTTOSEND(client->getNickname()));
+        send_message(ERR_NOTEXTTOSEND(client->getNickname()), fd);
         return ;
     }
     for (size_t i = 0; i < receivers.size(); i++)
     {
         if (!seen.insert(receivers[i]).second)
         {
-            send_message(client,ERR_TOOMANYTARGETS(receivers[i]));
+            send_message(ERR_TOOMANYTARGETS(receivers[i]), fd);
         }
         else if (receivers[i][0] == '&' || receivers[i][0] == '#')
         {
             Channel *channel = server->getChannel(receivers[i]);
             if (!channel)
             {
-                send_message(client, ERR_NOSUCHNICK(client->getNickname(), receivers[i]));
+                send_message(ERR_NOSUCHNICK(client->getNickname(), receivers[i]), fd);
             }
         }
         else
         {
-            Client *client = server->getClient(receivers[i]);
-            if (!client)
+            Client *client2 = server->getClient(receivers[i]);
+            if (!client2)
             {
-                send_message(client, ERR_NOSUCHNICK(client->getNickname(), receivers[i]));
+                send_message(ERR_NOSUCHNICK(client->getNickname(), receivers[i]), fd);
+            }
+            else 
+            {
+                send_message(RPL_PRIVMSG(client->getNickname(), client->getUsername(),receivers[i], msg), client2->getFd());
             }
 
         }
