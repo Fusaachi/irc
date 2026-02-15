@@ -47,9 +47,7 @@ std::vector<std::string> get_nicknames(std::string arg)
         if (!arg[i] || isspace(arg[i]))
             break;        
         i++;
-
     }
-
     return (nicknames);
 }
 

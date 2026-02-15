@@ -15,7 +15,7 @@ class Commands
 		void NICK(Server *server, int fd, std::string nick);
 		void PART(Server *server, int fd, std::string arg);
 		void PASS(Server *server, int fd, std::string password);
-		void PING(Server *server, int fd, std::string user);
+		void PING(Server *server, int fd, std::string arg);
 		void PRIVMSG(Server *server, int fd, std::string user);
 		void QUIT(Server *server, int fd, std::string reason);
 		void TOPIC(Server *server, int fd, std::string user);

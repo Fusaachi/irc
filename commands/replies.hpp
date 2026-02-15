@@ -30,5 +30,6 @@
 
 
 
-#define MSG_QUIT(reason) "Quit: " + reason 
+#define MSG_QUIT(reason) "Quit: " + reason + "\r\n"
 #define MSG_NICK(oldnickname, username, cmd, nickname) ":" + oldnickname + "!" + username + "@server " + cmd + " " + nickname + "\r\n"
+#define PONG(message) "localhost :" + message + "\r\n"
