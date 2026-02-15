@@ -66,7 +66,7 @@ std::string get_reason(std::string arg)
     if (!arg[i] && arg[i] != ':')
         return (NULL);
     i++;
-    while (arg[i] && arg[i] != ' ')
+    while (arg[i])
     {
         name += arg[i];
         i++;
@@ -124,8 +124,8 @@ void Commands::KICK(Server *server, int fd, std::string arg)
             send_message(client, ERR_NOTONCHANNEL(client->getNickname(), channel_name));
         else if(!channel->isOperator(fd))
             send_message(client, ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name));
-        else if(!server->isClientIsInServer(nicknames[i]))
-            send_message(client, ERR_NOSUCHNICK(client->getNickname(), nicknames[i]));
+        // else if(!server->isClientIsInServer(nicknames[i]))
+        //     send_message(client, ERR_NOSUCHNICK(client->getNickname(), nicknames[i]));
         else if(!channel->isClient(nicknames[i]))
             send_message(client, ERR_USERNOTINCHANNEL(nicknames, channel_name));
         channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], reason));
