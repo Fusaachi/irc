@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/12 16:15:50 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 12:59:14 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_epoll
 	
 }t_epoll;
 
-void send_message(Client *client, std::string const &message);
+void send_message(std::string const &message, int fd);
 
 class Client;
 
@@ -72,14 +72,18 @@ public:
 	void		closeFds();
 	void 		run();
 
-	Client *getClient(int fd){return this->_clients[fd];};
+	Client *getClient(int fd);
 	std::map<int, Client*> &getClients(){return this->_clients;};
-	Channel *getChannel(std::string name){return this->_channels[name];};
+	Channel *getChannel(std::string name);
 	std::map<std::string, Channel*> &getChannels(){return this->_channels;};
+	
+	Client *getClientExist(std::string name);
 	
 	std::string getPassword() {return _password;};
 	Server&operator=(const Server &rhs);
 	~Server();
+
+	void removeChannel(std::string channel_name);
 };
 
 

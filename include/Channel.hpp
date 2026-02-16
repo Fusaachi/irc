@@ -26,13 +26,14 @@ class Channel
 		bool					_inviteOnly;
 		bool					_isTopicSet;
 		bool					_topicRestricted;
+		bool					_modeT;
 
 
 	public :
 		Channel(std::string name, int fd);
 		~Channel();
 		std::string getChannelName(){return (this->_name);};
-		std::string getTopic(){return (this->_topic);};
+		std::string getTopic();
 		std::string getPwd(){return (this->_pwd);};
 		size_t getNbUser(){return (this->_nbUser);};
 		size_t getMaxUser(){return (this->_maxUser);};
@@ -42,6 +43,11 @@ class Channel
 		bool isInviteOnly(){return (this->_inviteOnly);};
 		bool isTopicSet(){(this->_isTopicSet);};
 		bool isTopicRestricted(){return (this->_topicRestricted);};
+		bool isEmpty();
+		bool isOperator(int fd);
+		bool isInvited(int fd);
+		bool isModeT();
+		
 	
 	
 
@@ -53,9 +59,8 @@ class Channel
 		void setHasUserLimit(bool boolean);
 		void setInviteOnly(bool boolean);
 		void setTopicRestricted(bool boolean);
-
-
-		
+		void part(int fd);
+		void kick(std::string name);
 
 
 };
