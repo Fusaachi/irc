@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 13:00:27 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 13:07:17 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,16 @@ Client *Server::getClient(int fd)
 	return (NULL);
 }
 
+Client *Server::getClient(std::string name)
+{
+	for (std::map<int, Client *>::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+	{
+		if (it->second->getNickname() == name)
+			return (it->second);
+	}
+	return (NULL);
+}
+
 Channel *Server::getChannel(std::string name)
 {
 	for (std::map<std::string, Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
@@ -146,15 +156,7 @@ Channel *Server::getChannel(std::string name)
 	return (NULL);
 }
 
-Client *Server::getClientExist(std::string name)
-{
-	for (std::map<int, Client *>::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
-	{
-		if (it->second->getNickname() == name)
-			return (it->second);
-	}
-	return (NULL);
-}
+
 Server::~Server()
 {
 	
