@@ -87,11 +87,12 @@ void Commands::PART(Server *server, int fd, std::string arg)
             {
                 reason = " : " + reason;
             }
+            channel->removeUser(client->getNickname());
             channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason));
             if (channel->isEmpty())
             {
                 delete(channel);
-                server->removeChannel(channel->getChannelName());
+                server->removeChannel(name);
             }
 
         }
