@@ -80,7 +80,13 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             channel = server->addChannel(channel_names[i], fd);
             continue;
         }
-            
+        if (channel->hasModeI() && !channel->isInvited(fd))
+        {
+            send_message(ERR_INVITEONLYCHAN(client->getNickname(), channel_names[i]), fd);
+            return ;
+        }
+
+    
         
     }
 
