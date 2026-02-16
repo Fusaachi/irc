@@ -105,6 +105,12 @@ bool Channel::isModeT()
 	return(false);
 }
 
+void Channel::inviteClient(int fd)
+{
+	if (this->isInvited(fd))
+		this->_fdInvited.push_back(fd);
+}
+
 void Channel::part(int fd)
 {
 	for(std::map<int, Client *>::iterator it = this->_fdClients.begin(); it != this->_fdClients.end(); it++ )
@@ -138,19 +144,48 @@ void Channel::part(int fd)
 			}
 		}
 	}
+	this->_nbUser--;
 }
 
-void Channel::kick(std::string name)
+void Channel::delUser(std::string name)
 {
 	for(std::map<int, Client *>::iterator it = this->_fdClients.begin(); it != this->_fdClients.end(); it++ )
 	{
 		if (it->second->getNickname() == name)
 		{
+			if (isOperator(it->first))
+			{
+				for (std::vector<int>::iterator it2 = this->_fdOperators.begin(); it2 != this->_fdOperators.end(); it2++)
+				{
+					if (*it2 == it->first)
+					{
+						it2 = this->_fdOperators.erase(it2);
+						break;
+					}
+				}
+			}
 			it = this->_fdClients.erase(it);
 			break;
 		}
 	}
-	
+	this->_nbUser--;
 }
 
+void Channel::addOperator(int fd)
+{
+	if (this->isOperator(fd) == false)
+		this->_fdOperators.push_back(fd);
+}
+
+void Channel::delOperator(int fd)
+{
+	if (this->isOperator(fd) == true)
+	{
+		for (std::vector<int>::iterator it = this->_fdOperators.begin(); it != this->_fdOperators.end(); it++)
+		{
+			if (*it == fd)
+				it = this->_fdOperators.erase(it);
+		}
+	}
+}
 
