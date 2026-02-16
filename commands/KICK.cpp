@@ -114,11 +114,13 @@ void Commands::KICK(Server *server, int fd, std::string arg)
             channel_name = channel_names[0];
         else
             channel_name = channel_names[i];
-        std::map<std::string, Channel*>::iterator it = server->getChannels().find(channel_name);
-        Channel *channel = it->second;
+        // std::map<std::string, Channel*>::iterator it = server->getChannels().find(channel_name);
+        // Channel *channel = it->second;
+        Channel *channel = getChannel(channel_name);
         if (!is_good_channel_mask(channel_name))
             send_message(ERR_BADCHANMASK(channel_name, client->getNickname()), fd);
-        else if (it == server->getChannels().end())
+        // else if (it == server->getChannels().end())
+        else if (!)
             send_message(ERR_NOSUCHCHANNEL(client->getNickname(), channel_name), fd);
         else if (!channel->isClient(fd))
             send_message(ERR_NOTONCHANNEL(client->getNickname(), channel_name), fd);

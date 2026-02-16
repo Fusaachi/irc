@@ -66,13 +66,15 @@ void Commands::PART(Server *server, int fd, std::string arg)
     std::string reason = get_reason(arg);
     for (std::string name : channel_names)
     {
-        std::map<std::string, Channel*>::iterator it = server->getChannels().find(name);
-	    if (it == server->getChannels().end())
+        // std::map<std::string, Channel*>::iterator it = server->getChannels().find(name);
+        Channel *channel = getChannel(name);
+	    // if (it == server->getChannels().end())
+        if (!channel)
         {
            send_message(ERR_NOSUCHCHANNEL(client->getNickname(), name), fd);
            return;
         }
-        Channel *channel = it->second;
+        // Channel *channel = it->second;
 		if (!channel->isClient(client->getFd()))
 		{
 			send_message(ERR_NOTONCHANNEL(client->getNickname(), name), fd);
