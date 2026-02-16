@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 13:06:54 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 16:30:51 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_epoll
 	
 }t_epoll;
 
-void send_message(std::string const &message, int fd);
+
 
 class Client;
 
@@ -69,6 +69,7 @@ public:
 	void		acceptNewClient();
 	void		receiveData(int fd);
 	void		clientDisconnect(int fd);
+	void		send_message(std::string const &message, int fd);
 	void		closeFds();
 	void 		run();
 
@@ -78,7 +79,7 @@ public:
 	Channel *getChannel(std::string name);
 	std::map<std::string, Channel*> &getChannels(){return this->_channels;};
 	
-	
+	Channel *addChannel(std::string channelName, Client *client);
 	
 	std::string getPassword() {return _password;};
 	Server&operator=(const Server &rhs);

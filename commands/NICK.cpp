@@ -1,5 +1,4 @@
-#include "Server.hpp"
-#include "Client.hpp"
+#include "../include/Server.hpp"
 #include "errors.hpp"
 #include "replies.hpp"
 #include "../include/Commands.hpp"
@@ -8,7 +7,7 @@ bool is_good_nick(std::string nick)
 {
     if(!isalpha(nick[0]))
         return (false);
-    for (int i = 1; i < nick.size(); i++)
+    for (size_t i = 1; i < nick.size(); i++)
     {
         if (!(isalnum(nick[i]) || nick[i]== '-' || nick[i]== '[' || nick[i]== ']' || nick[i]== '\\' || nick[i]== '`' || nick[i]== '^' || nick[i]== '{' || nick[i]== '}'))
             return (false);

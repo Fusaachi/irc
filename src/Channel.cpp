@@ -1,7 +1,7 @@
 
-#include "Server.hpp"
+#include "../include/Server.hpp"
 
-Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fd(fd), _inviteOnly(false), _topicRestricted(false), _hasUserLimit(false), _hasPwd(false),_nbUser(1), _maxUser(1), _modeT(false)
+Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fdCreator(fd), _nbUser(1), _maxUser(1), _hasUserLimit(false), _hasPwd(false), _inviteOnly(false), _topicRestricted(false),  _modeT(false)
 {
 
 }
@@ -39,6 +39,7 @@ void Channel::setChannelName(std::string name)
 {
 	this->_name = name;
 }
+
 
 void Channel::setTopic(std::string topic)
 {
@@ -82,7 +83,7 @@ bool	Channel::isOperator(int fd)
 {
 	for (std::vector<int>::iterator it = this->_fdOperators.begin(); it != this->_fdOperators.end(); it++)
 	{
-		if (*it = fd)
+		if (*it == fd)
 			return (true);
 	}
 	return false;
@@ -92,7 +93,7 @@ bool Channel::isInvited(int fd)
 {
 	for (std::vector<int>::iterator it = this->_fdInvited.begin(); it != this->_fdInvited.end(); it++)
 	{
-		if (*it = fd)
+		if (*it == fd)
 			return (true);
 	}
 	return false;
@@ -109,18 +110,13 @@ void Channel::inviteClient(int fd)
 {
 	if (this->isInvited(fd))
 		this->_fdInvited.push_back(fd);
+	this->_nbUser++;
 }
 
 void Channel::part(int fd)
 {
-	for(std::map<int, Client *>::iterator it = this->_fdClients.begin(); it != this->_fdClients.end(); it++ )
-	{
-		if (it->first == fd)
-		{
-			it = this->_fdClients.erase(it);
-			break;
-		}
-	}
+	if (this->_fdClients.erase(fd) == 0)
+        std::cout << "Fd client " << fd << " doesn't exist.\n";
 	if (isOperator(fd))
 	{
 		for(std::vector<int>::iterator it = this->_fdOperators.begin(); it != this->_fdOperators.end(); it++ )
@@ -164,7 +160,7 @@ void Channel::delUser(std::string name)
 					}
 				}
 			}
-			it = this->_fdClients.erase(it);
+			this->_fdClients.erase(it);
 			break;
 		}
 	}
@@ -189,3 +185,11 @@ void Channel::delOperator(int fd)
 	}
 }
 
+void Channel::addClient(Client *client)
+{
+	if (this->_fdCreator == client->getFd() || (this->isInvited(client->getFd()) && this->getNbUser() < this->getMaxUser()))
+	{
+		this->_fdClients.insert(std::make_pair(client->getFd(), client));
+		this->_nbUser++;
+	}	
+}

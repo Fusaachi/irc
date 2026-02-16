@@ -2,6 +2,9 @@
 #	define __CHANEL_HPP
 
 #include "Server.hpp"
+#include <map>
+#include <vector>
+#include <iostream>
 
 class Client;
 
@@ -11,7 +14,7 @@ class Channel
 		std::string				_name;
 		std::string				_topic;
 		std::string				_pwd;
-		int 					_fd;
+		int 					_fdCreator;
 
 		std::map<int, Client *>	_fdClients;
 		std::vector<int>		_fdOperators;
@@ -35,13 +38,16 @@ class Channel
 		std::string getChannelName(){return (this->_name);};
 		std::string getTopic();
 		std::string getPwd(){return (this->_pwd);};
+		int			getFdCreator() {return (this->_fdCreator);};
+		std::vector<int> &getFdOperators(){return (this->_fdOperators);};
+
 		size_t getNbUser(){return (this->_nbUser);};
 		size_t getMaxUser(){return (this->_maxUser);};
 		bool hasUserLimit(){return (this->_hasUserLimit);};
 		bool getHasPwd();
 		bool isClient(int fd);
 		bool isInviteOnly(){return (this->_inviteOnly);};
-		bool isTopicSet(){(this->_isTopicSet);};
+		bool isTopicSet(){return (this->_isTopicSet);};
 		bool isTopicRestricted(){return (this->_topicRestricted);};
 		bool isEmpty();
 		bool isOperator(int fd);
@@ -65,6 +71,7 @@ class Channel
 		void delUser(std::string name);
 		void addOperator(int fd);
 		void delOperator(int fd);
+		void addClient(Client *client);
 
 
 };
