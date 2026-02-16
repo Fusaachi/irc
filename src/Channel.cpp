@@ -40,6 +40,7 @@ void Channel::setChannelName(std::string name)
 	this->_name = name;
 }
 
+
 void Channel::setTopic(std::string topic)
 {
 	this->_topic = topic;
@@ -109,6 +110,7 @@ void Channel::inviteClient(int fd)
 {
 	if (this->isInvited(fd))
 		this->_fdInvited.push_back(fd);
+	this->_nbUser++;
 }
 
 void Channel::part(int fd)
@@ -183,3 +185,11 @@ void Channel::delOperator(int fd)
 	}
 }
 
+void Channel::addClient(Client *client)
+{
+	if (this->_fdCreator == client->getFd() || (this->isInvited(client->getFd()) && this->getNbUser() < this->getMaxUser()))
+	{
+		this->_fdClients.insert(std::make_pair(client->getFd(), client));
+		this->_nbUser++;
+	}	
+}

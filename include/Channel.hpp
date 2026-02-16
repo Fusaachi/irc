@@ -71,6 +71,7 @@ class Channel
 		void delUser(std::string name);
 		void addOperator(int fd);
 		void delOperator(int fd);
+		void addClient(Client *client);
 
 
 };
