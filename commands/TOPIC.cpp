@@ -2,10 +2,37 @@
 #include "errors.hpp"
 #include "replies.hpp"
 
+std::string get_channel_name(std::string arg)
+{
+    int i = 0
+    std::string name;
+    while(arg[i] && !isspace(arg[i]))
+    {
+        name +=arg[i];
+        i++;
+    }
+    return (name);
+}
+std::string get_topic(std::string arg)
+{
+    std::string topic;
+    size_t space = arg.find(' ');
+    if (space == std::string::npos)
+        return (NULL);
+    else
+    {
+        topic = args.substr(space + 1);
+        if (!topic.empty() && topic[0] == ':')
+        topic = topic.substr(1);
+        return (topic);
+    }
+}
+
+
 void Commands::TOPIC(Server *server, int fd, std::string arg)
 {
-    std::string channel_name;
-    std::string topic;
+    std::string channel_name = get_channel_name(arg);
+    std::string topic = get_topic(arg);
     if (channel_name.empty())
     {
         send_message(ERR_NEEDMOREPARAMS("TOPIC"), fd);
