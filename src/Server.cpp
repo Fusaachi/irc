@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 15:05:01 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 16:03:31 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void Server::run()
 	}
 }
 
-void send_messages(std::string const &message, int fd)
+void Server::send_message(std::string const &message, int fd)
 {
 	std::string tmp = message;
 	if (tmp.size() > 510)
@@ -116,13 +116,8 @@ void Server::closeFds()
 
 void Server::removeChannel(std::string channelName)
 {
-	for (std::map<std::string, Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
-	{
-		if (it->first == channelName)
-		{
-			it = _channels.erase(it);
-		}
-	}
+	if (this->_channels.erase(channelName) == 0)
+        std::cout << "Channel " << channelName << " doesn't exist.\n";
 }
 
 Client *Server::getClient(int fd)

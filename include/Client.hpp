@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 10:07:05 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 15:22:28 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "Server.hpp"
 #include <iostream>
+#include <vector>
 
 class Server;
 //class Channel;
@@ -75,7 +76,7 @@ class Client
 
 		void appendData(std::string new_data);
 		std::string getData(){return this->_data;};
-		std::vector<std::pair<std::string , std::string>> splitBuffer(std::string const &buffer);
+		std::vector<std::pair<std::string , std::string> > splitBuffer(std::string const &buffer);
 		std::pair<std::string, std::string> pair(std::string command, std::string args);
 		~Client();
 };

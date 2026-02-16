@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 10:08:23 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 15:36:19 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ void Client::appendData(std::string new_data)
 	this->_data += new_data;
 }
 
-std::vector<std::pair<std::string , std::string>> Client::splitBuffer(std::string const &buffer)
+std::vector<std::pair<std::string , std::string> > Client::splitBuffer(std::string const &buffer)
 {
-	std::vector<std::pair<std::string, std::string>> result;
+	std::vector<std::pair<std::string, std::string> > result;
 	size_t start = 0;
 	size_t end = buffer.find("\r\n");
 	while (end != std::string::npos)

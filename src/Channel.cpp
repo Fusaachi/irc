@@ -1,7 +1,7 @@
 
-#include "Server.hpp"
+#include "../include/Server.hpp"
 
-Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fd(fd), _inviteOnly(false), _topicRestricted(false), _hasUserLimit(false), _hasPwd(false),_nbUser(1), _maxUser(1), _modeT(false)
+Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fdCreator(fd), _nbUser(1), _maxUser(1), _hasUserLimit(false), _hasPwd(false), _inviteOnly(false), _topicRestricted(false),  _modeT(false)
 {
 
 }
@@ -82,7 +82,7 @@ bool	Channel::isOperator(int fd)
 {
 	for (std::vector<int>::iterator it = this->_fdOperators.begin(); it != this->_fdOperators.end(); it++)
 	{
-		if (*it = fd)
+		if (*it == fd)
 			return (true);
 	}
 	return false;
@@ -92,7 +92,7 @@ bool Channel::isInvited(int fd)
 {
 	for (std::vector<int>::iterator it = this->_fdInvited.begin(); it != this->_fdInvited.end(); it++)
 	{
-		if (*it = fd)
+		if (*it == fd)
 			return (true);
 	}
 	return false;
@@ -113,14 +113,8 @@ void Channel::inviteClient(int fd)
 
 void Channel::part(int fd)
 {
-	for(std::map<int, Client *>::iterator it = this->_fdClients.begin(); it != this->_fdClients.end(); it++ )
-	{
-		if (it->first == fd)
-		{
-			it = this->_fdClients.erase(it);
-			break;
-		}
-	}
+	if (this->_fdClients.erase(fd) == 0)
+        std::cout << "Fd client " << fd << " doesn't exist.\n";
 	if (isOperator(fd))
 	{
 		for(std::vector<int>::iterator it = this->_fdOperators.begin(); it != this->_fdOperators.end(); it++ )
@@ -164,7 +158,7 @@ void Channel::delUser(std::string name)
 					}
 				}
 			}
-			it = this->_fdClients.erase(it);
+			this->_fdClients.erase(it);
 			break;
 		}
 	}
