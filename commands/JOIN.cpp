@@ -74,10 +74,14 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             continue;
 
         }
-        Channel *channel = server->getChannel(channel_name);
+        Channel *channel = server->getChannel(channel_names[i]);
         if (!channel)
-            // channel = server->addChannel(channel_name)
-            // channel = server->createChannel(channel_name, client);
+        {
+            channel = server->addChannel(channel_names[i], fd);
+            continue;
+        }
+            
+        
     }
 
     
