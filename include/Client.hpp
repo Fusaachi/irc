@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/12 12:51:57 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 10:07:05 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class Client
 		bool	_hasNickname;
 		bool	_hasUsername;
 		bool	_register;
+		bool	_operator;
 
 	public:
 		Client(int fd);
@@ -56,6 +57,7 @@ class Client
 		bool	getHasNickname(){return _hasNickname;};
 		bool	getHasUsername(){return _hasUsername;};
 		bool	isRegister(){return _register;};
+		bool	isOperator(){return _operator;};
 
 		
 		void	setNickname(std::string const &nickname);
@@ -69,6 +71,7 @@ class Client
 		void	setHasUsername(bool boolean);
 		void	setHasNickname(bool boolean);
 		void	setIsRegister(bool boolean);
+		void	setIsOperator(bool boolean);
 
 		void appendData(std::string new_data);
 		std::string getData(){return this->_data;};

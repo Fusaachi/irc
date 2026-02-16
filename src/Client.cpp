@@ -6,14 +6,14 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/12 12:54:30 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 10:08:23 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Client.hpp"
 
 
-Client::Client(int fd) : _nickname(""), _username(""), _realname(""), _message(""), _data(""), _hostname(""), _clientAddr(""), _fd(fd), _hasPwd(false), _hasNickname(false), _hasUsername(false), _register(false)
+Client::Client(int fd) : _nickname(""), _username(""), _realname(""), _message(""), _data(""), _hostname(""), _clientAddr(""), _fd(fd), _hasPwd(false), _hasNickname(false), _hasUsername(false), _register(false), _operator(false)
 {
 }
 
@@ -88,6 +88,11 @@ void Client::setHasPassword(bool boolean)
 void Client::setIsRegister(bool boolean)
 {
 	this->_register = boolean;
+}
+
+void Client::setIsOperator(bool boolean)
+{
+	this->_operator = boolean;
 }
 
 void Client::appendData(std::string new_data)

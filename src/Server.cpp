@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/12 16:17:21 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 13:07:17 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ void Server::run()
 	}
 }
 
-void send_messages(Client *client, std::string const &message)
+void send_messages(std::string const &message, int fd)
 {
 	std::string tmp = message;
 	if (tmp.size() > 510)
 		tmp = tmp.substr(0, 510) + "\r\n";
-	send(client->getFd(), tmp.c_str(), tmp.size(), 0);
+	send(fd, tmp.c_str(), tmp.size(), 0);
 }
 
 void Server::closeFds()
@@ -113,7 +113,53 @@ void Server::closeFds()
 	if (this->_fd == -1)
 		close(this->_fd);
 }
+
+void Server::removeChannel(std::string channelName)
+{
+	for (std::map<std::string, Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+	{
+		if (it->first == channelName)
+		{
+			
+			it = _channels.erase(it);
+		}
+	}
+}
+
+Client *Server::getClient(int fd)
+{
+	for (std::map<int, Client *>::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+	{
+		if (it->first == fd)
+			return (it->second);
+	}
+	return (NULL);
+}
+
+Client *Server::getClient(std::string name)
+{
+	for (std::map<int, Client *>::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
+	{
+		if (it->second->getNickname() == name)
+			return (it->second);
+	}
+	return (NULL);
+}
+
+Channel *Server::getChannel(std::string name)
+{
+	for (std::map<std::string, Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+	{
+		if (it->first == name)
+			return (it->second);
+	}
+	return (NULL);
+}
+
+
 Server::~Server()
 {
 	
 }
+
+
