@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 16:41:20 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 16:46:57 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,10 +151,11 @@ Channel *Server::getChannel(std::string name)
 }
 Channel *Server::addChannel(std::string channelName, Client * client)
 {
-	Channel channel(channelName, client->getFd());
-	channel.addOperator(client->getFd());
-	channel.addClient(client);
-	return (&channel);
+	Channel *channel = new Channel(channelName, client->getFd());
+	channel->addOperator(client->getFd());
+	channel->addClient(client);
+	this->_channels[channelName] = channel;
+	return (channel);
 }
 
 Server::~Server()
