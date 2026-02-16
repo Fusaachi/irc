@@ -59,8 +59,12 @@ class Channel
 		void setHasUserLimit(bool boolean);
 		void setInviteOnly(bool boolean);
 		void setTopicRestricted(bool boolean);
+
+		void inviteClient(int fd);
 		void part(int fd);
-		void kick(std::string name);
+		void delUser(std::string name);
+		void addOperator(int fd);
+		void delOperator(int fd);
 
 
 };

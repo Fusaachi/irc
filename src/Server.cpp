@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 13:07:17 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 15:05:01 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void Server::removeChannel(std::string channelName)
 	{
 		if (it->first == channelName)
 		{
-			
 			it = _channels.erase(it);
 		}
 	}
