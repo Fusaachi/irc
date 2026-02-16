@@ -33,6 +33,7 @@ void Commands::TOPIC(Server *server, int fd, std::string arg)
 {
     std::string channel_name = get_channel_name(arg);
     std::string topic = get_topic(arg);
+    Client *client = server->getClient(fd);
     if (channel_name.empty())
     {
         send_message(ERR_NEEDMOREPARAMS("TOPIC"), fd);
