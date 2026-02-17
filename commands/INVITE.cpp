@@ -18,7 +18,29 @@ void Commands::INVITE(Server *server, int fd, std::string arg)
     if (!client2)
     {
         server->sendMessage(ERR_NOSUCHNICK(client->getNickname(), nickname), fd);
+        return ;
     }
+    Channel *channel = server->getChannel(channel_name);
+    if (channel)
+    {
+        if (channel->isClient(nickname))
+        {
+            server->sendMessage(ERR_USERONCHANNEL(client->getNickname(), nickname, channel_name), fd);
+            return ; 
+        }
+        if (channel->isInviteOnly() && !channel->isClient(client->getNickname()))
+        {
+            server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), nickname), fd);
+            return ;
+        }
+        if (channel->isInviteOnly() && !channel->isOperator(fd))
+        {
+            server->sendMessage(ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name), fd);
+            return ;
+        }
+    }
+    server->sendMessage(RPL_INVITING(client->getNickname(), nickname, channel_name), fd);
+
 
 
 }
