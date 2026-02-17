@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 17:23:07 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 10:39:30 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	Server::receiveData(int fd)
 		{
 			std::string command = this->_clients[fd]->getData().substr(0, i + 2);
 			std::vector<std::pair<std::string,std::string> > commands =  this->_clients[fd]->splitBuffer(command);
-		}
+			for (size_t j = 0; j < commands.size(); j++)
+   				_commands.execute_commands(this, fd, commands[j]);
+		}		
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 17:22:45 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 10:41:02 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "Client.hpp"
 #include "Channel.hpp"
+#include "Commands.hpp"
 #include "Colors.hpp"
 #include <iostream>
 #include <cstdlib>
@@ -44,6 +45,7 @@ typedef struct s_epoll
 
 
 class Client;
+class Commands;
 
 class Server
 {
@@ -56,6 +58,8 @@ private:
 	static bool 			_Signal;
 	
 	t_epoll					_epoll;
+
+	Commands				_commands;
 
 	std::map<int, Client*> 	_clients;
 	std::vector<int>		_fds;
@@ -70,7 +74,7 @@ public:
 	void					acceptNewClient();
 	void					receiveData(int fd);
 	void					clientDisconnect(int fd);
-	void					send_message(std::string const &message, int fd);
+	void					sendMessage(std::string const &message, int fd);
 	void					closeFds();
 	void 					run();
 	void 					removeChannel(std::string channel_name);
