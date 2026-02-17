@@ -67,7 +67,7 @@ void Commands::PART(Server *server, int fd, std::string arg)
     for (std::string name : channel_names)
     {
         // std::map<std::string, Channel*>::iterator it = server->getChannels().find(name);
-        Channel *channel = getChannel(name);
+        Channel *channel = server->getChannel(name);
 	    // if (it == server->getChannels().end())
         if (!channel)
         {
@@ -87,7 +87,7 @@ void Commands::PART(Server *server, int fd, std::string arg)
             {
                 reason = " : " + reason;
             }
-            channel->removeUser(client->getNickname());
+            channel->delUser(client->getNickname());
             channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason));
             if (channel->isEmpty())
             {
