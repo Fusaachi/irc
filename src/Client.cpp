@@ -6,14 +6,14 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 17:23:00 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 11:32:30 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Client.hpp"
 
 
-Client::Client(int fd) : _nickname(""), _username(""), _realname(""), _message(""), _data(""), _hostname(""), _clientAddr(""), _fd(fd), _hasPwd(false), _hasNickname(false), _hasUsername(false), _register(false), _operator(false)
+Client::Client(int fd) : _nickname(""), _username(""), _realname(""), _message(""), _data(""), _hostname(""), _clientAddr(""), _fd(fd), _hasPwd(false), _hasNickname(false), _hasUsername(false), _register(false), _operator(false), _hasMaxChannel(false)
 {
 }
 
@@ -32,6 +32,11 @@ Client& Client::operator=(const Client& rhs)
 
 Client::~Client()
 {
+}
+
+int Client::getNbChannel()
+{
+	return (this->_channels.size());
 }
 
 
@@ -95,6 +100,10 @@ void Client::setIsOperator(bool boolean)
 	this->_operator = boolean;
 }
 
+void Client::setHasMaxChannel(bool boolean)
+{
+	this->_hasMaxChannel = boolean;
+}
 void Client::appendData(std::string new_data)
 {
 	this->_data += new_data;
