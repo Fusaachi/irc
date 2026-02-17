@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 17:21:20 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 11:07:24 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define	__CLIENT_HPP
 
 #include "Server.hpp"
-#include <iostream>
-#include <vector>
+#include "Other.hpp"
 
 class Server;
 class Channel;

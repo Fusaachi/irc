@@ -6,15 +6,16 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:21:30 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 10:41:16 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 11:07:16 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+#ifndef __COMMANDS_HPP
+ #define __COMMANDS_HPP
 
+#include "Other.hpp"
 
 class Server;
-class Client;
 
 class Commands
 {
@@ -37,3 +38,5 @@ class Commands
 		Commands();
 		void executeCommands(Server *server, int fd, std::pair<std::string, std::string> command);
 };
+
+#endif
