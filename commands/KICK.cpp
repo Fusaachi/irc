@@ -130,7 +130,7 @@ void Commands::KICK(Server *server, int fd, std::string arg)
         //     server->sendMessage(client, ERR_NOSUCHNICK(client->getNickname(), nicknames[i]));
         else if(!channel->isClient(nicknames[i]))
             server->sendMessage(ERR_USERNOTINCHANNEL(nicknames[i], channel_name), fd);
-        channel->removeUser(nicknames[i]);
+        channel->delUser(nicknames[i]);
         channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], reason));
     }
 }
