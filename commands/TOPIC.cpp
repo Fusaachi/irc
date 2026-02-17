@@ -4,7 +4,7 @@
 
 std::string get_channel_name(std::string arg)
 {
-    int i = 0
+    int i = 0;
     std::string name;
     while(arg[i] && !isspace(arg[i]))
     {
