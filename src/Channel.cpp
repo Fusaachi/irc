@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 17:22:57 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 11:13:01 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ bool Channel::isClient(int fd)
 	for(std::map<int, Client *>::iterator it = this->_fdClients.begin(); it != this->_fdClients.end(); it++)
 	{
 		if (it->first == fd)
+			return (true);
+	}
+	return (false);
+}
+
+bool Channel::isClient(std::string nickname)
+{
+	for(std::map<int, Client *>::iterator it = this->_fdClients.begin(); it != this->_fdClients.end(); it++)
+	{
+		if (it->second->getNickname() == nickname)
 			return (true);
 	}
 	return (false);
