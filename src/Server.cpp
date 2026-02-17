@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 16:46:57 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 10:41:24 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void Server::run()
 	}
 }
 
-void Server::send_message(std::string const &message, int fd)
+void Server::sendMessage(std::string const &message, int fd)
 {
 	std::string tmp = message;
 	if (tmp.size() > 510)
