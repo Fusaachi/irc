@@ -4,6 +4,29 @@
 #include "replies.hpp"
 #include "../include/Commands.hpp"
 
+std::string get_nickname(std::string const &arg)
+{
+    std::string nickname;
+    size_t pos = arg.find(' ');
+    if (pos != std::string::npos)
+    {
+        nickname = arg.substr(0, pos);
+        return nickname;
+    }
+    return (arg);
+}
+
+std::string get_channel_name(std::string const &arg)
+{
+    std::string channel_name;
+    size_t pos = arg.find(' ');
+    if (pos != std::string::npos)
+    {
+        channel_name = arg.substr(pos +1);
+    }
+    return (channel_name);
+}
+
 void Commands::INVITE(Server *server, int fd, std::string arg)
 {
     std::string channel_name;
