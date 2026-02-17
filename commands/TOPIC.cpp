@@ -21,7 +21,7 @@ std::string get_topic(std::string arg)
         return (NULL);
     else
     {
-        topic = args.substr(space + 1);
+        topic = arg.substr(space + 1);
         if (!topic.empty() && topic[0] == ':')
         topic = topic.substr(1);
         return (topic);
@@ -36,30 +36,30 @@ void Commands::TOPIC(Server *server, int fd, std::string arg)
     Client *client = server->getClient(fd);
     if (channel_name.empty())
     {
-        send_message(ERR_NEEDMOREPARAMS("TOPIC"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS("TOPIC"), fd);
         return ;
     }
-    Channel *channel = getChannel(channel_name)
+    Channel *channel = server->getChannel(channel_name);
     if (!channel)
-        send_message(ERR_NOSUCHCHANNEL(client->getNickname(), channel_name), fd);
+        server->sendMessage(ERR_NOSUCHCHANNEL(client->getNickname(), channel_name), fd);
     else if (!channel->isClient(fd))
     {
-        send_message(ERR_NOTONCHANNEL(client->getNickname(), channel_name), fd);
+        server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), channel_name), fd);
         return ;
 
     }
-    std::string actual_topic = channel.getTopic();
-    if (!actual_topic && topic.empty())
+    std::string actual_topic = channel->getTopic();
+    if (actual_topic.empty() && topic.empty())
     {
-        send_message(RPL_NOTOPIC(client->getNickname(), channel_name), fd);
+        server->sendMessage(RPL_NOTOPIC(client->getNickname(), channel_name), fd);
     }
     else if (topic.empty())
     {
-        send_message(RPL_TOPIC(client->getNickname(), channel_name, actual_topic), fd);
+        server->sendMessage(RPL_TOPIC(client->getNickname(), channel_name, actual_topic), fd);
     }
-    else if (channel.isModeT() && !channel.isOperator(fd))
+    else if (channel->isModeT() && !channel->isOperator(fd))
     {
-        send_message(ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name), fd);
+        server->sendMessage(ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name), fd);
     }
     else 
     {

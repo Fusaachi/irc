@@ -5,7 +5,7 @@
 void Commands::PING(Server *server, int fd, std::string arg)
 {
     if (arg.empty())
-        send_message(ERR_NOORIGIN(arg), fd);
+        server->sendMessage(ERR_NOORIGIN(arg), fd);
     else 
-        send_message(PONG(arg), fd);
+        server->sendMessage(PONG(arg), fd);
 }

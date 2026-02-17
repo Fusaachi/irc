@@ -42,7 +42,7 @@ std::vector<std::string> get_keys(std::string arg)
             key += arg[i];
             i++;
         }
-        keys.push_back(nickname);
+        keys.push_back(key);
         key = "";
         if (!arg[i] || isspace(arg[i]))
             break;        
@@ -58,31 +58,31 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
 
     if (channel_names.size() == 0)
     {
-        send_message(ERR_NEEDMOREPARAMS("JOIN"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS("JOIN"), fd);
         return ;
     }
     for (int i = 0; i < channel_names.size(); i++)
     {
         if (channel_names[i].empty() || !(channel_names[i][0] == '&' || channel_names[i][0] == '#'))
         {
-            send_message(ERR_BADCHANMASK(channel_names[i], client->getNickname()), fd);
+            server->sendMessage(ERR_BADCHANMASK(channel_names[i], client->getNickname()), fd);
             continue;
         }
-        if (client.getNbrChannel() > MAX_NBR_CHANNEL)
+        if (client->getNbrChannel() > MAX_NBR_CHANNEL)
         {
-            send_message(ERR_TOOMANYCHANNELS(client->getNickname(), channel_names[i]), fd);
+            server->sendMessage(ERR_TOOMANYCHANNELS(client->getNickname(), channel_names[i]), fd);
             continue;
 
         }
         Channel *channel = server->getChannel(channel_names[i]);
         if (!channel)
         {
-            channel = server->addChannel(channel_names[i], fd);
+            channel = server->addChannel(channel_names[i], client);
             continue;
         }
         if (channel->hasModeI() && !channel->isInvited(fd))
         {
-            send_message(ERR_INVITEONLYCHAN(client->getNickname(), channel_names[i]), fd);
+            server->sendMessage(ERR_INVITEONLYCHAN(client->getNickname(), channel_names[i]), fd);
             return ;
         }
 

@@ -8,12 +8,12 @@ void Commands::PASS(Server *server, int fd, std::string password)
     Client *client = server->getClient(fd);
     if (client->getHasPassword())
     {
-        send_message(ERR_ALREADYREGISTERED(), fd);
+        server->sendMessage(ERR_ALREADYREGISTERED(), fd);
         return;
     }
     else if (password.size() == 0)
     {
-        send_message(ERR_NEEDMOREPARAMS("PASS"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS("PASS"), fd);
         return;
     }
     else if (password == server->getPassword())
@@ -23,7 +23,7 @@ void Commands::PASS(Server *server, int fd, std::string password)
     }
     else
     {
-        send_message(ERR_PASSWDMISMATCH(client->getNickname()), fd);
+        server->sendMessage(ERR_PASSWDMISMATCH(client->getNickname()), fd);
         return;
     }
     return;
