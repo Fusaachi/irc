@@ -90,11 +90,24 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             server->sendMessage(ERR_BADCHANNELKEY(client->getNickname(), channel_names[i]), fd);
             continue;
         }
-        if (channel->hasModeL() &&)
+        if (channel->hasUserLimit() && channel->getNbUser() == channel->getMaxUser())
         {
             server->sendMessage(ERR_CHANNELISFULL(client->getNickname(), channel_names[i]), fd);
             continue;
         }
+        channel->addClient(client);
+        channel->broadcast(RPL_JOIN(client->getNickname(), client->getUsername(), "JOIN", channel->getChannelName()));
+        if (channel->getTopic().empty())
+        {
+            server->sendMessage(RPL_NOTOPIC(client->getNickname(), channel_names[i]), fd);
+        }
+        else
+        {
+            server->sendMessage(RPL_TOPIC(client->getNickname(), channel_names[i], channel->getTopic()), fd);
+        }
+        server->sendMessage(RPL_NAMREPLY(client->getNickname(), channel_names[i], channel->getClientList()), fd);
+        server->sendMessage(RPL_ENDOFNAMES(client->getNickname(), channel_names[i]), fd);
+
 
     
         

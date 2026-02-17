@@ -14,7 +14,7 @@
 #define RPL_CAPREQ(args) ":Server CAP * ACK " + args + "\r\n"
 
 #define	RPL_JOIN(nickname, username, cmd, channel) ":" + nickname + "!~" + username + "@server " + cmd + " " + channel + "\r\n"
-#define RPL_ENDOFNAME(nickname, channel) "366 " + std::string(nickname) + " " + std::string(channel) + " :End of /NAMES list\r\n"
+#define RPL_ENDOFNAMES(nickname, channel) "366 " + std::string(nickname) + " " + std::string(channel) + " :End of /NAMES list\r\n"
 #define RPL_NAMREPLY(nickname, channel, userlist) "353 " + std::string(nickname) + " = " + std::string(channel) + " :" + userlist + "\r\n"
 #define RPL_NOTOPIC(nickname, channel)  "331 " + std::string(nickname) + " " + std::string(channel) + " :No topic is set\r\n"
 #define RPL_TOPIC(nickname, channel, topic) "332 " + std::string(nickname) + " " + std::string(channel) + " :" + std::string(topic) + "\r\n"
