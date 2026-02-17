@@ -5,7 +5,7 @@ CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 FILE = main Server Client ClientEvents Channel commandEvent sendErrors
-COMMAND =  NICK PART PASS PING PRIVMSG QUIT TOPIC USER
+COMMAND = INVITE JOIN KICK MODE NICK PART PASS PING PRIVMSG QUIT TOPIC USER
 
 GREEN = \033[1;32m
 BLUE= \033[1;34m
@@ -27,10 +27,10 @@ $(OBJ_DIR)%.o: $(FILE_DIR)%.cpp
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -pthread -c -o $@ $<
 	@echo "$@ : $(GREEN)[OK]$(NC)"
+
 $(OBJ_DIR)%.o: $(COMMAND_DIR)%.cpp
 	@$(CC) $(CFLAGS) -pthread -c -o $@ $<
 	@echo "$@ : $(GREEN)[OK]$(NC)"
-	
 
 $(NAME): $(OBJS) $(OBJS_COMMANDS)
 	@$(CC) $(CFLAGS) $(OBJS) -o  $(NAME)
