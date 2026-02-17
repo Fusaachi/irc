@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 10:41:02 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 11:07:02 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,8 @@
 #include "Client.hpp"
 #include "Channel.hpp"
 #include "Commands.hpp"
-#include "Colors.hpp"
-#include <iostream>
-#include <cstdlib>
-#include <cstring>
-#include <vector>
-#include <sys/socket.h> 
-#include <sys/types.h> 
-#include <netinet/in.h> 
-#include <fcntl.h> 
-#include <unistd.h> 
-#include <arpa/inet.h> 
-#include <poll.h> 
-#include <sys/epoll.h>
-#include <csignal>
-#include <map>
+#include "Other.hpp"
+
 # define MAX_EVENTS  10
 
 typedef struct s_epoll

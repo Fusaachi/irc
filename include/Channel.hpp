@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:19:58 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 17:19:59 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 11:07:29 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 #	define __CHANEL_HPP
 
 #include "Server.hpp"
-#include <map>
-#include <vector>
-#include <iostream>
+#include "Other.hpp"
 
 class Client;
 
