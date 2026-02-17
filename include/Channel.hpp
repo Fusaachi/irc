@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:19:58 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 11:12:18 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:11:58 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,13 @@ class Channel
 		bool					_inviteOnly;
 		bool					_isTopicSet;
 		bool					_topicRestricted;
+		bool					_modeI;
 		bool					_modeT;
+		bool					_modeK;
+		bool					_modeO;
+		bool					_modeL;
+
+
 
 
 	public :
@@ -48,6 +54,7 @@ class Channel
 		std::string				getChannelName(){return (this->_name);};
 		std::string 			getTopic();
 		std::string				getPwd(){return (this->_pwd);};
+		std::string				getClientList();
 		int						getFdCreator() {return (this->_fdCreator);};
 		std::vector<int> &		getFdOperators(){return (this->_fdOperators);};
 
@@ -63,7 +70,11 @@ class Channel
 		bool 					isEmpty();
 		bool 					isOperator(int fd);
 		bool 					isInvited(int fd);
+		bool					isModeI();
 		bool					isModeT();
+		bool					isModeK();
+		bool					isModeO();
+		bool					isModeL();
 		
 	
 	

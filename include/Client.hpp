@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 11:33:16 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:11:42 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ class Client
 		void			setHasMaxChannel(bool boolean);
 
 		void 			appendData(std::string new_data);
+		void			addChannel(Channel *channel);
 		std::string 	getData(){return this->_data;};
 		std::vector<std::pair<std::string , std::string> > splitBuffer(std::string const &buffer);
 		std::pair<std::string, std::string> pair(std::string command, std::string args);

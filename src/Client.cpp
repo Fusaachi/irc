@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 11:32:30 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 13:00:19 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,4 +140,9 @@ std::pair<std::string, std::string> Client::pair(std::string command, std:: stri
 	result.first = command;
 	result.second = args;
 	return (result);
+}
+
+void Client::addChannel(Channel *channel)
+{
+	this->_channels.push_back(channel);
 }

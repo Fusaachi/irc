@@ -6,14 +6,14 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 11:13:01 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:24:06 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/Server.hpp"
 
-Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fdCreator(fd), _nbUser(1), _maxUser(1), _hasUserLimit(false), _hasPwd(false), _inviteOnly(false), _topicRestricted(false),  _modeT(false)
+Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fdCreator(fd), _nbUser(1), _maxUser(1), _hasUserLimit(false), _hasPwd(false), _inviteOnly(false), _topicRestricted(false), _modeI(false), _modeT(false),  _modeK(false),  _modeO(false),  _modeL(false)
 {
 
 }
@@ -55,6 +55,19 @@ std::string Channel::getTopic()
 	if (this->_isTopicSet == true)
 		return this->_topic;
 	return NULL;
+}
+
+std::string Channel::getClientList()
+{
+	std::string clientList;
+
+	for (std::map<int, Client *>::iterator it = this->_fdClients.begin(); it != this->_fdClients.end(); it++)
+	{
+		clientList += it->second->getNickname();
+		if (it != this->_fdClients.end())
+			clientList += " ";
+	}
+	return clientList;
 }
 
 void Channel::setChannelName(std::string name) 
@@ -120,10 +133,33 @@ bool Channel::isInvited(int fd)
 	}
 	return false;
 }
-
+bool Channel::isModeI()
+{
+	if (this->_modeI == true)
+		return (true);
+	return(false);
+}
 bool Channel::isModeT()
 {
 	if (this->_modeT == true)
+		return (true);
+	return(false);
+}
+bool Channel::isModeK()
+{
+	if (this->_modeK == true)
+		return (true);
+	return(false);
+}
+bool Channel::isModeO()
+{
+	if (this->_modeO == true)
+		return (true);
+	return(false);
+}
+bool Channel::isModeL()
+{
+	if (this->_modeL == true)
 		return (true);
 	return(false);
 }
