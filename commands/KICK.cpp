@@ -1,6 +1,7 @@
 #include "errors.hpp"
 #include "../include/Commands.hpp"
 #include "replies.hpp"
+#include "../include/Server.hpp"
 
 std::vector<std::string> get_channel_names(std::string const &arg)
 {

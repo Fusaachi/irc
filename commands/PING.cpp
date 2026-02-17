@@ -1,6 +1,7 @@
 #include "../include/Commands.hpp"
 #include "errors.hpp"
 #include "replies.hpp"
+#include "../include/Server.hpp"
 
 void Commands::PING(Server *server, int fd, std::string arg)
 {

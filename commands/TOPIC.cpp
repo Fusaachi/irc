@@ -1,6 +1,7 @@
 #include "../include/Commands.hpp"
 #include "errors.hpp"
 #include "replies.hpp"
+#include "../include/Server.hpp"
 
 std::string get_channel_name(std::string arg)
 {

@@ -2,6 +2,7 @@
 #include "errors.hpp"
 #include "replies.hpp"
 #include <set>
+#include "../include/Server.hpp"
 
 
 std::vector<std::string> get_name(std::string const &arg)
