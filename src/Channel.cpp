@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 14:24:06 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:48:41 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,31 +133,31 @@ bool Channel::isInvited(int fd)
 	}
 	return false;
 }
-bool Channel::isModeI()
+bool Channel::hasModeI()
 {
 	if (this->_modeI == true)
 		return (true);
 	return(false);
 }
-bool Channel::isModeT()
+bool Channel::hasModeT()
 {
 	if (this->_modeT == true)
 		return (true);
 	return(false);
 }
-bool Channel::isModeK()
+bool Channel::hasModeK()
 {
 	if (this->_modeK == true)
 		return (true);
 	return(false);
 }
-bool Channel::isModeO()
+bool Channel::hasModeO()
 {
 	if (this->_modeO == true)
 		return (true);
 	return(false);
 }
-bool Channel::isModeL()
+bool Channel::hasModeL()
 {
 	if (this->_modeL == true)
 		return (true);

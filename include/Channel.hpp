@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:19:58 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 14:11:58 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:48:41 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ class Channel
 		bool 					isEmpty();
 		bool 					isOperator(int fd);
 		bool 					isInvited(int fd);
-		bool					isModeI();
-		bool					isModeT();
-		bool					isModeK();
-		bool					isModeO();
-		bool					isModeL();
+		bool					hasModeI();
+		bool					hasModeT();
+		bool					hasModeK();
+		bool					hasModeO();
+		bool					hasModeL();
 		
 	
 	

@@ -55,29 +55,47 @@ void Commands::PART(Server *server, int fd, std::string arg)
     Client *client = server->getClient(fd);   
     if (arg.size() == 0)
     {
-        send_message(client, ERR_NEEDMOREPARAMS("PART"));
+        server->sendMessage(ERR_NEEDMOREPARAMS("PART"), fd);
         return;
     }
     std::vector<std::string> channel_names = get_names_channels(arg);
     if (channel_names[0].empty())
     {
-        send_message(client, ERR_BADCHANMASK(arg, client->getNickname()));
+        server->sendMessage(ERR_BADCHANMASK(arg, client->getNickname()), fd);
     }
     std::string reason = get_reason(arg);
     for (std::string name : channel_names)
     {
-        std::map<std::string, Channel*>::iterator it = server->getChannels().find(name);
-	    if (it == server->getChannels().end())
+        // std::map<std::string, Channel*>::iterator it = server->getChannels().find(name);
+        Channel *channel = server->getChannel(name);
+	    // if (it == server->getChannels().end())
+        if (!channel)
         {
-           send_message(client, ERR_NOSUCHCHANNEL(client->getNickname(), name));
+           server->sendMessage(ERR_NOSUCHCHANNEL(client->getNickname(), name), fd);
            return;
         }
-        Channel *myChannel = it->second;
-		if (!myChannel->isClient(client->getFd()))
+        // Channel *channel = it->second;
+		if (!channel->isClient(client->getFd()))
 		{
-			send_message(client, ERR_NOTONCHANNEL(client->getNickname(), name));
+			server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), name), fd);
 			return;
 		}
+        else 
+        {
+            channel->part(fd);
+            if (!reason.empty())
+            {
+                reason = " : " + reason;
+            }
+            channel->delUser(client->getNickname());
+            channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason));
+            if (channel->isEmpty())
+            {
+                delete(channel);
+                server->removeChannel(name);
+            }
+
+        }
     }
 }
 

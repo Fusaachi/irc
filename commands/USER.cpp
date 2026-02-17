@@ -13,12 +13,12 @@ void Commands::USER(Server *server, int fd, std::string user)
     }
     if (user.size() == 0)
     {
-        send_message(client,ERR_NEEDMOREPARAMS("USER"));
+        server->sendMessage(ERR_NEEDMOREPARAMS("USER"), fd);
         return;
     }
     else if (client->getHasUsername())
     {
-        send_message(client, ERR_ALREADYREGISTERED());
+        server->sendMessage(ERR_ALREADYREGISTERED(), fd);
         return;
     }
     else 
@@ -28,9 +28,9 @@ void Commands::USER(Server *server, int fd, std::string user)
         if (client->getHasUsername())
         {
             client->setIsRegister(true);
-            send_message(client, RPL_WELCOME(client->getNickname(), user));
-            send_message(client, RPL_YOURHOST(client->getNickname()));
-            send_message(client, RPL_CREATED(client->getNickname()));
+            server->sendMessage(RPL_WELCOME(client->getNickname(), user), fd);
+            server->sendMessage(RPL_YOURHOST(client->getNickname()), fd);
+            server->sendMessage(RPL_CREATED(client->getNickname()), fd);
         }
         return;
 

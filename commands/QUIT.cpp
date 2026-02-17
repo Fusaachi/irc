@@ -8,7 +8,7 @@ void Commands::QUIT(Server *server, int fd, std::string reason)
 {
     if (reason.size() == 0)
         reason = "Leaving";
-    send_message(server->getClient(fd), MSG_QUIT(reason));
+    server->sendMessage(MSG_QUIT(reason), fd);
     // ajouter client deconnecte au servuer
 
     return;

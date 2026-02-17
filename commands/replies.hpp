@@ -14,8 +14,9 @@
 #define RPL_CAPREQ(args) ":Server CAP * ACK " + args + "\r\n"
 
 #define	RPL_JOIN(nickname, username, cmd, channel) ":" + nickname + "!~" + username + "@server " + cmd + " " + channel + "\r\n"
-#define RPL_ENDOFNAME(nickname, channel) "366 " + std::string(nickname) + " " + std::string(channel) + " :End of /NAMES list\r\n"
+#define RPL_ENDOFNAMES(nickname, channel) "366 " + std::string(nickname) + " " + std::string(channel) + " :End of /NAMES list\r\n"
 #define RPL_NAMREPLY(nickname, channel, userlist) "353 " + std::string(nickname) + " = " + std::string(channel) + " :" + userlist + "\r\n"
+#define RPL_NOTOPIC(nickname, channel)  "331 " + std::string(nickname) + " " + std::string(channel) + " :No topic is set\r\n"
 #define RPL_TOPIC(nickname, channel, topic) "332 " + std::string(nickname) + " " + std::string(channel) + " :" + std::string(topic) + "\r\n"
 
 #define	RPL_PART(nickname, username, cmd, channel, reason) ":" + nickname + "!~" + username + "@server " + cmd + " " + channel + " " + reason + "\r\n"
@@ -30,5 +31,7 @@
 
 
 
-#define MSG_QUIT(reason) "Quit: " + reason 
+#define MSG_QUIT(reason) "Quit: " + reason + "\r\n"
 #define MSG_NICK(oldnickname, username, cmd, nickname) ":" + oldnickname + "!" + username + "@server " + cmd + " " + nickname + "\r\n"
+#define PONG(message) "localhost :" + message + "\r\n"
+#define MSG_TOPIC(nickname, username, channel, topic) ":" + nick + "!~" + username + "@server TOPIC " + channel + " :" + topic + "\r\n"
