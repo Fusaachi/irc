@@ -34,4 +34,4 @@
 #define MSG_QUIT(reason) "Quit: " + reason + "\r\n"
 #define MSG_NICK(oldnickname, username, cmd, nickname) ":" + oldnickname + "!" + username + "@server " + cmd + " " + nickname + "\r\n"
 #define PONG(message) "localhost :" + message + "\r\n"
-#define MSG_TOPIC(nickname, username, channel, topic) ":" + nick + "!~" + username + "@server TOPIC " + channel + " :" + topic + "\r\n"
+#define MSG_TOPIC(nick, username, channel, topic) ":" + nick + "!~" + username + "@server TOPIC " + channel + " :" + topic + "\r\n"
