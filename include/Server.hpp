@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 11:07:02 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:10:57 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "Other.hpp"
 
 # define MAX_EVENTS  10
+# define MAX_CHANNEL 10
 
 typedef struct s_epoll
 {

@@ -58,7 +58,7 @@ void Commands::TOPIC(Server *server, int fd, std::string arg)
     {
         server->sendMessage(RPL_TOPIC(client->getNickname(), channel_name, actual_topic), fd);
     }
-    else if (channel->isModeT() && !channel->isOperator(fd))
+    else if (channel->hasModeT() && !channel->isOperator(fd))
     {
         server->sendMessage(ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name), fd);
     }
