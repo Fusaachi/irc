@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/16 16:30:51 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/16 17:22:45 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@
 
 typedef struct s_epoll
 {
-	int					fd;
-	int					nb_events;
-	struct epoll_event	event;
-	struct epoll_event	events[MAX_EVENTS];
+	int						fd;
+	int						nb_events;
+	struct epoll_event		event;
+	struct epoll_event		events[MAX_EVENTS];
 	
 }t_epoll;
 
@@ -64,28 +64,30 @@ private:
 public:
 	Server();
 	Server(const Server& c);
-	void		initServer(int port, std::string password);
-	static void	signalHandler(int signum);
-	void		acceptNewClient();
-	void		receiveData(int fd);
-	void		clientDisconnect(int fd);
-	void		send_message(std::string const &message, int fd);
-	void		closeFds();
-	void 		run();
-
-	Client *getClient(int fd);
-	Client *getClient(std::string name);
+	Server&					operator=(const Server &rhs);
+	void					initServer(int port, std::string password);
+	static void				signalHandler(int signum);
+	void					acceptNewClient();
+	void					receiveData(int fd);
+	void					clientDisconnect(int fd);
+	void					send_message(std::string const &message, int fd);
+	void					closeFds();
+	void 					run();
+	void 					removeChannel(std::string channel_name);
+	
+	Client *				getClient(int fd);
+	Client *				getClient(std::string name);
 	std::map<int, Client*> &getClients(){return this->_clients;};
-	Channel *getChannel(std::string name);
+	Channel *				getChannel(std::string name);
 	std::map<std::string, Channel*> &getChannels(){return this->_channels;};
 	
-	Channel *addChannel(std::string channelName, Client *client);
+	Channel *				addChannel(std::string channelName, Client *client);
 	
-	std::string getPassword() {return _password;};
-	Server&operator=(const Server &rhs);
+	std::string 			getPassword() {return _password;};
+
 	~Server();
 
-	void removeChannel(std::string channel_name);
+
 };
 
 
