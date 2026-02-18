@@ -1,29 +1,7 @@
 #include "../include/Server.hpp"
 #include "../include/Client.hpp"
 #include "../include/Other.hpp"
-
-std::vector<std::string> get_channel_names(std::string const &arg)
-{
-    int i = 0;
-    std::string channel_name;
-    std::vector<std::string> channel_names;
-    while (arg[i])
-    {
-        while (arg[i] && !isspace(arg[i]) && arg[i]!=',')
-        {
-            channel_name +=arg[i];
-            i++;
-
-        }
-        channel_names.push_back(channel_name);
-        channel_name = "";
-        if (!arg[i] || isspace(arg[i]))
-            break;        
-        i++;
-    }
-    return (channel_names);
-}
-
+#include "JOIN.cpp"
 
 std::vector<std::string> get_nicknames(std::string arg)
 {
