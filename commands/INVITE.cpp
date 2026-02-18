@@ -29,8 +29,8 @@ std::string get_channel_name(std::string const &arg)
 
 void Commands::INVITE(Server *server, int fd, std::string arg)
 {
-    std::string channel_name;
-    std::string nickname;
+    std::string channel_name = get_channel_name(arg);
+    std::string nickname = get_nickname(arg);
     Client *client = server->getClient(fd);
     if (channel_name.empty() || nickname.empty())
     {
