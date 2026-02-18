@@ -16,6 +16,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 #include <vector>
 #include <sys/socket.h> 
 #include <sys/types.h> 
@@ -28,5 +29,9 @@
 #include <csignal>
 #include <map>
 #include "Colors.hpp"
+#include "errors.hpp"
+#include "replies.hpp"
+#include <set>
 
 #endif
+

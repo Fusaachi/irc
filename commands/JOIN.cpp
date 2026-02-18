@@ -1,8 +1,6 @@
-#include "Server.hpp"
-#include "Client.hpp"
-#include "errors.hpp"
-#include "replies.hpp"
-#include "../include/Commands.hpp"
+#include "../include/Server.hpp"
+#include "../include/Client.hpp"
+#include "../include/Other.hpp"
 
 std::vector<std::string> get_channel_names(std::string const &arg)
 {
@@ -61,7 +59,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
         server->sendMessage(ERR_NEEDMOREPARAMS("JOIN"), fd);
         return ;
     }
-    for (int i = 0; i < channel_names.size(); i++)
+    for (size_t i = 0; i < channel_names.size(); i++)
     {
         if (channel_names[i].empty() || !(channel_names[i][0] == '&' || channel_names[i][0] == '#'))
         {
@@ -86,7 +84,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             server->sendMessage(ERR_INVITEONLYCHAN(client->getNickname(), channel_names[i]), fd);
             continue ;
         }
-        if (channel->hasModeK() && (keys.size()>= i || keys[i] != channel->getKey()))
+        if (channel->hasModeK() && (keys.size()>= i || keys[i] != channel->getPwd()))
         {
             server->sendMessage(ERR_BADCHANNELKEY(client->getNickname(), channel_names[i]), fd);
             continue;
@@ -97,7 +95,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             continue;
         }
         channel->addClient(client);
-        channel->broadcast(RPL_JOIN(client->getNickname(), client->getUsername(), "JOIN", channel->getChannelName()));
+        channel->broadcast(RPL_JOIN(client->getNickname(), client->getUsername(), "JOIN", channel->getChannelName()), fd);
         if (channel->getTopic().empty())
         {
             server->sendMessage(RPL_NOTOPIC(client->getNickname(), channel_names[i]), fd);

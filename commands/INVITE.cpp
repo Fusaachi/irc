@@ -1,9 +1,6 @@
-
-#include "../include/Commands.hpp"
 #include "../include/Server.hpp"
 #include "../include/Client.hpp"
-#include "errors.hpp"
-#include "replies.hpp"
+#include "../include/Other.hpp"
 
 std::string get_nickname(std::string const &arg)
 {
@@ -30,8 +27,8 @@ std::string get_channel_name(std::string const &arg)
 
 void Commands::INVITE(Server *server, int fd, std::string arg)
 {
-    std::string channel_name;
-    std::string nickname;
+    std::string channel_name = get_channel_name(arg);
+    std::string nickname = get_nickname(arg);
     Client *client = server->getClient(fd);
     if (channel_name.empty() || nickname.empty())
     {

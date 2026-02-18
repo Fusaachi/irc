@@ -1,7 +1,7 @@
 #include "../include/Server.hpp"
-#include "errors.hpp"
-#include "replies.hpp"
-#include "../include/Commands.hpp"
+#include "../include/Client.hpp"
+#include "../include/Other.hpp"
+
 
 bool is_good_nick(std::string nick)
 {

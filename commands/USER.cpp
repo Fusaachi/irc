@@ -1,8 +1,6 @@
 #include "../include/Server.hpp"
 #include "../include/Client.hpp"
-#include "../include/Commands.hpp"
-#include "errors.hpp"
-#include "replies.hpp"
+#include "../include/Other.hpp"
 
 void Commands::USER(Server *server, int fd, std::string user)
 {

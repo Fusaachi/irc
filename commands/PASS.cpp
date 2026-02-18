@@ -1,7 +1,7 @@
-#include "Server.hpp"
-#include "Client.hpp"
-#include "Commands.hpp"
-#include "errors.hpp"
+#include "../include/Server.hpp"
+#include "../include/Client.hpp"
+#include "../include/Other.hpp"
+
 
 void Commands::PASS(Server *server, int fd, std::string password)
 {
