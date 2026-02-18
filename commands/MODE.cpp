@@ -113,14 +113,15 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                         server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), third_arg), fd);
                         continue;
                     }
+                    Client *client2 = server->getClient(third_arg);
                     if (is_add)
                     {
-                        channel->addOperator(third_arg);
+                        channel->addOperator(client2->getFd());
                     }
 
                     else if (is_del)
                     {
-                        channel->delOperator(third_arg);
+                        channel->delOperator(client2->getFd());
                     }
 
                 }
