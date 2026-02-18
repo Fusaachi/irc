@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/18 10:29:13 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/18 10:53:38 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,4 +292,17 @@ void Channel::addClient(Client *client)
 		this->_fdClients.insert(std::make_pair(client->getFd(), client));
 		this->_nbUser++;
 	}	
+}
+
+void Channel::broadcast(std::string message, int fd)
+{
+	if (message.size() > 510)
+		message = message.substr(0, 510);
+	message+= "\r\n";
+	for (std::map<int, Client*>::iterator it = this->_fdClients.begin(); it != this->_fdClients.end(); it++)
+	{
+		if (fd == -1 || it->first != fd)
+			send(it->first, message.c_str(), message.size(), 0);
+	}
+	message.clear();
 }
