@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:19:58 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 14:48:41 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/18 10:53:51 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ class Channel
 		std::string 			getTopic();
 		std::string				getPwd(){return (this->_pwd);};
 		std::string				getClientList();
+		std::string				getModes();
 		int						getFdCreator() {return (this->_fdCreator);};
 		std::vector<int> &		getFdOperators(){return (this->_fdOperators);};
 
@@ -87,15 +88,18 @@ class Channel
 		void 					setHasUserLimit(bool boolean);
 		void 					setInviteOnly(bool boolean);
 		void 					setTopicRestricted(bool boolean);
-
+		void					setModeI(bool boolean);
+	    void					setModeT(bool boolean);
+	    void					setModeK(bool boolean);
+	    void					setModeO(bool boolean);
+		void					setModeL(bool boolean);
 		void 					inviteClient(int fd);
 		void 					part(int fd);
 		void 					delUser(std::string name);
 		void 					addOperator(int fd);
 		void 					delOperator(int fd);
 		void 					addClient(Client *client);
-
-
+		void					broadcast(std::string message, int fd);
 };
 
 #endif

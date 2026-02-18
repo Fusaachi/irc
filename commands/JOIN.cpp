@@ -69,6 +69,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             continue;
         }
         if (client->getNbChannel() == MAX_CHANNEL)
+
         {
             server->sendMessage(ERR_TOOMANYCHANNELS(client->getNickname(), channel_names[i]), fd);
             continue;
