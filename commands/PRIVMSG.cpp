@@ -1,9 +1,6 @@
-#include "../include/Commands.hpp"
-#include "errors.hpp"
-#include "replies.hpp"
-#include <set>
 #include "../include/Server.hpp"
-
+#include "../include/Client.hpp"
+#include "../include/Other.hpp"
 
 std::vector<std::string> get_name(std::string const &arg)
 {

@@ -1,9 +1,7 @@
-#include "Server.hpp"
-#include "Client.hpp"
-#include "errors.hpp"
-#include "replies.hpp"
-#include "../include/Commands.hpp"
-#include <sstream>
+#include "../include/Server.hpp"
+#include "../include/Client.hpp"
+#include "../include/Other.hpp"
+
 
 std::string get_flags(std::string const &arg)
 {
