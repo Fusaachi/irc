@@ -59,7 +59,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
         server->sendMessage(ERR_NEEDMOREPARAMS("JOIN"), fd);
         return ;
     }
-    for (int i = 0; i < channel_names.size(); i++)
+    for (size_t i = 0; i < channel_names.size(); i++)
     {
         if (channel_names[i].empty() || !(channel_names[i][0] == '&' || channel_names[i][0] == '#'))
         {
@@ -95,7 +95,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             continue;
         }
         channel->addClient(client);
-        channel->broadcast(RPL_JOIN(client->getNickname(), client->getUsername(), "JOIN", channel->getChannelName()));
+        channel->broadcast(RPL_JOIN(client->getNickname(), client->getUsername(), "JOIN", channel->getChannelName()), fd);
         if (channel->getTopic().empty())
         {
             server->sendMessage(RPL_NOTOPIC(client->getNickname(), channel_names[i]), fd);
