@@ -3,6 +3,7 @@
 #include "errors.hpp"
 #include "replies.hpp"
 #include "../include/Commands.hpp"
+#include <sstream>
 
 std::string get_flags(std::string const &arg)
 {
@@ -125,7 +126,29 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 }
                 else if (flags[i] == 'l')
                 {
-
+                    if (is_del)
+                    {
+                        channel->setHasUserLimit(false);
+                        continue;
+                    }
+                    if (is_add && third_arg.empty())
+                    {
+                        server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
+                        continue;
+                    }
+                    int number;
+                    std::istringstream iss(third_arg);
+                    if (iss >> number && number > 0)
+                    {
+                        channel->setHasUserLimit(true);
+                        channel->setMaxUser(number);
+                        continue;
+                    }
+                    else
+                    {
+                        server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
+                        continue;
+                    }
                 }
                 else
                 {
@@ -136,15 +159,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
             }
 
         }
-        else 
-        {
             server->sendMessage(RPL_MODE(client->getNickname(),client->getUsername(), name, channel->getModes()), fd);
             return;
-        }
 
-    }
-    else
-    {
-
-    }
 }
