@@ -59,20 +59,20 @@ void Commands::PART(Server *server, int fd, std::string arg)
         server->sendMessage(ERR_BADCHANMASK(arg, client->getNickname()), fd);
     }
     std::string reason = get_reason(arg);
-    for (std::string name : channel_names)
+    for (size_t i = 0; i < channel_names.size(); i++)
     {
         // std::map<std::string, Channel*>::iterator it = server->getChannels().find(name);
-        Channel *channel = server->getChannel(name);
+        Channel *channel = server->getChannel(channel_names[i]);
 	    // if (it == server->getChannels().end())
         if (!channel)
         {
-           server->sendMessage(ERR_NOSUCHCHANNEL(client->getNickname(), name), fd);
+           server->sendMessage(ERR_NOSUCHCHANNEL(client->getNickname(), channel_names[i]), fd);
            return;
         }
         // Channel *channel = it->second;
 		if (!channel->isClient(client->getFd()))
 		{
-			server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), name), fd);
+			server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), channel_names[i]), fd);
 			return;
 		}
         else 
@@ -83,11 +83,11 @@ void Commands::PART(Server *server, int fd, std::string arg)
                 reason = " : " + reason;
             }
             channel->delUser(client->getNickname());
-            channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason));
+            channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason), fd);
             if (channel->isEmpty())
             {
                 delete(channel);
-                server->removeChannel(name);
+                server->removeChannel(channel_names[i]);
             }
 
         }

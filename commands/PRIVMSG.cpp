@@ -84,7 +84,7 @@ void Commands::PRIVMSG(Server *server, int fd, std::string args)
             }
             else
             {
-                channel->broadcast(RPL_PRIVMSG(client->getNickname(), client->getUsername(),receivers[i], msg));
+                channel->broadcast(RPL_PRIVMSG(client->getNickname(), client->getUsername(),receivers[i], msg), fd);
             }
         }
         else

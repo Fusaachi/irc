@@ -19,7 +19,7 @@ std::string get_flags(std::string const &arg)
 void Commands::MODE(Server *server, int fd, std::string arg)
 {
     std::string name;
-    std::string flags;
+    std::string flags = get_flags(arg);
     std::string third_arg;
     bool is_add = false;
     bool is_del = false;
@@ -53,7 +53,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
             server->sendMessage(RPL_MODE(client->getNickname(),client->getUsername(), name, channel->getModes()), fd);
             return ;
         }
-        for (int i = 0; i < flags.size(); i++)
+        for (size_t i = 0; i < flags.size(); i++)
             {
                 if (flags[i] == '+')
                 {
