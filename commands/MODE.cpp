@@ -84,7 +84,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     if (is_add && !third_arg.empty())
                     {
                         channel->setPwd(third_arg);
-                        channel->setHasModeK(true);
+                        channel->setModeK(true);
                     }
                     else if (is_add && third_arg.empty())
                     {
@@ -93,7 +93,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     }
                     else if (is_del)
                     {
-                        channel->setHasModeK(false);
+                        channel->setModeK(false);
                     }
                 }
                 else if (flags[i] == 'o')
