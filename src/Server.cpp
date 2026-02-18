@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 12:57:58 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/18 14:38:23 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,4 +164,27 @@ Server::~Server()
 	
 }
 
-
+void	Server::clearData()
+{
+	if (this->_fd > -1)
+	{
+		close(this->_fd);
+		this->_fd = -1;
+	}
+	if (this->_clientFd > -1)
+	{
+		close(this->_clientFd);
+		this->_clientFd = -1;
+	}
+	if (this->_epoll.fd > -1)
+		close(this->_epoll.fd);
+	for (int i = 0; i < this->_epoll.nb_events; ++i) {
+		close(this->_epoll.events[i].data.fd);
+	}
+	for (std::map<int, Client*>::iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
+			delete it->second;
+	for (std::map<std::string, Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+		delete it->second;
+	shutdown(this->_fd, SHUT_RDWR);
+	throw std::runtime_error("Data Cleaned");
+}

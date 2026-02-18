@@ -1,7 +1,6 @@
 #include "../include/Server.hpp"
 #include "../include/Client.hpp"
 #include "../include/Other.hpp"
-#include "JOIN.cpp"
 
 std::vector<std::string> get_nicknames(std::string arg)
 {

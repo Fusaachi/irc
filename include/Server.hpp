@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 14:10:57 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/18 14:35:05 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ public:
 	void					closeFds();
 	void 					run();
 	void 					removeChannel(std::string channel_name);
+	void					clearData();
 	
 	Client *				getClient(int fd);
 	Client *				getClient(std::string name);
@@ -81,6 +82,8 @@ public:
 
 
 };
+
+
 
 
 #endif

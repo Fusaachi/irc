@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:21:30 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/18 11:11:16 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/18 13:01:48 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ class Commands
 		Commands();
 		void executeCommands(Server *server, int fd, std::pair<std::string, std::string> command);
 };
+
+std::vector<std::string> get_channel_names(std::string const &arg);
 
 #endif

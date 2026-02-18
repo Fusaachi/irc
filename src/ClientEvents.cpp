@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 10:42:58 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/18 15:16:14 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void Server::acceptNewClient()
 	Client *client = new Client(this->_clientFd);
 	this->_clients.insert(std::pair<int, Client*>(this->_clientFd, client));
 	this->_fds.push_back(this->_clientFd);
+	if (epoll_ctl(this->_epoll.fd, EPOLL_CTL_ADD, this->_clientFd, &newPoll) < 0)
+			clearData();
 	std::cout << "[Server] Accepted new connection on client socket <" << this->_clientFd <<  ">" << std::endl;
 }
 
@@ -36,26 +38,24 @@ void Server::clientDisconnect(int fd)
 {
 	std::cout << RED << "[Server] Client <" << fd << "> Disconnected" << RESET << std::endl;
 	epoll_ctl(this->_epoll.fd, EPOLL_CTL_DEL, fd, &this->_epoll.event);
-	if (fd > -1)
-		close (fd);
-	for (std::map<int, Client *>::iterator it = this->_clients.begin(); it != this->_clients.end(); it++)
-	{
-		if (it->first == fd)
-		{
-			close(it->first);
-			this->_clients.erase(it);
-		}
+	
+	std::map<int, Client*>::iterator it = this->_clients.find(fd);
+    if (it != this->_clients.end())
+    {
+        delete it->second;
+        this->_clients.erase(it);
+    }
 
-	}
-
-	for(std::vector<int>::iterator it = this->_fds.begin(); it != this->_fds.end(); it++)
+	for(std::vector<int>::iterator it = this->_fds.begin(); it != this->_fds.end();)
 	{
 		if (*it == fd)
-		{
-			this->_fds.erase(it);
-			break;
-		}
+			it = this->_fds.erase(it);
+		else
+			++it;
 	}
+
+	if (fd > -1)
+		close(fd);
 }
 
 void	Server::receiveData(int fd)
@@ -71,13 +71,22 @@ void	Server::receiveData(int fd)
 		std::string new_data(buff, bytes);
 		this->_clients[fd]->appendData(new_data);
 		size_t i = 0;
-		
 		while((i = this->_clients[fd]->getData().find("\r\n")) != std::string::npos)
 		{
 			std::string command = this->_clients[fd]->getData().substr(0, i + 2);
 			std::vector<std::pair<std::string,std::string> > commands =  this->_clients[fd]->splitBuffer(command);
 			for (size_t j = 0; j < commands.size(); j++)
    				_commands.executeCommands(this, fd, commands[j]);
+			try
+			{
+				Client *client = this->_clients.at(fd);
+				client->setData(client->getData().substr(i +2));
+			}
+			catch (const std::out_of_range & oor)
+			{
+				std::cerr << BOLDRED << "Inexistant client with fd: " << fd << RESET << std::endl;
+				break;
+			}
 		}		
 	}
 }
