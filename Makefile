@@ -33,8 +33,7 @@ $(OBJ_DIR)%.o: $(COMMAND_DIR)%.cpp
 	@echo "$@ : $(GREEN)[OK]$(NC)"
 
 $(NAME): $(OBJS) $(OBJS_COMMANDS)
-	@$(CC) $(CFLAGS) $(OBJS) -o  $(NAME)
-	@$(CC) $(CFLAGS) $(OBJS_COMMANDS) -o  $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(OBJS_COMMANDS) -o  $(NAME)
 	@echo "\n$(BLUE)=============================================$(NC)\n"
 	
 clean :
