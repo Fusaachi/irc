@@ -158,9 +158,13 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 }
 
             }
-
-        }
             server->sendMessage(RPL_MODE(client->getNickname(),client->getUsername(), name, channel->getModes()), fd);
             return;
+        }
+        else
+        {
+            
+        }
+
 
 }
