@@ -68,7 +68,8 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             server->sendMessage(ERR_BADCHANMASK(channel_names[i], client->getNickname()), fd);
             continue;
         }
-        if (client->getNbChannel() > MAX_CHANNEL)
+        if (client->getNbChannel() == MAX_CHANNEL)
+
         {
             server->sendMessage(ERR_TOOMANYCHANNELS(client->getNickname(), channel_names[i]), fd);
             continue;
