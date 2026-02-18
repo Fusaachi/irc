@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/17 14:48:41 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/18 10:29:13 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,23 @@ std::string Channel::getClientList()
 	return clientList;
 }
 
+std::string Channel::getModes()
+{
+	std::string modeList;
+	
+	if (this->hasModeI())
+		modeList += "i ";
+	if (this->hasModeT())
+		modeList += "t ";
+	if (this->hasModeK())
+		modeList += "k ";
+	if (this->hasModeO())
+		modeList += "o ";
+	if (this->hasModeL())
+		modeList += "l ";
+	return modeList;
+}
+
 void Channel::setChannelName(std::string name) 
 {
 	this->_name = name;
@@ -96,6 +113,31 @@ void Channel::setInviteOnly(bool boolean)
 void Channel::setTopicRestricted(bool boolean)
 {
 	this->_topicRestricted = boolean;
+}
+
+void Channel::setModeI(bool boolean)
+{
+	this->_modeI = boolean;
+}
+
+void Channel::setModeT(bool boolean)
+{
+	this->_modeT = boolean;
+}
+
+void Channel::setModeK(bool boolean)
+{
+	this->_modeK = boolean;
+}
+
+void Channel::setModeO(bool boolean)
+{
+	this->_modeO = boolean;
+}
+
+void Channel::setModeL(bool boolean)
+{
+	this->_modeL = boolean;
 }
 void	Channel::setMaxUser(size_t nb)
 {
