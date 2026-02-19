@@ -19,6 +19,13 @@ void Commands::PASS(Server *server, int fd, std::string password)
     else if (password == server->getPassword())
     {
         client->setHasPassword(true);
+        if (client->getHasUsername() && client->getHasNickname())
+        {
+            client->setIsRegister(true);
+            server->sendMessage(RPL_WELCOME(client->getNickname(), client->getUsername()), fd);
+            server->sendMessage(RPL_YOURHOST(client->getNickname()), fd);
+            server->sendMessage(RPL_CREATED(client->getNickname()), fd);
+        }
         return;
     }
     else
