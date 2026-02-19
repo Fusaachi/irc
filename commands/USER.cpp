@@ -5,10 +5,6 @@
 void Commands::USER(Server *server, int fd, std::string user)
 {
     Client *client = server->getClient(fd);
-    if (client->getHasPassword() == false)
-    {
-        return;
-    }
     if (user.size() == 0)
     {
         server->sendMessage(ERR_NEEDMOREPARAMS("USER"), fd);
@@ -23,7 +19,7 @@ void Commands::USER(Server *server, int fd, std::string user)
     {
         client->setUsername(user);
         client->setHasUsername(true);
-        if (client->getHasUsername() && client->getHasNickname())
+        if (client->getHasPassword() && client->getHasNickname())
         {
             client->setIsRegister(true);
             server->sendMessage(RPL_WELCOME(client->getNickname(), user), fd);
@@ -31,6 +27,5 @@ void Commands::USER(Server *server, int fd, std::string user)
             server->sendMessage(RPL_CREATED(client->getNickname()), fd);
         }
         return;
-
     }
 }
