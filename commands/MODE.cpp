@@ -2,28 +2,21 @@
 #include "../include/Client.hpp"
 #include "../include/Other.hpp"
 
-
-
-
-std::string get_flags(std::string const &arg)
-{
-    std::string flags;
-    size_t pos = arg.find(' ');
-    if (pos != std::string::npos && arg[pos + 1] )
-    {
-        flags = arg.substr(pos +1);
-    }
-    return (flags);
-}
-
 void Commands::MODE(Server *server, int fd, std::string arg)
 {
     std::string name;
-    std::string flags = get_flags(arg);
-    std::string third_arg;
+    std::string flags;
+    std::istringstream iss(arg);
+    std::vector<std::string> params;
+    std::string param;
     bool is_add = false;
     bool is_del = false;
     Client *client = server->getClient(fd);
+    size_t j = 0;
+
+    iss >> name >> flags;
+    while (iss >> param)
+        params.push_back(param);
 
     if (name.empty() || flags.empty())
     {
@@ -81,12 +74,13 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 }
                 else if (flags[i] == 'k')
                 {
-                    if (is_add && !third_arg.empty())
+                    if (is_add && j < params.size())
                     {
-                        channel->setPwd(third_arg);
+                        channel->setPwd(params[j]);
                         channel->setModeK(true);
+                        j++;
                     }
-                    else if (is_add && third_arg.empty())
+                    else if (is_add && j == params.size())
                     {
                         server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
                         continue ;
@@ -98,22 +92,17 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 }
                 else if (flags[i] == 'o')
                 {
-                    if ((is_add || is_del) && third_arg.empty())
+                    if ((is_add || is_del) && j == params.size())
                     {
                         server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
                         continue;
                     }
-                    else if (third_arg.empty())
+                    if (!channel->isClient(params[j]))
                     {
-                        server->sendMessage(RPL_MODE(client->getNickname(),client->getUsername(), name, channel->getModes()), fd);
+                        server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), params[j]), fd);
                         continue;
                     }
-                    if (!channel->isClient(third_arg))
-                    {
-                        server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), third_arg), fd);
-                        continue;
-                    }
-                    Client *client2 = server->getClient(third_arg);
+                    Client *client2 = server->getClient(params[j]);
                     if (is_add)
                     {
                         channel->addOperator(client2->getFd());
@@ -132,13 +121,13 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                         channel->setHasUserLimit(false);
                         continue;
                     }
-                    if (is_add && third_arg.empty())
+                    if (is_add && j == params.size())
                     {
                         server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
                         continue;
                     }
                     int number;
-                    std::istringstream iss(third_arg);
+                    std::istringstream iss(params[j]);
                     if (iss >> number && number > 0)
                     {
                         channel->setHasUserLimit(true);
@@ -168,3 +157,23 @@ void Commands::MODE(Server *server, int fd, std::string arg)
 
 
 }
+
+
+
+
+
+// int main(void)
+// {
+//     std::string oui = "#channel +kl secretpassword 50 ouiiiiiiiiii";
+//     std::string name;
+//     std::string flags;
+//     std::vector<std::string> params;
+//     std::string param;
+//     std::istringstream iss(oui);
+//     iss >> name >> flags;
+//     while (iss >> param)
+//         params.push_back(param);
+//     std::cout << "Z" << name << "Z" << flags << "Z" << std::endl;
+//     std::cout << "U" << params[0] << "U" << params[1] << "U" <<  params[2] << "U" << std::endl;
+//     return (0);
+// }
