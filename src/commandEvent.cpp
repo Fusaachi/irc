@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:09 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/18 15:19:35 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/19 15:34:49 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void Commands::executeCommands(Server *server, int fd, std::pair<std::string, st
 			return;
 		}
 	}
-	std::cout << "Error, command don't exist" << std::endl;
+	std::cout << RED << "[Client][Error] Command doesn't exist" << RESET << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/19 13:49:16 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/19 15:37:54 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void Server::sendMessage(std::string const &message, int fd)
 	if (tmp.size() > 510)
 		tmp = tmp.substr(0, 510) + "\r\n";
 	send(fd, tmp.c_str(), tmp.size(), 0);
+	std::cout << TURQUOISE << "[Client] Message sent: " << tmp << RESET;
 }
 
 void Server::closeFds()
@@ -176,6 +177,8 @@ void	Server::clearData()
 	if (this->_epoll.fd > -1)
 	{
 		close(this->_epoll.fd);
-		this->_epoll.fd = -1;
+		_epoll.fd = -1;
 	}
+		
+	//throw std::runtime_error("Data Cleaned");
 }
