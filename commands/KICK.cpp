@@ -30,25 +30,14 @@ std::vector<std::string> get_nicknames(std::string arg)
 
 std::string get_reason(std::string arg)
 {
-    int i = 0;
-    int nbr_space = 0;
-    std::string name;
-    while (arg[i] && nbr_space != 2)
-    {
-        if (arg[i] == ' ')
-            nbr_space++;
-        i++;
-    }
-        i++;
-    if (!arg[i] && arg[i] != ':')
-        return (NULL);
-    i++;
-    while (arg[i])
-    {
-        name += arg[i];
-        i++;
-    }
-    return (name);
+
+    std::string channel;
+    std::string user;
+    std::string reason;
+    std::istringstream iss(arg);
+    iss >> channel >> user >> reason;
+
+    return reason ;
 }
 
 bool is_good_channel_mask(std::string channel)
