@@ -23,7 +23,7 @@ void Commands::USER(Server *server, int fd, std::string user)
     {
         client->setUsername(user);
         client->setHasUsername(true);
-        if (client->getHasUsername())
+        if (client->getHasUsername() && client->getHasNickname())
         {
             client->setIsRegister(true);
             server->sendMessage(RPL_WELCOME(client->getNickname(), user), fd);
