@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:19:58 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/18 10:53:51 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/19 10:49:53 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ class Channel
 		void 					inviteClient(int fd);
 		void 					part(int fd);
 		void 					delUser(std::string name);
+		void					decrementUser();
 		void 					addOperator(int fd);
 		void 					delOperator(int fd);
 		void 					addClient(Client *client);

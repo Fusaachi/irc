@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/18 14:38:23 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/19 13:49:16 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,14 @@ bool Server::_Signal = false;
 
 void Server::signalHandler(int signum)
 {
-	(void) signum;
-	Server::_Signal = true;
+	if (signum == SIGINT)
+		_Signal = true ;
 	std::cout << "Signal received" << std::endl;
 }
-Server::Server() : _fd(0)
+Server::Server() : _fd(-1), _clientFd(-1)
 {
-
-}
-
-Server::Server(const Server& c) : _port(c._port), _password(c._password)
-{
-
-}
-
-Server &Server::operator=(const Server & rhs)
-{
-	if (this != &rhs)
-		*this = rhs;
-	return (*this);
+	this->_epoll.fd = -1;
+	this->_epoll.nb_events = 0;
 }
 
 void Server::initServer(int port, std::string password)
@@ -73,9 +62,12 @@ void Server::initServer(int port, std::string password)
 
 void Server::run()
 {
-	signal(SIGINT, Server::signalHandler);
-	signal(SIGQUIT, Server::signalHandler);
-
+	struct sigaction sa = {};
+	sa.sa_handler = signalHandler;
+	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGINT, &sa, NULL))
+		clearData();
 	int nb_events = 0;
 	this->_epoll.fd = epoll_create1(0);
 	if (this->_epoll.fd == -1)
@@ -98,6 +90,7 @@ void Server::run()
 		}
 		
 	}
+	clearData();
 }
 
 void Server::sendMessage(std::string const &message, int fd)
@@ -166,25 +159,23 @@ Server::~Server()
 
 void	Server::clearData()
 {
+	for (std::map<int, Client*>::iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
+	{
+		close(it->first);
+		delete it->second;
+	}
+	this->_clients.clear();
+	for (std::map<std::string, Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+		delete it->second;
 	if (this->_fd > -1)
 	{
+		shutdown(this->_fd, SHUT_RDWR);
 		close(this->_fd);
 		this->_fd = -1;
 	}
-	if (this->_clientFd > -1)
-	{
-		close(this->_clientFd);
-		this->_clientFd = -1;
-	}
 	if (this->_epoll.fd > -1)
+	{
 		close(this->_epoll.fd);
-	for (int i = 0; i < this->_epoll.nb_events; ++i) {
-		close(this->_epoll.events[i].data.fd);
+		this->_epoll.fd = -1;
 	}
-	for (std::map<int, Client*>::iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
-			delete it->second;
-	for (std::map<std::string, Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
-		delete it->second;
-	shutdown(this->_fd, SHUT_RDWR);
-	throw std::runtime_error("Data Cleaned");
 }

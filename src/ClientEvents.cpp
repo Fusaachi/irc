@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/18 15:16:14 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/19 14:53:01 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,26 @@ void Server::clientDisconnect(int fd)
 {
 	std::cout << RED << "[Server] Client <" << fd << "> Disconnected" << RESET << std::endl;
 	epoll_ctl(this->_epoll.fd, EPOLL_CTL_DEL, fd, &this->_epoll.event);
-	
+	std::string nameChannel;
 	std::map<int, Client*>::iterator it = this->_clients.find(fd);
+	std::vector<Channel*>& channels = it->second->getChannels();
+	for (std::vector<Channel*>::iterator itChannel = channels.begin(); itChannel != channels.end(); ++itChannel)
+	{
+		(*itChannel)->decrementUser();
+		if ((*itChannel)->isEmpty())
+		{
+			nameChannel = (*itChannel)->getChannelName();
+			for (std::map<std::string, Channel *>::iterator itChannelServer = this->_channels.begin(); itChannelServer != this->_channels.end();itChannelServer++)
+			{
+				if (itChannelServer->first == nameChannel)
+				{
+					delete itChannelServer->second;
+					this->_channels.erase(itChannelServer);
+					break;
+				}
+			}
+		}
+	}
     if (it != this->_clients.end())
     {
         delete it->second;
