@@ -6,14 +6,14 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/19 10:55:22 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/19 14:49:07 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/Server.hpp"
 
-Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fdCreator(fd), _nbUser(0), _maxUser(1), _hasUserLimit(false), _hasPwd(false), _inviteOnly(false), _topicRestricted(false), _modeI(false), _modeT(false),  _modeK(false),  _modeO(false),  _modeL(false)
+Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fdCreator(fd), _nbUser(0), _maxUser(1), _hasUserLimit(false), _hasPwd(false), _inviteOnly(false), _isTopicSet(false), _topicRestricted(false), _modeI(false), _modeT(false),  _modeK(false),  _modeO(false),  _modeL(false)
 {
 
 }
@@ -54,7 +54,7 @@ std::string Channel::getTopic()
 {
 	if (this->_isTopicSet == true)
 		return this->_topic;
-	return NULL;
+	return "";
 }
 
 std::string Channel::getClientList()
