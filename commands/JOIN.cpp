@@ -61,7 +61,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
     }
     for (size_t i = 0; i < channel_names.size(); i++)
     {
-        if (channel_names[i].empty() || !(channel_names[i][0] == '&' || channel_names[i][0] == '#'))
+        if (channel_names[i].size() <= 1 || !(channel_names[i][0] == '&' || channel_names[i][0] == '#'))
         {
             server->sendMessage(ERR_BADCHANMASK(channel_names[i], client->getNickname()), fd);
             continue;
