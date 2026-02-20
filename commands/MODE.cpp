@@ -61,9 +61,9 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 else if (flags[i] == 'i')
                 {
                     if (is_add)
-                        channel->setInviteOnly(true);
+                        channel->setModeI(true);
                     else if (is_del)
-                        channel->setInviteOnly(false);
+                        channel->setModeI(false);
                 }
                 else if (flags[i] == 't')
                 {

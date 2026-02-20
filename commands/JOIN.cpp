@@ -85,7 +85,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             server->sendMessage(ERR_INVITEONLYCHAN(client->getNickname(), channel_names[i]), fd);
             continue ;
         }
-        if (channel->hasModeK() && (keys.size()>= i || keys[i] != channel->getPwd()))
+        if (channel->hasModeK() && ((keys.size() <= i) || keys[i] != channel->getPwd()))
         {
             server->sendMessage(ERR_BADCHANNELKEY(client->getNickname(), channel_names[i]), fd);
             continue;
