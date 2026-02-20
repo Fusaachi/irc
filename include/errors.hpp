@@ -5,7 +5,7 @@
 #define ERR_TOOMANYCHANNELS(nick, channel) "405 " + std::string(nick) + " " + std::string(channel) + " :You have joined too many channels\r\n"
 #define ERR_TOOMANYTARGETS(nick, target) "407 " + std::string(nick) + " " + std::string(target) + " :Duplicate recipients. No message delivered\r\n"
 #define ERR_NOORIGIN(nick) "409 " + std::string(nick) + " :No origin specified\r\n"
-#define ERR_NORECIPIENT(nick, command) "411 : " + std::string(nick) + " " + std::string(command) + "No recipient given\r\n"
+#define ERR_NORECIPIENT(nick, command) "411 : " + std::string(nick) + " " + std::string(command) + " "  + "No recipient given\r\n"
 #define ERR_NOTEXTTOSEND(nick) "412 " + std::string(nick) + ": No text to send\r\n"
 #define ERR_UNKNOWNCOMMAND(nick, command) "421 " + std::string(nick) + " " + std::string(command) + " :Unknown command\r\n"
 #define ERR_NONICKNAMEGIVEN() "431 :No nickname given\r\n"

@@ -2,64 +2,37 @@
 #include "../include/Client.hpp"
 #include "../include/Other.hpp"
 
-std::vector<std::string> get_name(std::string const &arg)
+std::vector<std::string> get_nick(std::string arg)
 {
     int i = 0;
-    std::string name;
-    std::vector<std::string> names;
+    std::string nickname;
+    std::vector<std::string> nicknames;
     while (arg[i])
     {
-        while (arg[i] && arg[i]!=' ' && arg[i]!=',')
+        while (arg[i] && arg[i]!=',')
         {
-            name +=arg[i];
+            nickname += arg[i];
             i++;
-
         }
-        names.push_back(name);
-        name = "";
-        if (!arg[i] || arg[i] == ' ')
+        nicknames.push_back(nickname);
+        nickname = "";
+        if (!arg[i])
             break;        
         i++;
     }
-    return (names);
+    return (nicknames);
 }
-
-std::string get_msg(std::string arg)
-{
-    int i = 0;
-    int nbr_space = 0;
-    std::string name;
-    while (arg[i] && nbr_space != 1)
-    {
-        if (arg[i] == ' ')
-            nbr_space++;
-        i++;
-    }
-        i++;
-    if (!arg[i] && arg[i] != ':')
-        return (NULL);
-    i++;
-    while (arg[i])
-    {
-        name += arg[i];
-        i++;
-    }
-    return (name);
-}
-// Channel *get_channel(Server *server, std::string name)
-// {
-//     std::map<std::string, Channel*>::iterator it = server->getChannels().find(name);
-//     Channel *channel = it->second;
-//     return (channel);
-// }
 
 void Commands::PRIVMSG(Server *server, int fd, std::string args)
 {
-    std::vector<std::string> receivers = get_name(args);
-    std::string msg = get_msg(args);
+    std::vector<std::string> receivers;
+    std::istringstream iss(args);
+    std::string msg;
+    std::string str_receivers;
     std::set<std::string> seen;
+    iss >> str_receivers >> msg;
     Client *client = server->getClient(fd);
-    if (receivers.size() == 0)
+    if (str_receivers.size() == 0)
     {
         server->sendMessage(ERR_NORECIPIENT(client->getNickname(), "PRIVMSG"), fd);
         return ;
@@ -69,6 +42,7 @@ void Commands::PRIVMSG(Server *server, int fd, std::string args)
         server->sendMessage(ERR_NOTEXTTOSEND(client->getNickname()), fd);
         return ;
     }
+    receivers = get_nick(str_receivers);
     for (size_t i = 0; i < receivers.size(); i++)
     {
         if (!seen.insert(receivers[i]).second)
