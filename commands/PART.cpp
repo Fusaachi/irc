@@ -50,7 +50,7 @@ void Commands::PART(Server *server, int fd, std::string arg)
     Client *client = server->getClient(fd);   
     if (arg.size() == 0)
     {
-        server->sendMessage(ERR_NEEDMOREPARAMS("PART"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "PART"), fd);
         return;
     }
     std::vector<std::string> channel_names = get_names_channels(arg);

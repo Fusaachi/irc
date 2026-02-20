@@ -20,7 +20,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
 
     if (name.empty() || flags.empty())
     {
-        server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
         return ;
     }
     if (name[0] == '#' || name[0] == '&')
@@ -82,7 +82,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     }
                     else if (is_add && j == params.size())
                     {
-                        server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
+                        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
                         continue ;
                     }
                     else if (is_del)
@@ -94,7 +94,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 {
                     if ((is_add || is_del) && j == params.size())
                     {
-                        server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
+                        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
                         continue;
                     }
                     if (!channel->isClient(params[j]))
@@ -123,7 +123,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     }
                     if (is_add && j == params.size())
                     {
-                        server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
+                        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
                         continue;
                     }
                     int number;
@@ -136,7 +136,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     }
                     else
                     {
-                        server->sendMessage(ERR_NEEDMOREPARAMS("MODE"), fd);
+                        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
                         continue;
                     }
                 }

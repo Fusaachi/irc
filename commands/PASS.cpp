@@ -13,7 +13,7 @@ void Commands::PASS(Server *server, int fd, std::string password)
     }
     else if (password.size() == 0)
     {
-        server->sendMessage(ERR_NEEDMOREPARAMS("PASS"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "PASS"), fd);
         return;
     }
     else if (password == server->getPassword())

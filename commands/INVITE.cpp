@@ -32,7 +32,7 @@ void Commands::INVITE(Server *server, int fd, std::string arg)
     Client *client = server->getClient(fd);
     if (channel_name.empty() || nickname.empty())
     {
-        server->sendMessage(ERR_NEEDMOREPARAMS("INVITE"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS(client->getHasNickname(), "INVITE"), fd);
         return ;
     }
     Client *client2 = server->getClient(nickname);

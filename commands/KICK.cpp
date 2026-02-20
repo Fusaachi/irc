@@ -69,7 +69,7 @@ void Commands::KICK(Server *server, int fd, std::string arg)
     reason = get_reason(arg);
     if (channel_names.size() == 0 || nicknames.size() == 0 || (channel_names.size() > 1  && channel_names.size() != nicknames.size()))
     {
-        server->sendMessage(ERR_NEEDMOREPARAMS("KICK"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "KICK"), fd);
         return ;
     }
     if (!reason.empty())

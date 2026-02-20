@@ -36,7 +36,7 @@ void Commands::TOPIC(Server *server, int fd, std::string arg)
     Client *client = server->getClient(fd);
     if (channel_name.empty())
     {
-        server->sendMessage(ERR_NEEDMOREPARAMS("TOPIC"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname() ,"TOPIC"), fd);
         return ;
     }
     Channel *channel = server->getChannel(channel_name);

@@ -61,7 +61,7 @@ void Commands::PRIVMSG(Server *server, int fd, std::string args)
     Client *client = server->getClient(fd);
     if (receivers.size() == 0)
     {
-        server->sendMessage(ERR_NORECIPIENT("PRIVMSG"), fd);
+        server->sendMessage(ERR_NORECIPIENT(client->getNickname(), "PRIVMSG"), fd);
         return ;
     }
     else if (msg.empty())
@@ -73,7 +73,7 @@ void Commands::PRIVMSG(Server *server, int fd, std::string args)
     {
         if (!seen.insert(receivers[i]).second)
         {
-            server->sendMessage(ERR_TOOMANYTARGETS(receivers[i]), fd);
+            server->sendMessage(ERR_TOOMANYTARGETS(client->getNickname(), receivers[i]), fd);
         }
         else if (receivers[i][0] == '&' || receivers[i][0] == '#')
         {

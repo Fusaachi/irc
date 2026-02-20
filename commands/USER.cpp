@@ -7,7 +7,7 @@ void Commands::USER(Server *server, int fd, std::string user)
     Client *client = server->getClient(fd);
     if (user.size() == 0)
     {
-        server->sendMessage(ERR_NEEDMOREPARAMS("USER"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "USER"), fd);
         return;
     }
     else if (client->getHasUsername())

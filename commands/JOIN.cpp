@@ -56,7 +56,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
 
     if (channel_names.size() == 0)
     {
-        server->sendMessage(ERR_NEEDMOREPARAMS("JOIN"), fd);
+        server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "JOIN"), fd);
         return ;
     }
     for (size_t i = 0; i < channel_names.size(); i++)
