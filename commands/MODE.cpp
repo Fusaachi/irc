@@ -153,6 +153,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
         else 
         {
             server->sendMessage(ERR_BADCHANMASK(client->getNickname(), name), fd);
+            return;
         }
 
 
