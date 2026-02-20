@@ -288,11 +288,8 @@ void Channel::delOperator(int fd)
 
 void Channel::addClient(Client *client)
 {
-	if (this->_fdCreator == client->getFd() || (this->isInvited(client->getFd()) && this->getNbUser() < this->getMaxUser()))
-	{
 		this->_fdClients.insert(std::make_pair(client->getFd(), client));
 		this->_nbUser++;
-	}	
 }
 
 void Channel::broadcast(std::string message, int fd)
