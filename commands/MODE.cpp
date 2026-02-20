@@ -18,7 +18,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
     while (iss >> param)
         params.push_back(param);
 
-    if (name.empty() || flags.empty())
+    if (name.empty())
     {
         server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
         return ;
@@ -121,16 +121,18 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                         channel->setHasUserLimit(false);
                         continue;
                     }
-                    if (is_add && j == params.size())
+                    if (is_add && j >= params.size())
                     {
                         server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
                         continue;
                     }
+                    else if (!is_del && !is_add)
+                        continue;
                     int number;
                     std::istringstream iss(params[j]);
                     if (iss >> number && number > 0)
                     {
-                        channel->setHasUserLimit(true);
+                        channel->setModeL(true);
                         channel->setMaxUser(number);
                         continue;
                     }

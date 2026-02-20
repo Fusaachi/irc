@@ -90,7 +90,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             server->sendMessage(ERR_BADCHANNELKEY(client->getNickname(), channel_names[i]), fd);
             continue;
         }
-        if (channel->hasUserLimit() && channel->getNbUser() == channel->getMaxUser())
+        if (channel->hasModeL() && channel->getNbUser() == channel->getMaxUser())
         {
             server->sendMessage(ERR_CHANNELISFULL(client->getNickname(), channel_names[i]), fd);
             continue;
