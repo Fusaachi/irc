@@ -290,6 +290,7 @@ void Channel::addClient(Client *client)
 {
 		this->_fdClients.insert(std::make_pair(client->getFd(), client));
 		this->_nbUser++;
+		// std::cout << "OOUIIIIIIIIIIIIIIIIIII" << _nbUser << std::endl;
 }
 
 void Channel::broadcast(std::string message, int fd)
