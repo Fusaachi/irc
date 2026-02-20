@@ -77,12 +77,13 @@ void Commands::PART(Server *server, int fd, std::string arg)
 		}
         else 
         {
+            std::string reason2;
             channel->part(fd);
             if (!reason.empty())
             {
-                reason = " : " + reason;
+                reason2 = " : " + reason;
             }
-            channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason), fd);
+            channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason2), fd);
             if (channel->isEmpty())
             {
                 // std::cout << "AAAAAAAAAAAAAAAAAAAAAA" << channel->getNbUser() << std::endl;
