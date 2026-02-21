@@ -2,6 +2,7 @@
 
 #define ERR_NOSUCHNICK(nick, target) "401 " + std::string(nick) + " " + std::string(target) + " :No such nick/channel\r\n"
 #define ERR_NOSUCHCHANNEL(nick, channel) "403 " + std::string(nick) + " " + std::string(channel) + " :No such channel\r\n"
+#define ERR_CANNOTSENDTOCHAN(nick, channel) "404 " + std::string(nick) + " " + std::string(channel) + " :Cannot send to channel\r\n"
 #define ERR_TOOMANYCHANNELS(nick, channel) "405 " + std::string(nick) + " " + std::string(channel) + " :You have joined too many channels\r\n"
 #define ERR_TOOMANYTARGETS(nick, target) "407 " + std::string(nick) + " " + std::string(target) + " :Duplicate recipients. No message delivered\r\n"
 #define ERR_NOORIGIN(nick) "409 " + std::string(nick) + " :No origin specified\r\n"

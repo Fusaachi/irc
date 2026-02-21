@@ -30,14 +30,15 @@ void Commands::PRIVMSG(Server *server, int fd, std::string args)
     std::string msg;
     std::string str_receivers;
     std::set<std::string> seen;
-    iss >> str_receivers >> msg;
+    iss >> str_receivers;
     Client *client = server->getClient(fd);
     if (str_receivers.size() == 0)
     {
         server->sendMessage(ERR_NORECIPIENT(client->getNickname(), "PRIVMSG"), fd);
         return ;
     }
-    else if (msg.empty())
+    msg = get_reason(args);
+    if (msg.empty())
     {
         server->sendMessage(ERR_NOTEXTTOSEND(client->getNickname()), fd);
         return ;
@@ -55,6 +56,11 @@ void Commands::PRIVMSG(Server *server, int fd, std::string args)
             if (!channel)
             {
                 server->sendMessage(ERR_NOSUCHNICK(client->getNickname(), receivers[i]), fd);
+            }
+            else if (!channel->isClient(fd))
+            {
+                server->sendMessage(ERR_CANNOTSENDTOCHAN(client->getNickname(), receivers[i]), fd);
+
             }
             else
             {

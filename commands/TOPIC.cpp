@@ -2,58 +2,46 @@
 #include "../include/Client.hpp"
 #include "../include/Other.hpp"
 
-std::string get_channel_name(std::string arg)
+bool is_topic(std::string const &arg)
 {
-    int i = 0;
-    std::string name;
-    while(arg[i] && !isspace(arg[i]))
-    {
-        name +=arg[i];
-        i++;
-    }
-    return (name);
-}
-std::string get_topic(std::string arg)
-{
-    std::string topic;
-    size_t space = arg.find(' ');
-    if (space == std::string::npos)
-        return (NULL);
-    else
-    {
-        topic = arg.substr(space + 1);
-        if (!topic.empty() && topic[0] == ':')
-        topic = topic.substr(1);
-        return (topic);
-    }
-}
+    size_t pos = arg.find(' ');
+    if (pos != std::string::npos && arg[pos + 1] && arg[pos + 1] == ':')
+        return (true);
+    return (false);
 
+}
 
 void Commands::TOPIC(Server *server, int fd, std::string arg)
 {
-    std::string channel_name = get_channel_name(arg);
-    std::string topic = get_topic(arg);
-    Client *client = server->getClient(fd);
+    std::string channel_name;
+    std::istringstream iss(arg);
+    iss >> channel_name;
     if (channel_name.empty())
     {
         server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname() ,"TOPIC"), fd);
         return ;
     }
+    Client *client = server->getClient(fd);
     Channel *channel = server->getChannel(channel_name);
     if (!channel)
+    {
         server->sendMessage(ERR_NOSUCHCHANNEL(client->getNickname(), channel_name), fd);
+        return;
+    } 
     else if (!channel->isClient(fd))
     {
         server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), channel_name), fd);
         return ;
 
     }
+    bool is_new_topic = is_topic(arg);
+    std::string topic = get_reason(arg);
     std::string actual_topic = channel->getTopic();
-    if (actual_topic.empty() && topic.empty())
+    if (actual_topic.empty() && !is_new_topic)
     {
         server->sendMessage(RPL_NOTOPIC(client->getNickname(), channel_name), fd);
     }
-    else if (topic.empty())
+    else if (!is_new_topic)
     {
         server->sendMessage(RPL_TOPIC(client->getNickname(), channel_name, actual_topic), fd);
     }

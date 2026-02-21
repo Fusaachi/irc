@@ -28,7 +28,7 @@ std::vector<std::string> get_nicknames(std::string arg)
     return (nicknames);
 }
 
-std::string get_reason(std::string arg)
+std::string get_reason_empty(std::string arg)
 {
 
     std::string channel;
@@ -66,7 +66,7 @@ void Commands::KICK(Server *server, int fd, std::string arg)
 
     channel_names = get_channel_names(arg);
     nicknames = get_nicknames(arg);
-    reason = get_reason(arg);
+    reason = get_reason_empty(arg);
     if (channel_names.size() == 0 || nicknames.size() == 0 || (channel_names.size() > 1  && channel_names.size() != nicknames.size()))
     {
         server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "KICK"), fd);

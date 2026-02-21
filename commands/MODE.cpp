@@ -68,9 +68,9 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 else if (flags[i] == 't')
                 {
                     if (is_add)
-                        channel->setTopicRestricted(true);
+                        channel->setModeT(true);
                     else if (is_del)
-                        channel->setTopicRestricted(false);
+                        channel->setModeT(false);
                 }
                 else if (flags[i] == 'k')
                 {

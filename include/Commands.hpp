@@ -40,5 +40,6 @@ class Commands
 };
 
 std::vector<std::string> get_channel_names(std::string const &arg);
+std::string get_reason(std::string const &arg);
 
 #endif
