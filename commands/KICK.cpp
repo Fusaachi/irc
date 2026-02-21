@@ -28,16 +28,22 @@ std::vector<std::string> get_nicknames(std::string arg)
     return (nicknames);
 }
 
-std::string get_reason_empty(std::string arg)
+std::string get_comment(std::string arg)
 {
 
-    std::string channel;
-    std::string user;
-    std::string reason;
     std::istringstream iss(arg);
-    iss >> channel >> user >> reason;
+    std::string channel_name, user;
+    
+    iss >> channel_name >> user;
+    
+    std::string comment;
+    std::getline(iss, comment);
 
-    return reason ;
+    if (!comment.empty() && comment[0] == ' ')
+        comment = comment.substr(1);
+    if (!comment.empty() && comment[0] == ':')
+        comment = comment.substr(1);
+    return (comment);
 }
 
 bool is_good_channel_mask(std::string channel)
@@ -60,20 +66,18 @@ void Commands::KICK(Server *server, int fd, std::string arg)
 {
     std::vector<std::string> channel_names;
     std::vector<std::string> nicknames;
-    std::string reason;
+    std::string comment;
     std::string channel_name;
     Client *client = server->getClient(fd);
 
     channel_names = get_channel_names(arg);
     nicknames = get_nicknames(arg);
-    reason = get_reason_empty(arg);
+    comment = get_comment(arg);
     if (channel_names.size() == 0 || nicknames.size() == 0 || (channel_names.size() > 1  && channel_names.size() != nicknames.size()))
     {
         server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "KICK"), fd);
         return ;
     }
-    if (!reason.empty())
-            reason = " : " + reason;
     for (size_t i = 0; i < nicknames.size(); i++)
     {
         if (channel_names.size() == 1)
@@ -96,7 +100,10 @@ void Commands::KICK(Server *server, int fd, std::string arg)
         //     server->sendMessage(client, ERR_NOSUCHNICK(client->getNickname(), nicknames[i]));
         else if(!channel->isClient(nicknames[i]))
             server->sendMessage(ERR_USERNOTINCHANNEL(nicknames[i], channel_name), fd);
-        channel->delUser(nicknames[i]);
-        channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], reason), fd);
+        else 
+        {
+            channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], comment), fd);
+            channel->delUser(nicknames[i]);
+        }
     }
 }
