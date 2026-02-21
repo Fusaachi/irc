@@ -100,17 +100,22 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     if (!channel->isClient(params[j]))
                     {
                         server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), params[j]), fd);
+                        j++;
                         continue;
                     }
                     Client *client2 = server->getClient(params[j]);
                     if (is_add)
                     {
                         channel->addOperator(client2->getFd());
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " +o " + client2->getNickname() + "\r\n", -1);
+                        j++;
                     }
 
                     else if (is_del)
                     {
                         channel->delOperator(client2->getFd());
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " -o " + client2->getNickname() + "\r\n", -1);
+                        j++;
                     }
 
                 }
@@ -118,7 +123,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 {
                     if (is_del)
                     {
-                        channel->setHasUserLimit(false);
+                        channel->setModeL(false);
                         continue;
                     }
                     if (is_add && j >= params.size())
@@ -130,6 +135,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                         continue;
                     int number;
                     std::istringstream iss(params[j]);
+                    j++;
                     if (iss >> number && number > 0)
                     {
                         channel->setModeL(true);

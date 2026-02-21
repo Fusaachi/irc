@@ -280,7 +280,10 @@ void Channel::delOperator(int fd)
 		for (std::vector<int>::iterator it = this->_fdOperators.begin(); it != this->_fdOperators.end(); it++)
 		{
 			if (*it == fd)
+			{
 				it = this->_fdOperators.erase(it);
+				return ;
+			}
 		}
 	}
 }
