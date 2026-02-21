@@ -208,9 +208,8 @@ bool Channel::hasModeL()
 
 void Channel::inviteClient(int fd)
 {
-	if (this->isInvited(fd))
-		this->_fdInvited.push_back(fd);
-	this->_nbUser++;
+    if (!this->isInvited(fd))
+        this->_fdInvited.push_back(fd);
 }
 
 void Channel::part(int fd)
