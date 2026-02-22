@@ -61,16 +61,30 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 else if (flags[i] == 'i')
                 {
                     if (is_add)
+                    {
                         channel->setModeI(true);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " +i " + "\r\n", -1);
+
+                    }
                     else if (is_del)
+                    {
                         channel->setModeI(false);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " -i " + "\r\n", -1);
+                    }
                 }
                 else if (flags[i] == 't')
                 {
                     if (is_add)
+                    {
                         channel->setModeT(true);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " +t " + "\r\n", -1);
+                    }
+                        
                     else if (is_del)
+                    {
                         channel->setModeT(false);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " -t " + "\r\n", -1);
+                    }
                 }
                 else if (flags[i] == 'k')
                 {
@@ -78,6 +92,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     {
                         channel->setPwd(params[j]);
                         channel->setModeK(true);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " +k " + params[j] + "\r\n", -1);
                         j++;
                     }
                     else if (is_add && j == params.size())
@@ -88,6 +103,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     else if (is_del)
                     {
                         channel->setModeK(false);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " -k " + "\r\n", -1);
                     }
                 }
                 else if (flags[i] == 'o')
@@ -124,6 +140,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     if (is_del)
                     {
                         channel->setModeL(false);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " -l " + "\r\n", -1);
                         continue;
                     }
                     if (is_add && j >= params.size())
@@ -140,6 +157,7 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                     {
                         channel->setModeL(true);
                         channel->setMaxUser(number);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " -l " + params[j] + "\r\n", -1);
                         continue;
                     }
                     else
@@ -160,7 +178,6 @@ void Commands::MODE(Server *server, int fd, std::string arg)
         }
         else 
         {
-            server->sendMessage(ERR_BADCHANMASK(client->getNickname(), name), fd);
             return;
         }
 

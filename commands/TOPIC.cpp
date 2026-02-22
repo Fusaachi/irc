@@ -52,6 +52,6 @@ void Commands::TOPIC(Server *server, int fd, std::string arg)
     else 
     {
         channel->setTopic(topic);
-        channel->broadcast(MSG_TOPIC(client->getNickname(), client->getUsername(), channel_name, topic), fd);
+        channel->broadcast(MSG_TOPIC(client->getNickname(), client->getUsername(), channel_name, topic), -1);
     }
 }

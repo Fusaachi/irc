@@ -78,6 +78,9 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
         {
             channel = server->addChannel(channel_names[i], client);
             server->sendMessage(RPL_JOIN(client->getNickname(), client->getUsername(), "JOIN", channel->getChannelName()), fd);
+            server->sendMessage(RPL_NOTOPIC(client->getNickname(), channel_names[i]), fd);
+            server->sendMessage(RPL_NAMREPLY(client->getNickname(), channel_names[i], channel->getClientList()), fd);
+            server->sendMessage(RPL_ENDOFNAMES(client->getNickname(), channel_names[i]), fd);       
             continue;
         }
         if (channel->hasModeI() && !channel->isInvited(fd))
@@ -96,7 +99,7 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             continue;
         }
         channel->addClient(client);
-        channel->broadcast(RPL_JOIN(client->getNickname(), client->getUsername(), "JOIN", channel->getChannelName()), fd);
+        channel->broadcast(RPL_JOIN(client->getNickname(), client->getUsername(), "JOIN", channel->getChannelName()), -1);
         if (channel->getTopic().empty())
         {
             server->sendMessage(RPL_NOTOPIC(client->getNickname(), channel_names[i]), fd);
