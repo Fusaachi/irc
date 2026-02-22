@@ -215,7 +215,11 @@ void Channel::inviteClient(int fd)
 void Channel::part(int fd)
 {
 	if (this->_fdClients.erase(fd) == 0)
-        std::cout << "Fd client " << fd << " doesn't exist.\n";
+	{
+		std::cout << "Fd client " << fd << " doesn't exist.\n";
+		return ;
+	}
+        
 	if (isOperator(fd))
 	{
 		for(std::vector<int>::iterator it = this->_fdOperators.begin(); it != this->_fdOperators.end(); it++ )
@@ -239,6 +243,7 @@ void Channel::part(int fd)
 			}
 		}
 	}
+	this->_fdClients.erase(fd);
 	this->_nbUser--;
 }
 
@@ -260,10 +265,10 @@ void Channel::delUser(std::string name)
 				}
 			}
 			this->_fdClients.erase(it);
+			this->_nbUser--;
 			break;
 		}
 	}
-	this->_nbUser--;
 	
 }
 
