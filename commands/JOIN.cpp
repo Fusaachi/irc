@@ -53,6 +53,11 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
     std::vector<std::string> channel_names = get_channel_names(arg);
     std::vector<std::string> keys = get_keys(arg);
     Client *client = server->getClient(fd);
+	if (!client->isRegister())
+	{
+		std::cout << RED << "[Server][Error] Client not registed, Please fill USER NICK and PASS" << RESET << std::endl;
+		return;
+	}
 
     if (channel_names.size() == 0)
     {

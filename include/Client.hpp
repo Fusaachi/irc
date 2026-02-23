@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 13:43:37 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 14:37:41 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ class Client
 		bool			isOperator(){return _operator;};
 		bool			hasMaxChannel() {return	_operator;};
 
+
 		void			setNickname(std::string const &nickname);
 		void			setUsername(std::string const &username);
 		void			setRealname(std::string const &realname);
@@ -77,6 +78,7 @@ class Client
 		void			setHasMaxChannel(bool boolean);
 
 		void 			appendData(std::string new_data);
+		void			getConnect();
 		void			addChannel(Channel *channel);
 		void			delChannel(Channel *channel);
 		std::string 	getData(){return this->_data;};
