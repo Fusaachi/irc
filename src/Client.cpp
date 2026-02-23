@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/19 10:32:18 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 10:22:46 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,18 @@ std::pair<std::string, std::string> Client::pair(std::string command, std:: stri
 void Client::addChannel(Channel *channel)
 {
 	this->_channels.push_back(channel);
+}
+
+void Client::delChannel(Channel *channel)
+{
+	for(std::vector<Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++ )
+	{
+		if (*it == channel)
+		{
+			this->_channels.erase(it);
+			break;
+		}
+	}
 }
 
 void Client::setData(const std::string &data)

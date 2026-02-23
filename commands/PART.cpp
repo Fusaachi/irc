@@ -86,10 +86,11 @@ void Commands::PART(Server *server, int fd, std::string arg)
             channel->part(fd);
             if (channel->isEmpty())
             {
-                // std::cout << "AAAAAAAAAAAAAAAAAAAAAA" << channel->getNbUser() << std::endl;
                 // server->sendMessage("DESTROYING CHANNEL", fd);
-                delete(channel);
+				channel->delUser(client->getNickname());
+				client->delChannel(channel);
                 server->removeChannel(channel_names[i]);
+				delete(channel);
             }
 
         }
