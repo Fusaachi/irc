@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 13:42:40 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 14:00:24 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void Server::acceptNewClient()
 	this->_clientFd= accept(this->_fd, (struct sockaddr*)&client_addr, &len);
 	if (this->_clientFd == -1)
 	{
-		std::cout << "[Server] accept() failed" << std::endl;
+		std::cout << RED << "[Server][Error] accept() failed" << RESET << std::endl;
 		return;
 	}
 	newPoll.events = EPOLLIN | EPOLLRDHUP;
@@ -31,7 +31,7 @@ void Server::acceptNewClient()
 	this->_fds.push_back(this->_clientFd);
 	if (epoll_ctl(this->_epoll.fd, EPOLL_CTL_ADD, this->_clientFd, &newPoll) < 0)
 			clearData();
-	std::cout << "[Server] Accepted new connection on client socket <" << this->_clientFd <<  ">" << std::endl;
+	std::cout << GREEN << "[Server] Accepted new connection on client socket <" << this->_clientFd <<  ">" << RESET << std::endl;
 }
 
 void Server::clientDisconnect(int fd)

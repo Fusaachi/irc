@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/19 14:49:07 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 13:51:18 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void Channel::part(int fd)
 {
 	if (this->_fdClients.erase(fd) == 0)
 	{
-		std::cout << "Fd client " << fd << " doesn't exist.\n";
+		std::cout << RED << "[Server][Error] Fd client " << fd << " doesn't exist.\n" << RESET;
 		return ;
 	}
         
@@ -297,7 +297,6 @@ void Channel::addClient(Client *client)
 {
 		this->_fdClients.insert(std::make_pair(client->getFd(), client));
 		this->_nbUser++;
-		// std::cout << "OOUIIIIIIIIIIIIIIIIIII" << _nbUser << std::endl;
 }
 
 void Channel::broadcast(std::string message, int fd)

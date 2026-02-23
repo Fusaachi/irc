@@ -4,7 +4,7 @@ CC = c++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-FILE = main Server Client ClientEvents Channel commandEvent sendErrors
+FILE = main Server Client ClientEvents Channel commandEvent
 COMMAND = INVITE JOIN KICK MODE NICK PART PASS PING PRIVMSG QUIT TOPIC USER
 
 GREEN = \033[1;32m
