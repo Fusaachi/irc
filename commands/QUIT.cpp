@@ -17,5 +17,6 @@ void Commands::QUIT(Server *server, int fd, std::string reason)
             channel->delUser(client->getNickname());
         }
     }
+	
     server->clientDisconnect(fd);
 }
