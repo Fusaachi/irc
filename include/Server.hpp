@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/18 14:35:05 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 13:46:30 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ private:
 	
 public:
 	Server();
-	Server(const Server& c);
-	Server&					operator=(const Server &rhs);
+
 	void					initServer(int port, std::string password);
 	static void				signalHandler(int signum);
 	void					acceptNewClient();
@@ -79,11 +78,5 @@ public:
 	std::string 			getPassword() {return _password;};
 
 	~Server();
-
-
 };
-
-
-
-
 #endif

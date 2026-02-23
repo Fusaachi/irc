@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 10:06:41 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 13:43:37 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ class Client
 
 	public:
 		Client(int fd);
-		Client(const Client &c);
-		Client &operator=(const Client &rhs);
-		
 		
 		std::string		getNickname(){return _nickname;};
 		std::string		getUsername(){return _username;};

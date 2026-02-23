@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:51 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/09 14:59:13 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 13:15:28 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,6 @@ int main (int argc, char **argv)
 		std::cout << ORANGE << "Initializing server..." << RESET << std::endl;
 		server.initServer(port, password);
 		server.run();
-
-	// STEP 4 Accept a connection - accept(), connect()
-
-	// STEP 5 Send and receive data - recv(), send(), recvfrom(), sendto()
-	// STEP 6 Disconnect - closesocket()
-	//inet_pton(AF_INET, );
 	}
 	catch(const std::exception& e)
 	{

@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/19 14:53:01 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 13:42:40 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,43 +37,24 @@ void Server::acceptNewClient()
 void Server::clientDisconnect(int fd)
 {
 	std::cout << RED << "[Server] Client <" << fd << "> Disconnected" << RESET << std::endl;
-	epoll_ctl(this->_epoll.fd, EPOLL_CTL_DEL, fd, &this->_epoll.event);
 	std::string nameChannel;
 	std::map<int, Client*>::iterator it = this->_clients.find(fd);
+	if (it == this->_clients.end())
+		return;
 	std::vector<Channel*>& channels = it->second->getChannels();
 	for (std::vector<Channel*>::iterator itChannel = channels.begin(); itChannel != channels.end(); ++itChannel)
 	{
-		(*itChannel)->decrementUser();
 		if ((*itChannel)->isEmpty())
 		{
 			nameChannel = (*itChannel)->getChannelName();
-			for (std::map<std::string, Channel *>::iterator itChannelServer = this->_channels.begin(); itChannelServer != this->_channels.end();itChannelServer++)
-			{
-				if (itChannelServer->first == nameChannel)
-				{
-					delete itChannelServer->second;
-					this->_channels.erase(itChannelServer);
-					break;
-				}
-			}
+			delete this->_channels[nameChannel];
+			this->_channels.erase(nameChannel);
 		}
 	}
-    if (it != this->_clients.end())
-    {
-        delete it->second;
-        this->_clients.erase(it);
-    }
-
-	for(std::vector<int>::iterator it = this->_fds.begin(); it != this->_fds.end();)
-	{
-		if (*it == fd)
-			it = this->_fds.erase(it);
-		else
-			++it;
-	}
-
-	if (fd > -1)
-		close(fd);
+    delete it->second;
+    this->_clients.erase(it);
+	epoll_ctl(this->_epoll.fd, EPOLL_CTL_DEL, fd, &this->_epoll.event);
+	close (fd);
 }
 
 void	Server::receiveData(int fd)
@@ -97,16 +78,17 @@ void	Server::receiveData(int fd)
    				_commands.executeCommands(this, fd, commands[j]);
 			try
 			{
-				Client *client = this->_clients.at(fd);
+				std::map<int, Client*>::iterator it = _clients.find(fd);
+				if (it == _clients.end())
+					return;
+				Client *client = it->second;
 				client->setData(client->getData().substr(i +2));
 			}
 			catch (const std::out_of_range & oor)
 			{
-				std::cerr << BOLDRED << "Inexistant client with fd: " << fd << RESET << std::endl;
+				std::cerr << BOLDRED << "[Server][Error] Inexistant client with fd: " << fd << RESET << std::endl;
 				break;
 			}
 		}		
 	}
 }
-
-

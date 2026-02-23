@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 10:22:46 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 13:43:23 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,6 @@
 
 Client::Client(int fd) : _nickname(""), _username(""), _realname(""), _message(""), _data(""), _hostname(""), _clientAddr(""), _fd(fd), _hasPwd(false), _hasNickname(false), _hasUsername(false), _register(false), _operator(false), _hasMaxChannel(false)
 {
-}
-
-Client::Client(const Client &c)
-{
- 	this->_fd  = c._fd;
-}
-
-Client& Client::operator=(const Client& rhs)
-{
-	if (this != &rhs)
-		*this = rhs;
-	return(*this);
-
 }
 
 Client::~Client()

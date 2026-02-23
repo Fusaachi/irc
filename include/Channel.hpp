@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:19:58 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/19 10:49:53 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 13:45:42 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ class Channel
 
 	public :
 		Channel(std::string name, int fd);
-		~Channel();
+
 		std::string				getChannelName(){return (this->_name);};
 		std::string 			getTopic();
 		std::string				getPwd(){return (this->_pwd);};
@@ -76,10 +76,6 @@ class Channel
 		bool					hasModeK();
 		bool					hasModeO();
 		bool					hasModeL();
-		
-	
-	
-
 
 		void 					setChannelName(std::string name);
 		void 					setTopic(std::string topic);
@@ -93,6 +89,7 @@ class Channel
 	    void					setModeK(bool boolean);
 	    void					setModeO(bool boolean);
 		void					setModeL(bool boolean);
+		
 		void 					inviteClient(int fd);
 		void 					part(int fd);
 		void 					delUser(std::string name);
@@ -101,6 +98,8 @@ class Channel
 		void 					delOperator(int fd);
 		void 					addClient(Client *client);
 		void					broadcast(std::string message, int fd);
+
+		~Channel();
 };
 
 #endif
