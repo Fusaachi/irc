@@ -88,6 +88,8 @@ void Commands::JOIN(Server *server, int fd, std::string arg)
             server->sendMessage(RPL_ENDOFNAMES(client->getNickname(), channel_names[i]), fd);       
             continue;
         }
+		else 
+			client->addChannel(channel);
         if (channel->hasModeI() && !channel->isInvited(fd))
         {
             server->sendMessage(ERR_INVITEONLYCHAN(client->getNickname(), channel_names[i]), fd);

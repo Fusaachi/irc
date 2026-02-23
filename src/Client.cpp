@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:48 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 14:38:16 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 17:29:14 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,11 @@ void Client::addChannel(Channel *channel)
 	this->_channels.push_back(channel);
 }
 
-void Client::delChannel(Channel *channel)
+void Client::delChannel(std::string name)
 {
 	for(std::vector<Channel *>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++ )
 	{
-		if (*it == channel)
+		if ((*it)->getChannelName() == name)
 		{
 			this->_channels.erase(it);
 			break;

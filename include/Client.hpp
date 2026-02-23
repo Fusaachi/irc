@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:45 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 14:37:41 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 17:20:13 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ class Client
 		void 			appendData(std::string new_data);
 		void			getConnect();
 		void			addChannel(Channel *channel);
-		void			delChannel(Channel *channel);
+		void			delChannel(std::string name);
 		std::string 	getData(){return this->_data;};
 		std::vector<Channel *> &getChannels(){return this->_channels;};
 		

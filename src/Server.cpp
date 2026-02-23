@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 13:59:07 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 17:12:45 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void Server::closeFds()
 
 void Server::removeChannel(std::string channelName)
 {
+	delete (this->_channels[channelName]);
 	if (this->_channels.erase(channelName) == 0)
       	 std::cout << RED << "[Server][Error] Channel " << channelName << " doesn't exist.\n" << RESET << std::endl;
 }
@@ -179,4 +180,9 @@ void	Server::clearData()
 		close(this->_epoll.fd);
 		_epoll.fd = -1;
 	}
+}
+
+void Server::delChannel(std::string name)
+{
+	delete(this->_channels[name]);
 }

@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 13:46:30 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 17:06:44 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ public:
 	std::map<std::string, Channel*> &getChannels(){return this->_channels;};
 	
 	Channel *				addChannel(std::string channelName, Client *client);
+	void					delChannel(std::string);
 	
 	std::string 			getPassword() {return _password;};
 
