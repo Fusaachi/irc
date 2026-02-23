@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 14:00:24 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/23 15:45:54 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void Server::clientDisconnect(int fd)
 	std::vector<Channel*>& channels = it->second->getChannels();
 	for (std::vector<Channel*>::iterator itChannel = channels.begin(); itChannel != channels.end(); ++itChannel)
 	{
+		(*itChannel)->decrementUser();
 		if ((*itChannel)->isEmpty())
 		{
 			nameChannel = (*itChannel)->getChannelName();
