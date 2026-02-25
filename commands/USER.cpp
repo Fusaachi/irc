@@ -17,6 +17,7 @@ void Commands::USER(Server *server, int fd, std::string user)
     }
     else 
     {
+        user = user.substr(0, user.find(' '));
         client->setUsername(user);
         client->setHasUsername(true);
         if (client->getHasPassword() && client->getHasNickname())
