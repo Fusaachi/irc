@@ -1,6 +1,6 @@
 /* This project has been created as part of the 42 curriculum by <zmurie>, <pgiroux>, <pfranke>
 
-Description
+## Description
 
 	Internet Relay Chat or IRC is a text-based communication protocol on the Internet.
 	It offers real-time messaging that can be either public or private. Users can exchange direct messages and join group channels.
@@ -9,7 +9,7 @@ Description
 	The server forms the backbone of IRC, providing a point to which clients may connect to to talk to each other, and a point for other servers to connect to, forming a IRC network.  
 	The only network configuration allowed for IRC servers is that of a spanning tree where each server acts as a central node for the rest of the net it sees.
 
-Instructions
+## Instructions
 
 	1) At the source of the file, open a terminal and make 
 
@@ -68,7 +68,7 @@ Instructions
 				l - set the user limit to channel;
 
 
-			Command:		Topic
+			Command:		TOPIC
 			Parameters:		<#channel> <topic>
 
 			The TOPIC message is used to change or view the topic of a channel.
@@ -108,7 +108,7 @@ Instructions
 			If a connection fails to respond to a PING command within a set amount of time, that connection is closed.
 			Any client which receives a PING message must respond to <server> (server which sent the PING message out) as quickly as possible with an appropriate PONG message to indicate it is still there and alive.
 
-Resources 
+## Resources 
 	https://datatracker.ietf.org/doc/html/rfc1459#page-25
 	https://www.codequoi.com/programmation-reseau-via-socket-en-c/
 	https://medium.com/@afatir.ahmedfatir/small-irc-server-ft-irc-42-network-7cee848de6f9
