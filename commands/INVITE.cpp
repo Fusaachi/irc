@@ -49,12 +49,12 @@ void Commands::INVITE(Server *server, int fd, std::string arg)
             server->sendMessage(ERR_USERONCHANNEL(client->getNickname(), nickname, channel_name), fd);
             return ; 
         }
-        if (channel->isInviteOnly() && !channel->isClient(client->getNickname()))
+        if (channel->hasModeI() && !channel->isClient(client->getNickname()))
         {
             server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), nickname), fd);
             return ;
         }
-        if (channel->isInviteOnly() && !channel->isOperator(fd))
+        if (channel->hasModeI() && !channel->isOperator(fd))
         {
             server->sendMessage(ERR_CHANOPRIVSNEEDED(client->getNickname(), channel_name), fd);
             return ;
