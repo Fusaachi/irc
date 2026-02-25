@@ -60,7 +60,8 @@ void Commands::INVITE(Server *server, int fd, std::string arg)
             return ;
         }
     }
-    channel->inviteClient(client2->getFd());
+    if (channel->hasModeI())
+        channel->inviteClient(client2->getFd());
     server->sendMessage(RPL_NOTIFICATION(client->getNickname(), client->getUsername(), nickname,channel_name), client2->getFd());
     server->sendMessage(RPL_INVITING(client->getNickname(), nickname, channel_name), fd);
 
