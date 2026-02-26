@@ -6,7 +6,7 @@
 /*   By: pfranke <pfranke@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 11:17:01 by pfranke           #+#    #+#             */
-/*   Updated: 2026/02/26 15:58:56 by pfranke          ###   ########.fr       */
+/*   Updated: 2026/02/26 17:02:05 by pfranke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,10 @@ void Bot::LoopEvents()
 		if (response.find("quoi") != std::string::npos)
 		{
 			SendMessage("feur", "#test");
+		}
+		if (response.find("comment") != std::string::npos)
+		{
+			SendMessage("Dent Cousteau", "#test");
 		}
 		Log("Received: " + response);
 	}

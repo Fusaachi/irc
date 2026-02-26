@@ -6,7 +6,7 @@
 /*   By: pfranke <pfranke@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:16:43 by pfranke           #+#    #+#             */
-/*   Updated: 2026/02/26 16:04:24 by pfranke          ###   ########.fr       */
+/*   Updated: 2026/02/26 17:05:06 by pfranke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int main(int argc, char **argv)
 	while (true) 
 	{
 		bot.LoopEvents();
-		usleep(10);
 	}
 
 }
