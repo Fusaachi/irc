@@ -36,15 +36,15 @@ void Commands::MODE(Server *server, int fd, std::string arg)
             server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), name), fd);
             return;
         }
-        if (!channel->isOperator(fd))
-        {
-            server->sendMessage(ERR_CHANOPRIVSNEEDED(client->getNickname(), name), fd);
-            return;
-        }
         if (flags.empty())
         {
             server->sendMessage(RPL_MODE(client->getNickname(),client->getUsername(), name, channel->getModes()), fd);
             return ;
+        }
+        if (!channel->isOperator(fd))
+        {
+            server->sendMessage(ERR_CHANOPRIVSNEEDED(client->getNickname(), name), fd);
+            return;
         }
         for (size_t i = 0; i < flags.size(); i++)
             {
@@ -113,9 +113,15 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                         server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
                         continue;
                     }
+                    if (!server->getClient(params[j]))
+                    {
+                        server->sendMessage(ERR_NOSUCHNICK(client->getNickname(), params[j]), fd);
+                        j++;
+                        continue;
+                    }
                     if (!channel->isClient(params[j]))
                     {
-                        server->sendMessage(ERR_NOTONCHANNEL(client->getNickname(), params[j]), fd);
+                        server->sendMessage(ERR_USERNOTINCHANNEL(client->getNickname(), params[j], name), fd);
                         j++;
                         continue;
                     }
@@ -152,17 +158,18 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                         continue;
                     int number;
                     std::istringstream iss(params[j]);
-                    j++;
                     if (iss >> number && number > 0)
                     {
                         channel->setModeL(true);
                         channel->setMaxUser(number);
-                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " -l " + params[j] + "\r\n", -1);
+                        channel->broadcast(":" + client->getNickname() + " MODE " + name + " +l " + params[j] + "\r\n", -1);
+                        j++;
                         continue;
                     }
                     else
                     {
                         server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "MODE"), fd);
+                        j++;
                         continue;
                     }
                 }
@@ -173,14 +180,13 @@ void Commands::MODE(Server *server, int fd, std::string arg)
                 }
 
             }
-            server->sendMessage(RPL_MODE(client->getNickname(),client->getUsername(), name, channel->getModes()), fd);
+            //server->sendMessage(RPL_MODE(client->getNickname(),client->getUsername(), name, channel->getModes()), fd);
             return;
         }
         else 
         {
-            return;
+            server->sendMessage(ERR_BADCHANMASK(name, client->getNickname()), fd);
         }
-
 
 }
 
