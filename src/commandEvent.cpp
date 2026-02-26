@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:09 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/19 15:34:49 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/25 17:26:57 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ void Commands::executeCommands(Server *server, int fd, std::pair<std::string, st
 
 	for (int i = 0; i < 12; i++)
 	{
+		std::cout << "command = " << command.first << "arg = " << command.second << std::endl;
 		if (tableCommands[i] == command.first)
 		{
 			(this->*table[i])(server, fd, command.second);
 			return;
 		}
 	}
-	std::cout << RED << "[Client][Error] Command doesn't exist" << RESET << std::endl;
+
+ 	std::cout << RED << "[Client][Error] Command doesn't exist" << RESET << std::endl;
 }

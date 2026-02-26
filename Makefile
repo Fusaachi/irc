@@ -2,7 +2,7 @@ NAME = ircserv
 
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3
 
 FILE = main Server Client ClientEvents Channel commandEvent
 COMMAND = INVITE JOIN KICK MODE NICK PART PASS PING PRIVMSG QUIT TOPIC USER

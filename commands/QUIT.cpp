@@ -18,5 +18,5 @@ void Commands::QUIT(Server *server, int fd, std::string reason)
         }
     }
 	
-    server->clientDisconnect(fd);
+    server->clientDisconnect(fd, true);
 }

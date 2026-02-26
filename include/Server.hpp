@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:42 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 17:06:44 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/26 15:18:50 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ public:
 	static void				signalHandler(int signum);
 	void					acceptNewClient();
 	void					receiveData(int fd);
-	void					clientDisconnect(int fd);
+	void					clientDisconnect(int fd, bool boolean);
 	void					sendMessage(std::string const &message, int fd);
 	void					closeFds();
 	void 					run();

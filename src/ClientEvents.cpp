@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClientEvents.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pfranke <pfranke@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/25 13:45:23 by pfranke          ###   ########.fr       */
+/*   Updated: 2026/02/26 16:32:16 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,28 @@ void Server::acceptNewClient()
 	std::cout << GREEN << "[Server] Accepted new connection on client socket <" << this->_clientFd <<  ">" << RESET << std::endl;
 }
 
-void Server::clientDisconnect(int fd)
+void Server::clientDisconnect(int fd, bool boolean)
 {
 	std::cout << RED << "[Server] Client <" << fd << "> Disconnected" << RESET << std::endl;
 	std::string nameChannel;
 	std::map<int, Client*>::iterator it = this->_clients.find(fd);
 	if (it == this->_clients.end())
 		return;
+	for (std::vector<int>::iterator vec = this->_fds.begin(); vec != this->_fds.end(); ++vec)
+	{
+		if (*vec == fd) 
+		{
+			vec = this->_fds.erase(vec);
+			break ;
+		}
+	}
 	std::vector<Channel*>& channels = it->second->getChannels();
 	for (std::vector<Channel*>::iterator itChannel = channels.begin(); itChannel != channels.end(); ++itChannel)
 	{
-		(*itChannel)->part(fd);
+		if (boolean == false)
+		{
+			(*itChannel)->part(fd);
+		}
 		if ((*itChannel)->isEmpty())
 		{
 			nameChannel = (*itChannel)->getChannelName();
@@ -52,6 +63,7 @@ void Server::clientDisconnect(int fd)
 			this->_channels.erase(nameChannel);
 		}
 	}
+
     delete it->second;
     this->_clients.erase(it);
 	epoll_ctl(this->_epoll.fd, EPOLL_CTL_DEL, fd, &this->_epoll.event);
@@ -65,7 +77,7 @@ void	Server::receiveData(int fd)
 	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1, 0);
 	
 	if (bytes <= 0)
-		clientDisconnect(fd);
+		clientDisconnect(fd, false);
 	else 
 	{
 		std::string new_data(buff, bytes);
@@ -77,6 +89,12 @@ void	Server::receiveData(int fd)
 			std::vector<std::pair<std::string,std::string> > commands =  this->_clients[fd]->splitBuffer(command);
 			for (size_t j = 0; j < commands.size(); j++)
    				_commands.executeCommands(this, fd, commands[j]);
+			std::cout << "start " <<std::endl;
+			for (std::vector<int>::iterator it = this->_fds.begin(); it != _fds.end(); it++)
+			{
+				std::cout << "_fds = " << *it;
+			}
+			std::cout << "end " <<std::endl;
 			try
 			{
 				std::map<int, Client*>::iterator it = _clients.find(fd);

@@ -47,7 +47,7 @@ std::string get_reason(std::string const &arg)
 
 void Commands::PART(Server *server, int fd, std::string arg)
 {
-    Client *client = server->getClient(fd);   
+    Client *client = server->getClient(fd); 
     if (arg.size() == 0)
     {
         server->sendMessage(ERR_NEEDMOREPARAMS(client->getNickname(), "PART"), fd);

@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 16:53:54 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/02/26 16:08:53 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,6 @@ void Channel::part(int fd)
 			}
 		}
 	}
-	this->_fdClients.erase(fd);
 	this->_nbUser--;
 }
 
