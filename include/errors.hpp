@@ -12,7 +12,7 @@
 #define ERR_NONICKNAMEGIVEN() "431 :No nickname given\r\n"
 #define ERR_ERRONEUSNICKNAME(nick) "432 " + std::string(nick) + " :Erroneus nickname\r\n"
 #define	ERR_NICKNAMEINUSE(nick) "433 " + std::string(nick) + " :Nickname is already in use\r\n"
-#define ERR_USERNOTINCHANNEL(nick, channel) "441 " + std::string(nick) + " " + std::string(channel) + " :They aren't on that channel\r\n"
+#define ERR_USERNOTINCHANNEL(nick, target, channel) "441 " + std::string(nick) + " " + std::string(target) + " " + std::string(channel) + " :They aren't on that channel\r\n"
 #define ERR_NOTONCHANNEL(nick, channel) "442 " + std::string(nick) + " " + std::string(channel) + " :You're not on that channel\r\n"
 #define ERR_USERONCHANNEL(nick, target, channel) "443 " + std::string(nick) + " " + std::string(target) + " " + std::string(channel) + " :is already on channel\r\n"
 #define ERR_NOTREGISTERED(nick) "451 " + std::string(nick) + " :You have not registered\r\n"
