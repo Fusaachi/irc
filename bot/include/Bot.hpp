@@ -6,7 +6,7 @@
 /*   By: pfranke <pfranke@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 11:16:41 by pfranke           #+#    #+#             */
-/*   Updated: 2026/02/26 15:58:15 by pfranke          ###   ########.fr       */
+/*   Updated: 2026/02/27 10:32:18 by pfranke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ class Bot
 	private:
 		int _bot_fd;
 		const std::string _name;
+		std::string _buffer;
+		std::string _channel;
 		void Log(const std::string &_message);
+		void HandleMessage(const std::string &line);
+		void SendRaw(const std::string &message);
 	public:
 		Bot(std::string name);
 		~Bot();
