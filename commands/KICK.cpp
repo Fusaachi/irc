@@ -38,11 +38,6 @@ std::string get_comment(std::string arg)
     
     std::string comment;
     std::getline(iss, comment);
-
-    if (!comment.empty() && comment[0] == ' ')
-        comment = comment.substr(1);
-    if (!comment.empty() && comment[0] == ':')
-        comment = comment.substr(1);
     return (comment);
 }
 
