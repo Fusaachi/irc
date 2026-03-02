@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pfranke <pfranke@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/03/02 18:44:33 by pfranke          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:44:25 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/Server.hpp"
 
-Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fdCreator(fd), _nbUser(0), _maxUser(1), _hasUserLimit(false), _hasPwd(false), _inviteOnly(false), _isTopicSet(false), _topicRestricted(false), _modeI(false), _modeT(false),  _modeK(false),  _modeO(false),  _modeL(false)
+Channel::Channel(std::string name, int fd) : _name(name), _topic(""), _pwd(""), _fdCreator(fd), _nbUser(0), _maxUser(1), _hasPwd(false), _isTopicSet(false), _modeI(false), _modeT(false),  _modeK(false),  _modeL(false)
 {
 
 }
@@ -40,13 +40,6 @@ bool Channel::isClient(std::string nickname)
 		if (it->second->getNickname() == nickname)
 			return (true);
 	}
-	return (false);
-}
-
-bool Channel::getHasPwd()
-{
-	if (this->_hasPwd == true)
-		return (true);
 	return (false);
 }
 
@@ -80,8 +73,6 @@ std::string Channel::getModes()
 		modeList += "t ";
 	if (this->hasModeK())
 		modeList += "k ";
-	if (this->hasModeO())
-		modeList += "o ";
 	if (this->hasModeL())
 		modeList += "l ";
 	return modeList;
@@ -105,16 +96,6 @@ void Channel::setPwd(std::string pwd)
 	this->_hasPwd = true;
 }
 
-void Channel::setInviteOnly(bool boolean)
-{
-	this->_inviteOnly = boolean;
-}
-
-void Channel::setTopicRestricted(bool boolean)
-{
-	this->_topicRestricted = boolean;
-}
-
 void Channel::setModeI(bool boolean)
 {
 	this->_modeI = boolean;
@@ -130,11 +111,6 @@ void Channel::setModeK(bool boolean)
 	this->_modeK = boolean;
 }
 
-void Channel::setModeO(bool boolean)
-{
-	this->_modeO = boolean;
-}
-
 void Channel::setModeL(bool boolean)
 {
 	this->_modeL = boolean;
@@ -142,11 +118,6 @@ void Channel::setModeL(bool boolean)
 void	Channel::setMaxUser(size_t nb)
 {
 	this->_maxUser = nb;
-}
-
-void	Channel::setHasUserLimit(bool boolean)
-{
-	this->_hasUserLimit = boolean;
 }
 
 bool	Channel::isEmpty()
@@ -190,12 +161,6 @@ bool Channel::hasModeT()
 bool Channel::hasModeK()
 {
 	if (this->_modeK == true)
-		return (true);
-	return(false);
-}
-bool Channel::hasModeO()
-{
-	if (this->_modeO == true)
 		return (true);
 	return(false);
 }
