@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClientEvents.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pfranke <pfranke@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/03/02 15:51:50 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/03/02 18:35:43 by pfranke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void Server::acceptNewClient()
 
 void Server::clientDisconnect(int fd, bool boolean)
 {
+	(void)boolean;
 	std::cout << RED << "[Server] Client <" << fd << "> Disconnected" << RESET << std::endl;
-	std::string nameChannel;
 	std::map<int, Client*>::iterator it = this->_clients.find(fd);
 	if (it == this->_clients.end())
 		return;
@@ -49,19 +49,20 @@ void Server::clientDisconnect(int fd, bool boolean)
 			break ;
 		}
 	}
-	std::vector<Channel*>& channels = it->second->getChannels();
-	for (std::vector<Channel*>::iterator itChannel = channels.begin(); itChannel != channels.end(); ++itChannel)
+	for (std::map<std::string, Channel *>::iterator itChannel = this->_channels.begin(); itChannel != this->_channels.end(); )
 	{
-		if (boolean == false)
+		Channel *channel = itChannel->second;
+		if (channel && channel->isClient(fd))
+			channel->part(fd);
+		if (channel && channel->isEmpty())
 		{
-			(*itChannel)->part(fd);
+			delete channel;
+			std::map<std::string, Channel *>::iterator toErase = itChannel;
+			++itChannel;
+			this->_channels.erase(toErase);
+			continue;
 		}
-		if ((*itChannel)->isEmpty())
-		{
-			nameChannel = (*itChannel)->getChannelName();
-			delete this->_channels[nameChannel];
-			this->_channels.erase(nameChannel);
-		}
+		++itChannel;
 	}
 
     delete it->second;

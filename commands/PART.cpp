@@ -84,12 +84,11 @@ void Commands::PART(Server *server, int fd, std::string arg)
             }
             channel->broadcast(RPL_PART(client->getNickname(), client->getUsername(), "PART", channel->getChannelName(), reason2), -1);
             channel->part(fd);
+            client->delChannel(channel_names[i]);
             if (channel->isEmpty())
             {
-				client->delChannel(channel_names[i]);
                 server->removeChannel(channel_names[i]);
             }
-
         }
     }
 }

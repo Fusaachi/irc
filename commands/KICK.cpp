@@ -99,8 +99,12 @@ void Commands::KICK(Server *server, int fd, std::string arg)
             server->sendMessage(ERR_USERNOTINCHANNEL(client->getNickname(), nicknames[i], channel_name), fd);
         else 
         {
+            Client *kickedClient = server->getClient(nicknames[i]);
             channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], comment), -1);
-            channel->delUser(nicknames[i]);
+            channel->part(kickedClient->getFd());
+            kickedClient->delChannel(channel_name);
+            if (channel->isEmpty())
+                server->removeChannel(channel_name);
         }
     }
 }
