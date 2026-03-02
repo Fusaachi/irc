@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:23:06 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/26 16:32:16 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/03/02 12:53:04 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,6 @@ void	Server::receiveData(int fd)
 			std::vector<std::pair<std::string,std::string> > commands =  this->_clients[fd]->splitBuffer(command);
 			for (size_t j = 0; j < commands.size(); j++)
    				_commands.executeCommands(this, fd, commands[j]);
-			std::cout << "start " <<std::endl;
-			for (std::vector<int>::iterator it = this->_fds.begin(); it != _fds.end(); it++)
-			{
-				std::cout << "_fds = " << *it;
-			}
-			std::cout << "end " <<std::endl;
 			try
 			{
 				std::map<int, Client*>::iterator it = _clients.find(fd);
