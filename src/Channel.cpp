@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/26 16:08:53 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:44:25 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,6 @@ void Channel::delUser(std::string name)
 			break;
 		}
 	}
-	
 }
 
 void Channel::addOperator(int fd)
