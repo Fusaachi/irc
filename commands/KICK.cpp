@@ -41,8 +41,6 @@ std::string get_comment(std::string arg)
 
     if (!comment.empty() && comment[0] == ' ')
         comment = comment.substr(1);
-    if (!comment.empty() && comment[0] == ':')
-        comment = comment.substr(1);
     return (comment);
 }
 
@@ -101,10 +99,14 @@ void Commands::KICK(Server *server, int fd, std::string arg)
         {
             Client *kickedClient = server->getClient(nicknames[i]);
             channel->broadcast(RPL_KICK(client->getNickname(), client->getUsername(), channel_name, nicknames[i], comment), -1);
+<<<<<<< HEAD
             channel->part(kickedClient->getFd());
             kickedClient->delChannel(channel_name);
             if (channel->isEmpty())
                 server->removeChannel(channel_name);
+=======
+            channel->part(fd);
+>>>>>>> refs/remotes/origin/main
         }
     }
 }

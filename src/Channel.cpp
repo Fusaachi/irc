@@ -6,7 +6,11 @@
 /*   By: pfranke <pfranke@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 17:22:56 by pgiroux           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/03/02 18:32:07 by pfranke          ###   ########.fr       */
+=======
+/*   Updated: 2026/03/02 16:44:25 by pgiroux          ###   ########.fr       */
+>>>>>>> refs/remotes/origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +272,6 @@ void Channel::delUser(std::string name)
 			break;
 		}
 	}
-	
 }
 
 void Channel::addOperator(int fd)

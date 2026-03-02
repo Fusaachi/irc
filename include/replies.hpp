@@ -25,7 +25,7 @@
 #define RPL_YOUREOPER(client) "381 " + std::string(client) + " :You are now an IRC operator\r\n"
 #define RPL_INVITING(nick, target, channel) "341 " + std::string(nick) + " " + target + " :" + channel + "\r\n"
 #define RPL_NOTIFICATION(nick, username, target, channel) ":" + nick + "!~" + username + "@server INVITE " + target + " :" + channel + "\r\n"
-#define RPL_KICK(nick, username, channel, target, reason) ":" + nick + "!~" + username + "@server KICK " + channel + " " + target + " :" + reason + "\r\n"
+#define RPL_KICK(nick, username, channel, target, reason) ":" + nick + "!~" + username + "@server KICK " + channel + " " + target + " " + reason + "\r\n"
 #define RPL_MODE(nick, username, channel, chain) ":" + nick + "!~" + username + "@server MODE " + channel + " " + chain + "\r\n"
 #define RPL_PRIVMSG(nick, username, target, message)  ":" + nick + "!~" + username + "@server PRIVMSG " + target + " :" + message + "\r\n"
 
