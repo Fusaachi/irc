@@ -21,12 +21,12 @@
 
 		nc -C localhost [PORT]
 
-		4) Register with the COMMANDS
+		a) Register with the COMMANDS
 			PASS <PASSWORD>
 			USER <username>
 			NICK <nickname>
 
-		5) COMMANDS :
+		b) COMMANDS :
 
 			Command: 		JOIN 
 			Parameters: 	<#channel>
@@ -108,8 +108,29 @@
 			If a connection fails to respond to a PING command within a set amount of time, that connection is closed.
 			Any client which receives a PING message must respond to <server> (server which sent the PING message out) as quickly as possible with an appropriate PONG message to indicate it is still there and alive.
 
+	4) File Transfer
+		
+		File transfer is done via IRSSI and the /dcc command.
+		You can use /dcc to have a private, secure chat with a client, and also file transfer
+		
+		To send a file, you must use the following
+		/dcc send <nick> <file>
+		And to receive that file, you must use
+		/dcc get <nick> <file>
+	
+	5) The QuoicouBot
+
+		The QuoicouBot joins the feur channel, and will answer to all messages containing "quoi" or "comment"
+
+		To use, make the bot, and do
+		./bot <port> <password>
+		
+
+
+
 ## Resources 
 	https://datatracker.ietf.org/doc/html/rfc1459#page-25
 	https://www.codequoi.com/programmation-reseau-via-socket-en-c/
 	https://medium.com/@afatir.ahmedfatir/small-irc-server-ft-irc-42-network-7cee848de6f9
 	https://medium.com/@mohcin.ghalmi/irc-server-internet-relay-chat-bd08e4f469f8
+	https://irssi.org/documentation/help/dcc/

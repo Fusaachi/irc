@@ -6,7 +6,7 @@
 /*   By: pfranke <pfranke@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:16:43 by pfranke           #+#    #+#             */
-/*   Updated: 2026/02/27 10:40:03 by pfranke          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:23:50 by pfranke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	
-	Bot bot("John");
+	Bot bot("QuoicouBot");
 	bot.ConnectToServer(std::atoi(argv[1]), argv[2]);
-	bot.ConnectToChannel("#test");
+	bot.ConnectToChannel("#feur");
 	while (true) 
 		bot.LoopEvents();
 }
