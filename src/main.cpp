@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:51 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 13:15:28 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/03/02 15:50:17 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int main (int argc, char **argv)
 	Server server;
 	try 
 	{
-		(void)argv;
 		if (argc != 3)
 			throw std::invalid_argument("Error, the executable file must be launched like this : ./ircserv [port] [password]");
 		int port = atoi(argv[1]);

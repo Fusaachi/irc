@@ -6,7 +6,7 @@
 /*   By: pgiroux <pgiroux@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 16:44:56 by pgiroux           #+#    #+#             */
-/*   Updated: 2026/02/23 17:12:45 by pgiroux          ###   ########.fr       */
+/*   Updated: 2026/03/02 15:55:44 by pgiroux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool Server::_Signal = false;
 
 void Server::signalHandler(int signum)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT || signum == SIGTSTP) 
 		_Signal = true ;
 	std::cout << "Signal received" << std::endl;
 }
@@ -66,7 +66,7 @@ void Server::run()
 	sa.sa_handler = signalHandler;
 	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGINT, &sa, NULL))
+	if (sigaction(SIGINT, &sa, NULL) || sigaction(SIGTSTP, &sa, NULL))
 		clearData();
 	int nb_events = 0;
 	this->_epoll.fd = epoll_create1(0);
